@@ -73,12 +73,23 @@ export const BASE_REDIS_OPTIONS: RedisOptions = {
   connectTimeout: 15_000,
 };
 
+const READONLY_REDIS_OPTIONS: RedisOptions = {
+  ...BASE_REDIS_OPTIONS,
+  readOnly: true,
+};
+
 // The main global of instance we have.
 const K8_PRIMARY_REDIS: RedisConnectionSpec = {
   kind: "tcp",
   host: "redis",
   port: 6379,
   options: BASE_REDIS_OPTIONS,
+};
+
+const K8_L1_REDIS: RedisConnectionSpec = {
+  kind: "k8",
+  service: "redis-l1",
+  options: READONLY_REDIS_OPTIONS,
 };
 
 const K8_OTHER_REDIS: RedisConnectionSpec = {
@@ -263,6 +274,7 @@ export interface RedisSchema {
 const PROD_RC_REDIS: RedisSchema = {
   db: 0,
   conn: K8_PRIMARY_REDIS,
+  replica: K8_L1_REDIS,
 };
 
 export const REDIS_SCHEMA = {
