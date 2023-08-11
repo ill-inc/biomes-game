@@ -1,0 +1,28 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  creationTimestamp: null
+  name: web.default.svc.cluster.local
+  namespace: default
+spec:
+  routes:
+    - condition:
+        method: GET
+        pathRegex: /alive
+      name: GET /alive
+    - condition:
+        method: GET
+        pathRegex: /api/social/notifications/badge
+      name: GET /api/social/notifications/badge
+    - condition:
+        method: GET
+        pathRegex: /metrics
+      name: GET /metrics
+    - condition:
+        method: GET
+        pathRegex: /ready
+      name: GET /ready
+    - condition:
+        method: GET
+        pathRegex: /splash
+      name: GET /splash

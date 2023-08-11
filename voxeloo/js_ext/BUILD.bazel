@@ -1,0 +1,87 @@
+load("@emsdk//emscripten_toolchain:wasm_rules.bzl", "wasm_cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+DEFAULT_EMSCRIPTEN_LINKOPTS = [
+    "--bind",
+
+    # Configure memory such that we can dynamically set the heap size up to 4GB.
+    # We typically allocate a fixed amount and cap further growth to that level.
+    "-s IMPORTED_MEMORY=1",
+    "-s ALLOW_MEMORY_GROWTH",
+    "-s ABORTING_MALLOC=1",
+    "-s MAXIMUM_MEMORY=4GB",
+
+    # Enable and disable features.
+    "-s STACK_SIZE=5MB",
+    "-s MODULARIZE=1",
+    # EXPORT_NAME isn't that important, but if unspecified, Emscripten's
+    # chosen default, "Module", conflicts with a variable name it later declares
+    # after nextjs applies a transformation to it.
+    "-s EXPORT_NAME=Voxeloo",
+    "-s NO_DISABLE_EXCEPTION_CATCHING",
+    "-s USE_PTHREADS=0",
+    "-s WASM_BIGINT=1",
+    "-s NODEJS_CATCH_REJECTION=0",
+    "-s NODEJS_CATCH_EXIT=0",
+    "-s EXPORT_EXCEPTION_HANDLING_HELPERS",
+]
+
+cc_binary(
+    name = "wasm",
+    srcs = glob(
+        [
+            "*.cpp",
+            "*.hpp",
+        ],
+    ),
+    linkopts = DEFAULT_EMSCRIPTEN_LINKOPTS,
+    # This target won't build successfully on its own because of missing emscripten
+    # headers etc. Therefore, we hide it from wildcards.
+    tags = ["manual"],
+    deps = [
+        "//voxeloo/anima",
+        "//voxeloo/biomes",
+        "//voxeloo/biomes:culling",
+        "//voxeloo/biomes:memoize",
+        "//voxeloo/biomes:migration",
+        "//voxeloo/common:errors",
+        "//voxeloo/common:format",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:metrics",
+        "//voxeloo/common:timers",
+        "//voxeloo/common:transport",
+        "//voxeloo/common:voxels",
+        "//voxeloo/gaia",
+        "//voxeloo/galois:blocks",
+        "//voxeloo/galois:collision",
+        "//voxeloo/galois:csg",
+        "//voxeloo/galois:florae",
+        "//voxeloo/galois:glass",
+        "//voxeloo/galois:groups",
+        "//voxeloo/galois:lighting",
+        "//voxeloo/galois:material_properties",
+        "//voxeloo/galois:muck",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/galois:water",
+        "//voxeloo/mapping",
+        "//voxeloo/tensors",
+    ],
+)
+
+wasm_cc_binary(
+    name = "wasm-normal",
+    backend = "llvm",
+    cc_target = ":wasm",
+    simd = False,
+    threads = "off",
+)
+
+wasm_cc_binary(
+    name = "wasm-simd",
+    backend = "llvm",
+    cc_target = ":wasm",
+    simd = True,
+    threads = "off",
+)

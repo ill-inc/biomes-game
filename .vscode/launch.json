@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "address": "127.0.0.1",
+      "localRoot": "${workspaceFolder}",
+      "name": "Attach to Remote",
+      "port": 9229,
+      "remoteRoot": "/app",
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Debug Server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev"
+    },
+    {
+      "name": "Debug Client",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Debug Full Stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Ready on (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    }
+  ]
+}

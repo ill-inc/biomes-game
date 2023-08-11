@@ -1,0 +1,5 @@
+export const AMBIENT_OCCLUSION_CONFIG = [
+{% for occlusion in ambient_occlusion_map %}
+  {{occlusion}},
+{% endfor %}
+];

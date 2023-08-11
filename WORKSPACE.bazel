@@ -1,0 +1,322 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# Explicitly required to silence a circular dependency error from Bazel.
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
+    ],
+)
+
+# Node
+http_archive(
+    name = "rules_nodejs",
+    sha256 = "08337d4fffc78f7fe648a93be12ea2fc4e8eb9795a4e6aa48595b66b34555626",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.0/rules_nodejs-core-5.8.0.tar.gz"],
+)
+
+load("@rules_nodejs//nodejs:repositories.bzl", "nodejs_register_toolchains")
+
+nodejs_register_toolchains(
+    name = "nodejs",
+    # Latest version of Node supported by `@rules_nodejs`, see:
+    #   https://github.com/bazelbuild/rules_nodejs/blob/stable/nodejs/private/node_versions.bzl
+    # With a little bit more work we can also fetch newer versions.
+    node_version = "18.12.0",
+)
+
+# emscripten
+http_archive(
+    name = "emsdk",
+    sha256 = "78f3ebcbc984c6cf5aa59c69bcc5af87f570fbe6d2b92fc3e16f71e0c56413b3",
+    strip_prefix = "emsdk-3.1.43/bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.43.tar.gz",
+)
+
+load("@emsdk//:deps.bzl", emsdk_deps = "deps")
+
+emsdk_deps()
+
+load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
+
+# Sticking to 41 for now as 42 results in internal compiler errors for me, and
+# 43 results in "Cannot convert BigInt to number" errors that feels like a
+# emscripten bug.
+emsdk_emscripten_deps(emscripten_version = "3.1.41")
+
+# cereal
+http_archive(
+    name = "cereal",
+    build_file = "//voxeloo/third_party:cereal.BUILD",
+    sha256 = "16a7ad9b31ba5880dac55d62b5d6f243c3ebc8d46a3514149e56b5e7ea81f85f",
+    strip_prefix = "cereal-1.3.2",
+    urls =
+        ["https://github.com/USCiLab/cereal/archive/refs/tags/v1.3.2.tar.gz"],
+)
+
+# catch2
+http_archive(
+    name = "catch2",
+    sha256 = "06dbc7620e3b96c2b69d57bf337028bf245a211b3cddb843835bfe258f427a52",
+    strip_prefix = "Catch2-2.13.9",
+    urls = ["https://github.com/catchorg/Catch2/archive/v2.13.9.tar.gz"],
+)
+
+# eigen
+http_archive(
+    name = "eigen",
+    build_file = "//voxeloo/third_party:eigen.BUILD",
+    sha256 = "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
+    strip_prefix = "eigen-3.4.0",
+    urls = [
+        "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
+    ],
+)
+
+# robin-hood-hashing
+http_archive(
+    name = "robin-hood-hashing",
+    build_file = "//voxeloo/third_party:robin-hood-hashing.BUILD",
+    sha256 = "3693e44dda569e9a8b87ce8263f7477b23af448a3c3600c8ab9004fe79c20ad0",
+    strip_prefix = "robin-hood-hashing-3.11.5",
+    urls = [
+        "https://github.com/martinus/robin-hood-hashing/archive/refs/tags/3.11.5.tar.gz",
+    ],
+)
+
+# zstd
+http_archive(
+    name = "zstd",
+    build_file = "//voxeloo/third_party:zstd.BUILD",
+    sha256 = "a364f5162c7d1a455cc915e8e3cf5f4bd8b75d09bc0f53965b0c9ca1383c52c8",
+    strip_prefix = "zstd-1.4.4",
+    urls = [
+        "https://github.com/facebook/zstd/archive/v1.4.4.tar.gz",
+    ],
+)
+
+# opensimplex
+http_archive(
+    name = "opensimplex",
+    build_file = "//voxeloo/third_party:opensimplex.BUILD",
+    sha256 = "d97474d870360f38774e434664992ed45de37eae6675e873372fe2ee43dd02f2",
+    strip_prefix = "OpenSimplexNoise-026c5d8d6b4921f37f0caf94a698ace33f0f6801",
+    urls = [
+        "https://github.com/deerel/OpenSimplexNoise/archive/026c5d8d6b4921f37f0caf94a698ace33f0f6801.tar.gz",
+    ],
+)
+
+# rules_python and Python toolchain.
+http_archive(
+    name = "rules_python",
+    sha256 = "ffc7b877c95413c82bfd5482c017edcf759a6250d8b24e82f41f3c8b8d9e287e",
+    strip_prefix = "rules_python-0.19.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.19.0/rules_python-0.19.0.tar.gz",
+)
+
+load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+
+python_register_toolchains(
+    name = "python3",
+    python_version = "3.11",
+)
+
+load("@rules_python//python:pip.bzl", "pip_parse")
+load("@python3//:defs.bzl", "interpreter")
+
+# Create a central repo that knows about the dependencies needed from
+# requirements.txt.
+pip_parse(
+    name = "pip_deps",
+    python_interpreter_target = interpreter,
+    requirements = "//:requirements.txt",
+)
+
+# Load the starlark macro which will define your dependencies.
+load("@pip_deps//:requirements.bzl", "install_deps")
+
+# Call it to define repos for your requirements.
+install_deps()
+
+# pybind11
+http_archive(
+    name = "pybind11_bazel",
+    patch_args = ["-p1"],
+    patches = ["//voxeloo/third_party:pybind11_bazel.patch"],
+    sha256 = "fec6281e4109115c5157ca720b8fe20c8f655f773172290b03f57353c11869c2",
+    strip_prefix = "pybind11_bazel-72cbbf1fbc830e487e3012862b7b720001b70672",
+    urls = ["https://github.com/pybind/pybind11_bazel/archive/72cbbf1fbc830e487e3012862b7b720001b70672.zip"],
+)
+
+# We still require the pybind library.
+http_archive(
+    name = "pybind11",
+    build_file = "@pybind11_bazel//:pybind11.BUILD",
+    sha256 = "6bd528c4dbe2276635dc787b6b1f2e5316cf6b49ee3e150264e455a0d68d19c1",
+    strip_prefix = "pybind11-2.9.2",
+    urls = ["https://github.com/pybind/pybind11/archive/v2.9.2.tar.gz"],
+)
+
+load("@pybind11_bazel//:python_configure.bzl", "python_configure")
+
+# We continue to use the system-installed python library for pybind, because
+# we have a number of systems that want to use bazel-built python products
+# outside of bazel, and while it's not hermetic, using the system library makes
+# things smoother for this use case.
+python_configure(
+    name = "local_config_python",
+    python_version = "3",
+)
+
+# Hedron's Compile Commands Extractor for Bazel
+# https://github.com/hedronvision/bazel-compile-commands-extractor
+http_archive(
+    name = "hedron_compile_commands",
+    sha256 = "8603191949837cd01a91a0e78c32488d781de72bcbf455c9cca79ac03160c6de",
+    strip_prefix = "bazel-compile-commands-extractor-d8ff4bd0142f70e0c51b11d6297e97b81136b018",
+    url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/d8ff4bd0142f70e0c51b11d6297e97b81136b018.tar.gz",
+)
+
+load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
+
+hedron_compile_commands_setup()
+
+http_archive(
+    name = "com_github_jupp0r_prometheus_cpp",
+    patch_args = ["-p1"],
+    patches = ["//voxeloo/third_party:prometheus.patch"],
+    sha256 = "281b6d9a26da35375c9958954e03616d71ea28d57ec193b0e75c3e10ff3da55d",
+    strip_prefix = "prometheus-cpp-1.0.1",
+    urls = ["https://github.com/jupp0r/prometheus-cpp/archive/refs/tags/v1.0.1.zip"],
+)
+
+load("@com_github_jupp0r_prometheus_cpp//bazel:repositories.bzl", "prometheus_cpp_repositories")
+
+prometheus_cpp_repositories()
+
+load(
+    "@bazel_tools//tools/build_defs/repo:git.bzl",
+    "git_repository",
+)
+
+git_repository(
+    name = "bazel_clang_tidy",
+    commit = "783aa523aafb4a6798a538c61e700b6ed27975a7",
+    remote = "https://github.com/erenon/bazel_clang_tidy.git",
+    shallow_since = "1647937195 +0100",
+)
+
+# Rust
+http_archive(
+    name = "rules_rust",
+    sha256 = "4a9cb4fda6ccd5b5ec393b2e944822a62e050c7c06f1ea41607f14c4fdec57a2",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.25.1/rules_rust-v0.25.1.tar.gz"],
+)
+
+load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
+
+rules_rust_dependencies()
+
+load("@rules_rust//wasm_bindgen:repositories.bzl", "WASM_BINDGEN_VERSION", "rust_wasm_bindgen_repositories")
+
+rust_wasm_bindgen_repositories()
+
+RUST_VERSION = "1.70.0"
+
+rust_register_toolchains(
+    edition = "2021",
+    versions = [RUST_VERSION],
+)
+
+# For code-completion/language server db generation.
+load("@rules_rust//tools/rust_analyzer:deps.bzl", "rust_analyzer_dependencies")
+
+rust_analyzer_dependencies()
+
+# This is where we define our Rust third-party crate dependencies.
+load("@rules_rust//crate_universe:defs.bzl", "crate", "crates_repository", "render_config")
+
+crates_repository(
+    name = "crate_index",
+    cargo_lockfile = "//:Cargo.lock",
+    lockfile = "//:Cargo.Bazel.lock",
+    packages = {
+        "bencher": crate.spec(
+            version = "0.1.5",
+        ),
+        "byteorder": crate.spec(
+            version = "1.4.3",
+        ),
+        "float-cmp": crate.spec(
+            version = "0.9.0",
+        ),
+        "gltf": crate.spec(
+            version = "1.1.0",
+        ),
+        "image": crate.spec(
+            version = "0.24.5",
+        ),
+        "js-sys": crate.spec(
+            version = "0.3.60",
+        ),
+        "rand": crate.spec(
+            version = "0.8.5",
+        ),
+        "wasm-bindgen": crate.spec(
+            # Must match the version from `repositories.bzl` so that our
+            # wasm-bindgen library and (@rules_rust-provided) CLI tool versions
+            # match exactly. Otherwise wasm-bindgen-cli gives funny errors.
+            version = "=" + WASM_BINDGEN_VERSION,
+        ),
+        "web-sys": crate.spec(
+            features = ["console"],
+            version = "0.3.60",
+        ),
+        "ultraviolet": crate.spec(
+            version = "0.9.0",
+        ),
+        "glsl": crate.spec(version = "6.0.1"),
+        "clap": crate.spec(
+            features = ["derive"],
+            version = "4.1.6",
+        ),
+        "convert_case": crate.spec(
+            version = "0.6.0",
+        ),
+        "regex": crate.spec(version = "1.7.1"),
+        "serde_json": crate.spec(version = "1.0.93"),
+        "serde": crate.spec(
+            features = ["derive"],
+            version = "1.0.152",
+        ),
+        "redis-module": crate.spec(
+            version = "2.0.4",
+        ),
+        "rmp-serde": crate.spec(version = "1.1.1"),
+    },
+    # Setting the default package name to `""` forces the use of the macros defined in this repository
+    # to always use the root package when looking for dependencies or aliases. This should be considered
+    # optional as the repository also exposes alises for easy access to all dependencies.
+    render_config = render_config(
+        default_package_name = "",
+    ),
+    rust_version = RUST_VERSION,
+)
+
+load("@crate_index//:defs.bzl", "crate_repositories")
+
+crate_repositories()
+
+# glslang for shader validation
+http_archive(
+    name = "glslang",
+    # Patch silences a Bazel warning about specifying the directory
+    # glslang/ExtensionHeaders as an input to a genrule being unsound.
+    patch_args = ["-p1"],
+    patches = ["//voxeloo/third_party:glslang.patch"],
+    sha256 = "7cb45842ec1d4b6ea775d624c3d2d8ba9450aa416b0482b0cc7e4fdd399c3d75",
+    strip_prefix = "glslang-12.0.0",
+    url = "https://github.com/KhronosGroup/glslang/archive/refs/tags/12.0.0.tar.gz",
+)

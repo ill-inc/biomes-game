@@ -1,0 +1,99 @@
+load("//src/bazel_utils/shaders:defs.bzl", "galois_shader_program")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all_exported_shaders",
+    srcs = [
+        ":block_geometry",
+        ":block_item",
+        ":blocks",
+        ":glass",
+        ":flora_item",
+        ":florae",
+        ":groups",
+        ":voxels",
+        ":water",
+    ],
+)
+
+galois_shader_program(
+    name = "blocks",
+    srcs = [
+        "blocks.fs",
+        "blocks.vs",
+    ],
+    material_file = "blocks.material.json",
+)
+
+galois_shader_program(
+    name = "glass",
+    srcs = [
+        "glass.fs",
+        "glass.vs",
+    ],
+    material_file = "glass.material.json",
+)
+
+galois_shader_program(
+    name = "block_geometry",
+    srcs = [
+        "block_geometry.fs",
+        "block_geometry.vs",
+    ],
+    material_file = "block_geometry.material.json",
+)
+
+galois_shader_program(
+    name = "block_item",
+    srcs = [
+        "block_item.fs",
+        "block_item.vs",
+    ],
+    material_file = "block_item.material.json",
+)
+
+galois_shader_program(
+    name = "florae",
+    srcs = [
+        "florae.fs",
+        "florae.vs",
+    ],
+    material_file = "florae.material.json",
+)
+
+galois_shader_program(
+    name = "flora_item",
+    srcs = [
+        "flora_item.fs",
+        "flora_item.vs",
+    ],
+    material_file = "flora_item.material.json",
+)
+
+galois_shader_program(
+    name = "groups",
+    srcs = [
+        "groups.fs",
+        "groups.vs",
+    ],
+    material_file = "groups.material.json",
+)
+
+galois_shader_program(
+    name = "voxels",
+    srcs = [
+        "voxels.fs",
+        "voxels.vs",
+    ],
+    material_file = "voxels.material.json",
+)
+
+galois_shader_program(
+    name = "water",
+    srcs = [
+        "water.fs",
+        "water.vs",
+    ],
+    material_file = "water.material.json",
+)

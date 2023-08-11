@@ -1,0 +1,18 @@
+// GENERATED: This file is generated from selectors.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import { createComponentSelector } from "@/shared/ecs/selectors/helper";
+
+{# Define base selector types #}
+// ====================
+// Selector definitions
+// ====================
+
+{% for selector in defs.selectors %}
+export const {{ selector.name }} = createComponentSelector(
+  "{{ selector.prop_name }}",
+  {% for component in selector.components %}
+  "{{ component.prop_name }}",
+  {% endfor %}
+);
+{% endfor -%}

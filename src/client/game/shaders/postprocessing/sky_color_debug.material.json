@@ -1,0 +1,5 @@
+{
+  "vs": "forward_uv.vs",
+  "fs": "sky_color_debug.fs",
+  "material_type": "raw"
+}

@@ -1,0 +1,9 @@
+resources:
+  - chat.yaml
+  - game.yaml
+  - logic.yaml
+  - prometheus-ui.yaml
+  - replica-l1.yaml
+  - replica.yaml
+  - sync.yaml
+  - web.yaml

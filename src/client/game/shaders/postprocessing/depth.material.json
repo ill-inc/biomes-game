@@ -1,0 +1,5 @@
+{
+  "vs": "forward_uv.vs",
+  "fs": "depth.fs",
+  "material_type": "raw"
+}

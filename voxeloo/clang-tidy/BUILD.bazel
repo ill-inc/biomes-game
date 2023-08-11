@@ -1,0 +1,7 @@
+sh_binary(
+    name = "clang-tidy",
+    srcs = ["run-clang-tidy.sh"],
+    data = ["//voxeloo:clang-tidy-config"],
+    tags = ["no-sandbox"],
+    visibility = ["//visibility:public"],
+)

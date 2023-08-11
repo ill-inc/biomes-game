@@ -1,0 +1,11 @@
+load("@rules_rust//rust:defs.bzl", "rust_shared_library")
+
+rust_shared_library(
+    name = "biomes",
+    srcs = glob(
+        ["src/**/*.rs"],
+    ),
+    deps = [
+        "@crate_index//:redis-module",
+    ],
+)

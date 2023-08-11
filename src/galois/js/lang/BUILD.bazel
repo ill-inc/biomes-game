@@ -1,0 +1,24 @@
+load("//src/bazel_utils:common.bzl", "apply_prettier")
+
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "ts_defs_not_pretty",
+    outs = [
+        "not_pretty/routines.ts",
+        "not_pretty/types.ts",
+    ],
+    cmd = """
+        $(execpath //src/galois/py/assets:gen_ts_defs) --output=$(GENDIR)/src/galois/js/lang/not_pretty
+    """,
+    tools = [
+        "//src/galois/py/assets:gen_ts_defs",
+    ],
+)
+
+apply_prettier(
+    name = "ts_defs",
+    srcs = [":ts_defs_not_pretty"],
+    base_dir = "not_pretty",
+    out_dir = ".",
+)

@@ -1,0 +1,698 @@
+.biomes-box.mini-phone:is(
+    .crafting-station,
+    .shop-container,
+    .container,
+    .item-buyer
+  ),
+.biomes-box.mini-phone:is(
+    .crafting-station,
+    .shop-container,
+    .container,
+    .item-buyer
+  )::before {
+  background: none;
+  box-shadow: none;
+}
+
+.biomes-box.mini-phone:is(.robot-transmission, .sign) {
+  --mini-phone-width: calc(
+    var(--mini-phone-width-base) - var(--left-pane-width)
+  );
+
+  background-color: var(--tooltip-bg);
+}
+
+:is(.crafting-station, .shop-container, .container, .item-buyer)
+  .split-pane-screen {
+  gap: 0.75vmin;
+}
+
+:is(.crafting-station, .shop-container, .container, .item-buyer)
+  .split-pane-screen
+  .left-pane {
+  --left-pane-width: calc(30vmin - 0.75vmin);
+
+  box-shadow: none;
+}
+
+.workbench {
+  --accent-color-test: hsl(347deg 20% 32%);
+  --accent-hue: 347;
+  --accent-saturation: 15%;
+  --accent-lightness: 32%;
+  --accent-color: hsl(
+    var(--accent-hue) var(--accent-saturation) var(--accent-lightness)
+  );
+  --cell-bg: hsl(
+    var(--accent-hue) var(--accent-saturation)
+      calc(var(--accent-lightness) * 0.9)
+  );
+  --cell-bg-dark: hsl(
+    var(--accent-hue) var(--accent-saturation)
+      calc(var(--accent-lightness) * 0.7)
+  );
+  --cell-inset-border-color: hsl(
+    var(--accent-hue) var(--accent-saturation)
+      calc(var(--accent-lightness) * 0.7)
+  );
+  --cell-inset-highlight-color: hsl(
+    var(--accent-hue) calc(var(--accent-saturation) * 0.8)
+      calc(var(--accent-lightness) * 1.3)
+  );
+  --cell-inset-border-color-dark: hsl(
+    var(--accent-hue) var(--accent-saturation)
+      calc(var(--accent-lightness) * 0.5)
+  );
+}
+
+:is(.crafting-station, .shop-container, .container) .slideover.action-sheet {
+  border-radius: var(--dialog-border-radius) !important;
+  background: var(--accent-color) !important;
+}
+
+.workbench .left-pane,
+.workbench .right-pane {
+  background: var(--accent-color) !important;
+
+  --cell-inset: inset 0 0 0 var(--inventory-cell-gap)
+      var(--cell-inset-border-color),
+    inset 0 0.5vmin 0 rgb(0 0 0 / 5%),
+    0 0 0 var(--inventory-cell-gap) var(--cell-inset-highlight-color);
+  --cell-inset-dark: inset 0 0 0 var(--inventory-cell-gap)
+      var(--cell-inset-border-color-dark),
+    inset 0 0.5vmin 0 rgb(0 0 0 / 5%),
+    0 0 0 var(--inventory-cell-gap) var(--cell-inset-highlight-color);
+}
+
+.workbench .left-pane .bg-image,
+.workbench .right-pane .bg-image {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+  border-radius: var(--dialog-border-radius);
+  background-image: url("/hud/wood-texture-full-3.png");
+}
+
+.thermoblaster .left-pane,
+.thermoblaster .right-pane {
+  --accent-color: hsl(238deg 8% 52%);
+
+  background-color: var(--accent-color);
+  background-blend-mode: normal;
+  background-image: url("/hud/noise.png");
+}
+
+.crafting .img-box-shadow-wrapper .b-shadow-inner {
+  display: none;
+}
+
+.workbench .left-pane .crafting.padded-view {
+  margin: 1.25vmin;
+  margin-left: calc(1.25vmin + (var(--inventory-cell-gap)));
+  margin-bottom: calc(1.25vmin + (var(--inventory-cell-gap)));
+  padding: 0.75vmin;
+  min-height: calc(100% - 5.75vmin);
+  position: relative;
+}
+
+:not(.workbench) .left-pane .crafting.padded-view {
+  padding: 1.25vmin;
+}
+
+.workbench .left-pane .crafting.padded-view,
+.workbench input.search-name[type="text"] {
+  border-radius: calc(var(--dialog-border-radius) * 0.5);
+  background: var(--cell-bg);
+  box-shadow: inset 0 0 0 0.2vmin var(--cell-inset-border-color),
+    0 0 0 0.2vmin var(--cell-inset-highlight-color);
+}
+
+.crafting {
+  position: relative;
+}
+
+.crafting-description {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1vmin;
+  text-align: center;
+  font-size: var(--font-size-small);
+  color: var(--secondary-gray);
+  gap: 1vmin;
+}
+
+.crafting-description img {
+  width: 50%;
+  height: auto;
+}
+
+.empty-recipes {
+  width: 75%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialog-list-title {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  margin: 0.75vmin 0;
+}
+
+.dialog-list-title > :first-child {
+  flex: 1;
+}
+
+.recipe-list {
+  width: 100%;
+  align-items: stretch;
+  padding-right: 0.2vmin;
+
+  /* Account for box-shadows on cells */
+  margin-left: 0.1vmin;
+  margin-bottom: 0.1vmin;
+}
+
+.recipe-list > ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vmin;
+  margin-bottom: 1vmin;
+  padding-left: 0.2vmin;
+  padding-right: 0.1vmin;
+}
+
+.recipe-row {
+  position: relative;
+  box-shadow: var(--cell-offset);
+  overflow: hidden;
+  border-radius: var(--inner-border-radius);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  cursor: pointer;
+}
+
+.recipe-row img {
+  background-clip: padding-box;
+  image-rendering: pixelated;
+  height: 100%;
+  width: 100%;
+}
+
+.recipe-row.uncraftable {
+  background: rgb(0 0 0 / 10%);
+  box-shadow: 0 0 0 0.2vmin rgb(0 0 0 / 20%);
+}
+
+.recipe-row .crafting-progress-container {
+  position: absolute;
+  left: 0.75vmin;
+  width: calc(100% - 1.5vmin);
+  bottom: 0.75vmin;
+  height: 1vmin;
+  border-radius: var(--dialog-border-radius);
+  overflow: hidden;
+}
+
+.recipe-row .crafting-progress-bar {
+  position: absolute;
+  left: 0;
+  width: 0;
+  bottom: 0;
+  height: 1vmin;
+  background: var(--purple);
+}
+
+.recipe-row .crafting-check {
+  background: var(--purple);
+  width: 3vmin;
+  height: 3vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%), scale(0);
+}
+
+.recipe-row .error {
+  position: absolute;
+  font-size: var(--font-size-xsmall);
+  bottom: 0;
+}
+
+.recipe-row .crafting-check img {
+  width: 2vmin;
+  height: 2vmin;
+}
+
+.recipe-list li {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  cursor: pointer;
+}
+
+.multi-ingredient-tooltip {
+  margin: 0;
+}
+
+.multi-ingredient-tooltip > li {
+  margin: 0;
+  padding: 0;
+}
+
+.multi-ingredient-tooltip li ul::after {
+  border-bottom: 2px solid rgb(255 255 255 / 20%);
+  display: block;
+  content: "";
+  margin: 5px 0;
+  width: 100%;
+}
+
+.multi-ingredient-tooltip li:last-child ul::after {
+  display: none;
+  margin: 0;
+}
+
+.multi-ingredient-tooltip .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* crafting detail */
+.crafting-detail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.crafting-detail .item-details {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  color: var(--secondary-gray);
+  justify-content: space-between;
+}
+
+.crafting-detail .item-details .item-image {
+  position: relative;
+  justify-content: stretch;
+  align-items: center;
+  width: 6vw;
+}
+
+.crafting-detail .item-details .item-image img {
+  background-clip: padding-box;
+  width: 100%;
+}
+
+.crafting-detail .item-details .item-text {
+  text-align: center;
+}
+
+.crafting-detail .item-details .name {
+  color: var(--white);
+  font-size: var(--font-size-large);
+  font-weight: 500;
+}
+
+.crafting-detail .ingredients-label {
+  display: flex;
+  margin: 2vmin 0 0;
+  justify-content: space-between;
+}
+
+.crafting-detail .ingredients-label select.alternatives {
+  outline: none;
+  padding: 0;
+  height: 1em;
+  width: auto;
+  background: none;
+  box-shadow: none;
+  font-size: var(--font-size-small);
+  text-align: right;
+}
+
+.crafting-detail .ingredients-label::after {
+  flex-grow: 1;
+}
+
+.crafting-detail .item-details .category {
+  color: var(--tertiary-gray);
+  font-size: var(--font-size-small);
+}
+
+.crafting-detail .ingredients .ingredient {
+  display: flex;
+  margin: 0 -0.75vmin;
+  padding: 0.75vmin;
+  gap: 0.75vmin;
+  align-items: center;
+}
+
+.crafting-detail .ingredients .ingredient.craftable:hover {
+  cursor: pointer;
+}
+
+.crafting-detail .ingredients .ingredient .cell {
+  width: 4vmin;
+  height: 4vmin;
+}
+
+.crafting-detail .ingredients .ingredient .name {
+  color: var(--white);
+  flex: 1;
+}
+
+.crafting-detail .bottom-cant-craft-reason {
+  color: var(--secondary-gray);
+  padding: 1vmin 0;
+  text-align: center;
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+}
+
+.crafting-needed {
+  color: var(--light-red);
+  font-size: var(--font-size-small);
+}
+
+.crafting-you-have {
+  color: var(--tertiary-gray);
+  font-size: var(--font-size-small);
+}
+
+.crafting-detail .levels .skill-level {
+  display: flex;
+  margin: 0.75vmin;
+}
+
+.crafting-detail .levels .skill-level .skill-name {
+  color: var(--white);
+}
+
+.crafting-detail .levels .skill-level .skill-req {
+  color: var(--white);
+}
+
+.crafting-detail .levels .skill-level .skill-req.unmet {
+  color: var(--red);
+}
+
+/* Craft button */
+
+.craft-button button {
+  position: relative;
+  overflow: hidden;
+}
+
+.craft-button .small .crafted-text {
+  display: none;
+}
+
+.craft-button button .bar-fill {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: -100%;
+  overflow: hidden;
+  bottom: 0;
+  background-color: var(--purple);
+  z-index: -1;
+  display: block;
+  content: "";
+}
+
+:root {
+  --crafting-animation-time: 1s;
+  --completion-animation-time: 0.3s;
+  --completion-animation-time-phase-pause: 0.9s;
+}
+
+.craft-button.is-crafting button .bar-fill {
+  animation: var(--crafting-animation-time) linear crafting-fill forwards;
+}
+
+@keyframes crafting-fill {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+
+.craft-button .crafted {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(120%);
+}
+
+.craft-button.animated.is-crafting .crafted {
+  animation: crafted-animation-in ease-in-out var(--completion-animation-time)
+      var(--crafting-animation-time) forwards,
+    crafted-animation-out ease-in-out var(--completion-animation-time)
+      calc(
+        var(--crafting-animation-time) + var(--completion-animation-time) +
+          var(--completion-animation-time-phase-pause)
+      );
+}
+
+.craft-button.animated.is-crafting .button-text {
+  animation: crafted-animation-out ease-in-out var(--completion-animation-time)
+      var(--crafting-animation-time) forwards,
+    crafted-animation-in ease-in-out var(--completion-animation-time)
+      calc(
+        var(--crafting-animation-time) + var(--completion-animation-time) +
+          var(--completion-animation-time-phase-pause)
+      );
+}
+
+@keyframes crafted-animation-in {
+  0% {
+    transform: translateY(120%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes crafted-animation-out {
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-120%);
+  }
+}
+
+.craft-button.is-crafting button {
+  background: transparent;
+}
+
+/* Search bar */
+.crafting-search {
+  display: flex;
+  position: relative;
+  gap: 0.75vmin;
+  margin: 0.5vmin 1.25vmin 0 1.5vmin;
+}
+
+.crafting-search .segmented-control {
+  flex-grow: 1;
+}
+
+.crafting-search .search-bar {
+  position: relative;
+  flex-grow: 1;
+}
+
+.crafting-search input.search-name[type="text"] {
+  width: 100%;
+  margin: 0;
+}
+
+.crafting-search .search-options {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.75vmin;
+}
+
+.crafting-search .search-options .search-cancel {
+  font-weight: 400;
+  font-size: var(--font-size-small);
+}
+
+.crafting-search .search-options li {
+  display: flex;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.crafting-search .search-options li > * {
+  margin: auto;
+}
+
+.crafting-filter-dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: var(--mini-phone-content-height);
+  background: var(--dialog-bg-hover);
+}
+
+.filter-area {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 3vmin;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  opacity: 0.75;
+  margin: 0.2vmin;
+}
+
+.crafting-filter-dialog .filter-label {
+  margin: auto;
+}
+
+button.dialog-button.item-filter {
+  height: 3vmin;
+  border-radius: var(--inner-border-radius);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 0.5vmin;
+  width: auto;
+}
+
+.item-filter img.item {
+  width: 2vmin;
+  height: 2vmin;
+}
+
+.item-filter img.close {
+  width: 1vmin;
+  height: 1vmin;
+}
+
+.tooltip-title {
+  font-size: var(--font-size-large);
+  font-weight: 500;
+}
+
+.craft-ingredient-row {
+  /* padding: 0.375vmin 0; */
+  display: flex;
+  gap: 0.75vmin;
+}
+
+.craft-ingredient-row .cell {
+  display: flex;
+}
+
+.craft-ingredient-row .cell,
+.craft-ingredient-row .cell img {
+  width: 4vmin;
+  height: 4vmin;
+  box-shadow: none;
+  background: none;
+}
+
+.craft-ingredient-row .cell .amount-overlay {
+  font-size: var(--font-size-small);
+}
+
+.craft-ingredient-row .label {
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-ingredient-row .detail {
+  color: var(--tertiary-gray);
+  font-size: var(--font-size-xsmall);
+}
+
+.craft-ingredient-row .detail.needed {
+  color: var(--red);
+}
+
+.container-icon {
+  width: 50%;
+}
+
+/*
+* Dying crafting station
+*/
+
+.dying-station .slotter {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dying-station .slotter .avatar-viewer {
+  width: inherit;
+  height: 100%;
+  display: flex;
+}
+
+.dying-station .slotter .label {
+  margin: 10px;
+}
+
+.dying-station .preview-three {
+  flex: 1;
+}
+
+.wardrobe .left-pane .bg-image,
+.wardrobe .right-pane .bg-image {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  border-radius: var(--dialog-border-radius);
+  background-color: rgb(0 0 0);
+}

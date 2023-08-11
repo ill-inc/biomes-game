@@ -1,0 +1,24 @@
+name: cpp-ci
+
+on:
+  pull_request:
+    paths:
+      - "voxeloo/**"
+      - ".github/workflows/cpp-ci.yml"
+
+permissions:
+  id-token: write # Needed for gcloud auth.
+  contents: read
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - run: scripts/clang-format-checks.sh -c
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "clang-tidy is currently broken in GitHub, tracked as GI-1826"'

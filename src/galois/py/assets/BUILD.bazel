@@ -1,0 +1,19 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@pip_deps//:requirements.bzl", "requirement")
+
+package(default_visibility = ["//visibility:public"])
+
+py_binary(
+    name = "gen_ts_defs",
+    srcs = [
+        "gen_ts.py",
+        "lang.py",
+    ] + glob(["defs/**/*.py"]),
+    data = glob(["templates/*.j2"]) + ["impl/materializers.py"],
+    main = "gen_ts.py",
+    deps = [
+        requirement("docopt"),
+        requirement("jinja2"),
+        requirement("xtermcolor"),
+    ],
+)

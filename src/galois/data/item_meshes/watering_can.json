@@ -1,0 +1,7 @@
+{
+  "attachment_transform": [
+    { "rotate_x": 60 },
+	{ "scale": 0.85 },
+    { "translate": [0, -13, -10] }
+  ]
+}

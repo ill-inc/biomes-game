@@ -1,0 +1,14 @@
+name: lfs-ci
+
+on: pull_request
+
+jobs:
+  lfs-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: Check for git lfs files that should be "pointers" but are not.
+        run: git lfs fsck

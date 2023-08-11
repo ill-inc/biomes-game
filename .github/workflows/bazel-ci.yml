@@ -1,0 +1,34 @@
+name: bazel-ci
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "voxeloo/**"
+      - ".bazelrc"
+      - "*.bazel"
+      - ".github/workflows/bazel-ci.yml"
+
+permissions:
+  id-token: write # Needed for gcloud auth.
+  contents: read
+
+jobs:
+  bazel-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # gcloud auth needed to access bazel remote cache on GCS
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      # Verify that we can properly execute in environments where rust is
+      # not installed. Bazel should pull and use its own Rust toolchain.
+      - run: rustup self uninstall -y
+      - run: bazel test --test_output=errors //...

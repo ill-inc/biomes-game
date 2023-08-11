@@ -1,0 +1,255 @@
+/*
+* Posts Listings
+*/
+
+.grid-spinner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  grid-column: span 2;
+}
+
+.grid-spinner img {
+  width: 4vmin;
+  height: 4vmin;
+  margin: 4vmin;
+  image-rendering: pixelated;
+  mix-blend-mode: overlay;
+}
+
+.posts-grid {
+  display: grid;
+  width: 100%;
+  gap: 0.75vmin;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.posts-grid.two-up {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.posts-grid .thumbnail-wrapper {
+  transition: opacity 0.1s ease-in-out;
+  display: flex;
+  width: 100%;
+  border-radius: var(--inner-border-radius);
+  cursor: pointer;
+}
+
+.posts-grid img.thumbnail {
+  object-fit: cover;
+  height: auto;
+  max-height: 100%;
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+/*
+* Comment List
+*/
+
+/* TODO: I think comments view can be deleted */
+
+.comments .comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75vmin;
+  padding: 0.75vmin;
+  cursor: pointer;
+}
+
+.comments .comment:hover {
+  background: var(--dialog-bg-hover);
+}
+
+.comments .comment .text {
+  flex: 1;
+}
+
+/*
+* Follower / Following List
+*/
+
+.follow-list-users {
+  width: 100%;
+}
+
+.follow-list-users .user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  cursor: pointer;
+  gap: 0.75vmin;
+  padding: 0.75vmin;
+}
+
+.follow-list-users .user .username {
+  flex: 1;
+  color: var(--white);
+}
+
+.follow-list-users .user:hover {
+  background: var(--dialog-bg-hover);
+}
+
+/*
+* Post Capture Flow
+*/
+
+.post-capture-flow .img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--inner-border-radius);
+  width: 100%;
+}
+
+.post-capture-flow .img-container img {
+  border-radius: var(--inner-border-radius);
+  width: 100%;
+  cursor: zoom-in;
+}
+
+/*
+* Leaderboards
+*/
+.leaderboard-panel {
+  background-color: rgba(0 0 0 / 20%);
+}
+
+.leaderboard-panel .header {
+  margin: 2vmin;
+}
+
+.leaderboard-panel .segmented-control {
+  width: 70%;
+  margin: 2vmin auto 4vmin;
+}
+
+.leaderboard {
+  width: 70%;
+  margin: 4vmin auto;
+}
+
+.leaderboard .title {
+  padding: 1vmin;
+  font-size: var(--font-size-marge);
+}
+
+.leaderboard li {
+  padding: 0.75vmin;
+  padding-right: 1.5vmin;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.leaderboard li:last-child {
+  margin-bottom: 1.5vmin;
+}
+
+.leaderboard .thumbnail-wrapper {
+  width: 3vmin;
+  height: 3vmin;
+  margin-right: 0.25vmin;
+  border-radius: var(--inner-border-radius);
+}
+
+.leaderboard li:hover {
+  background: rgb(255 255 255 / 5%);
+}
+
+.leaderboard li .position {
+  width: 4vmin;
+  text-align: center;
+  font-weight: 500;
+}
+
+.leaderboard li .username,
+.leaderboard li .post-caption {
+  padding-left: 0.5vmin;
+  flex: 1;
+  font-weight: 500;
+}
+
+/*
+* Notifications
+*/
+
+.notifications-list label {
+  padding: 1vmin 0 0 1vmin;
+}
+
+.notifications-list li {
+  padding: 1vmin;
+  cursor: pointer;
+  display: flex;
+  gap: 1vmin;
+  align-items: center;
+  justify-content: stretch;
+  position: relative;
+}
+
+.notifications-list li:hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: var(--dialog-bg-hover);
+}
+
+.notif-preview,
+.notif-description,
+.notif-timestamp {
+  z-index: 1;
+}
+
+.notifications-list .notif-description {
+  flex: 1;
+}
+
+.notif-timestamp {
+  color: var(--secondary-gray);
+}
+
+.activity-push-permission {
+  padding: 0.5vmin;
+  text-align: center;
+  font-size: var(--font-size-small);
+}
+
+.activity-push-permission a {
+  color: inherit;
+}
+
+.list-header {
+  margin: 0.5vmin 1.5vmin 0;
+  font-size: var(--font-size-small);
+  color: var(--secondary-gray);
+}
+
+.list-header.two-col {
+  display: flex;
+}
+
+.list-header.two-col :first-child {
+  flex: 1;
+}
+
+.notifications-list .notif-preview {
+  image-rendering: pixelated;
+  box-shadow: var(--cell-offset);
+  width: 4vmin;
+  height: 4vmin;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--inner-border-radius);
+  display: flex;
+}
+
+.notif-preview.progress-message img {
+  width: 75%;
+  height: 75%;
+}

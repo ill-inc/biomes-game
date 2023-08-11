@@ -1,0 +1,243 @@
+// GENERATED: This file is generated from lazy.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import { LazyComponentData, LazyEntityLike, LazyLikeWith } from "@/server/shared/ecs/lazy_base";
+import * as c from "@/shared/ecs/gen/components";
+import { Delta, RawDelta, ReadonlyDelta } from "@/shared/ecs/gen/delta";
+import {
+  AsDelta,
+  COMPONENT_PROP_NAME_TO_ID,
+  Entity,
+  ReadonlyEntity,
+} from "@/shared/ecs/gen/entities";
+import * as j from "@/shared/ecs/gen/json_serde";
+import { BiomesId } from "@/shared/ids";
+import { removeNilishInPlace } from "@/shared/util/object";
+
+abstract class BaseLazyEntityDelta<SuperT, OutT> extends LazyEntityLike<SuperT, OutT> {
+  protected decodeAny(componentId: number, value: LazyComponentData) {
+    switch (componentId) {
+    {% for component in defs.components %}
+    case {{component.id}}: {
+      this.decode("{{component.prop_name}}", value, j.{{ component.type_name }}Serde.deserialize);
+    } return true;
+    {% endfor %}
+    }
+    return false;
+  }
+
+  {% for component in defs.components %}
+  alters{{component.type_name}}(): boolean {
+    return (
+      (this.encoded && this.encoded[{{component.id}}] !== undefined) ||
+      this.decoded.{{component.prop_name}} !== undefined
+    );
+  }
+
+  has{{component.type_name}}(): boolean {
+    return (this.encoded && !!this.encoded[{{component.id}}]) || !!this.decoded.{{component.prop_name}};
+  }
+
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | null | undefined {
+    this.decode("{{component.prop_name}}",
+      this.encoded?.[{{component.id}}],
+      j.{{ component.type_name }}Serde.deserialize);
+    this.{{component.ts_name}} = () => this.decoded.{{component.prop_name}} as c.Readonly{{component.type_name}} | null | undefined;
+    return this.{{component.ts_name}}();
+  }
+  {% endfor %}
+}
+
+export class LazyEntityDelta extends BaseLazyEntityDelta<LazyEntityDelta, LazyEntityDelta> {
+  static forEncoded(id: BiomesId, encoded: Record<string, LazyComponentData>): LazyEntityDelta {
+    return new LazyEntityDelta(id, encoded, { id });
+  }
+
+  static forDecoded(decoded: AsDelta<ReadonlyEntity>): LazyEntityDelta {
+    return new LazyEntityDelta(decoded.id, undefined, decoded as AsDelta<Entity>);
+  }
+
+  protected make(
+    id: BiomesId,
+    encoded: Record<string, LazyComponentData> | undefined,
+    decoded: AsDelta<Entity>
+  ) {
+    return new LazyEntityDelta(id, encoded, decoded);
+  }
+}
+
+export class LazyEntity extends BaseLazyEntityDelta<SuperLazyEntity, LazyEntity> {
+  static forEncoded(id: BiomesId, encoded: Record<string, LazyComponentData>): LazyEntity {
+    return new LazyEntity(id, encoded, { id });
+  }
+
+  static forDecoded(decoded: ReadonlyEntity): LazyEntity {
+    return new LazyEntity(decoded.id, undefined, decoded as AsDelta<Entity>);
+  }
+
+  static empty(id: BiomesId): LazyEntity {
+    return new LazyEntity(id, undefined, { id });
+  }
+
+  protected make(
+    id: BiomesId,
+    encoded: Record<string, LazyComponentData> | undefined,
+    decoded: AsDelta<Entity>
+  ) {
+    return new LazyEntity(id, encoded, decoded);
+  }
+
+  protected decode<T>(
+    component: Exclude<keyof Entity, "id">,
+    encoded: LazyComponentData,
+    componentFn: (decoded: unknown) => T
+  ): void {
+    super.decode(component, encoded, componentFn);
+    this.decoded[component] ??= undefined;
+  }
+
+  materialize(): ReadonlyEntity {
+    super.materialize();
+    removeNilishInPlace(this.decoded);
+    return this.decoded as ReadonlyEntity;
+  }
+
+  merge(other: LazyEntityLike<unknown, unknown>) {
+    const result = super.merge(other);
+    removeNilishInPlace(result.decoded);
+    return result;
+  }
+
+  edit(): PatchableLazyEntity {
+    return new PatchableLazyEntity(this);
+  }
+
+  {% for component in defs.components %}
+  has{{component.type_name}}(): this is LazyEntityWith<"{{component.prop_name}}"> {
+    return super.has{{component.type_name}}();
+  }
+
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    return super.{{component.ts_name}}() as c.Readonly{{component.type_name}} | undefined;
+  }
+  {% endfor %}
+}
+
+export interface SuperLazyEntity {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}};
+  {% endfor %}
+}
+
+export type LazyEntityWith<C extends keyof ReadonlyEntity> = LazyLikeWith<C, SuperLazyEntity, LazyEntity>;
+
+export class LazyEntityBackedDelta extends Delta {
+  constructor(
+    private readonly entity: LazyEntity,
+    delta?: RawDelta | undefined
+  ) {
+    super(delta);
+  }
+
+  staleOk() {
+    return this;
+  }
+
+  hasComponent<C extends keyof Entity>(component: C): boolean {
+    if (component === "id") {
+      return true;
+    }
+    if (this.delta !== undefined) {
+      const delta = this.delta[component as keyof RawDelta];
+      if (delta !== undefined) {
+        return !!delta;
+      }
+    }
+    return this.entity.has(component);
+  }
+
+  get id(): BiomesId {
+    return this.entity.id;
+  }
+
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    if (this.delta?.{{component.prop_name}} !== undefined) {
+      return this.delta.{{component.prop_name}} ?? undefined;
+    }
+    return this.entity.{{component.ts_name}}();
+  }
+  {% endfor %}
+}
+
+export class PatchableLazyEntity extends Delta {
+  public readonly readComponentIds = new Set<number>();
+  private staleVariant?: ReadonlyDelta;
+
+  constructor(private readonly entity: LazyEntity) {
+    super();
+  }
+
+  staleOk(): ReadonlyDelta {
+    return (this.staleVariant ??= new LazyEntityBackedDelta(this.entity, this.delta));
+  }
+
+  hasComponent<C extends keyof Entity>(component: C): boolean {
+    if (component === "id") {
+      return true;
+    }
+    if (this.delta !== undefined) {
+      const delta = this.delta[component as keyof RawDelta];
+      if (delta !== undefined) {
+        return !!delta;
+      }
+    }
+    this.readComponentIds.add(COMPONENT_PROP_NAME_TO_ID.get(component)!);
+    return this.entity.has(component);
+  }
+
+  get id(): BiomesId {
+    return this.entity.id;
+  }
+
+  private markAllComponentsAsRead() {
+    for (const id of COMPONENT_PROP_NAME_TO_ID.values()) {
+      this.readComponentIds.add(id);
+    }
+  }
+
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    if (this.delta?.{{component.prop_name}} !== undefined) {
+      return this.delta.{{component.prop_name}} ?? undefined;
+    }
+    this.readComponentIds.add({{component.id}});
+    return this.entity.{{component.ts_name}}();
+  }
+  {% endfor %}
+
+  finish(): AsDelta<Entity> | undefined {
+    this.runHooks();
+    if (this.delta === undefined) {
+      return;
+    }
+    const delta = {
+      ...this.delta,
+      id: this.id,
+    };
+    this.delta = undefined;
+    return delta;
+  }
+
+  finishAsNew(): Entity {
+    const delta = this.finish();
+    if (delta === undefined) {
+      return {
+        id: this.id,
+      };
+    }
+    removeNilishInPlace(delta);
+    return delta as Entity;
+  }
+}

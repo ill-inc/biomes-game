@@ -1,0 +1,135 @@
+// GENERATED: This file is generated from entities.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import * as c from "@/shared/ecs/gen/components";
+import { Delta } from "@/shared/ecs/gen/delta";
+import { BiomesId } from "@/shared/ids";
+import { PathDef } from "@/shared/resources/path_map";
+import { z } from "zod";
+
+// ==================
+// Entity definitions
+// ==================
+
+export interface Entity {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  {{component.prop_name}}?: c.{{component.type_name}};
+  {% endfor %}
+}
+
+export interface ReadonlyEntity {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  readonly {{component.prop_name}}?: c.Readonly{{component.type_name}};
+  {% endfor %}
+}
+
+export type AsDelta<T> = { -readonly [P in keyof T]: T[P] | null } & { readonly id: BiomesId };
+
+export type ComponentName = Exclude<keyof Entity, "id"> & string;
+
+export const zComponentName = z.string() as z.ZodType<ComponentName>;
+
+export interface SuperEntity {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  {{component.prop_name}}: c.{{component.type_name}};
+  {% endfor %}
+}
+
+export interface ReadonlySuperEntity {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  readonly {{component.prop_name}}: c.Readonly{{component.type_name}};
+  {% endfor %}
+}
+
+export type EntityWith<C extends keyof Entity> = Pick<SuperEntity, C | "id"> &
+  Omit<Entity, C | "id">;
+
+export type ReadonlyEntityWith<C extends keyof ReadonlyEntity> = Pick<ReadonlySuperEntity, C | "id"> &
+  Omit<ReadonlyEntity, C | "id">;
+
+export class Entity {
+  static has<C extends keyof Entity>(
+    entity?: Entity,
+    ...components: C[]
+  ): entity is EntityWith<C>;
+  static has<C extends keyof Entity>(
+    entity?: ReadonlyEntity,
+    ...components: C[]
+  ): entity is ReadonlyEntityWith<C>;
+  static has<C extends keyof Entity>(
+    entity?: ReadonlyEntity | Entity,
+    ...components: C[]
+  ): boolean {
+    if (!entity) {
+      return false;
+    }
+    for (const component of components) {
+      if (entity[component] === undefined) {
+        return false;
+      }
+    }
+    return true;
+  }
+};
+
+{% for entity in defs.entities %}
+export interface {{entity.name}} extends Entity {
+  {% for component in entity.components %}
+  readonly {{component.prop_name}}: c.{{component.type_name}};
+  {% endfor %}
+}
+
+export class {{entity.name}} {
+  {% if entity.components %}
+  static from(entity?: ReadonlyEntity): {{entity.name}} | undefined {
+    return Entity.has(entity,
+      {% for component in entity.components %}
+      "{{component.prop_name}}",
+      {% endfor %}
+    ) ? entity as {{entity.name}} : undefined;
+  }
+  {% else %}
+  static from(entity?: ReadonlyEntity): {{entity.name}} | undefined {
+    return entity as {{entity.name}} | undefined;
+  }
+  {% endif %}
+}
+{% endfor %}
+
+export interface EntityResourcePaths {
+  "/ecs/entity": PathDef<[BiomesId], ReadonlyEntity | undefined>;
+}
+
+export const RESOURCE_PATH_TO_ENTITY_PROP = new Map<
+  keyof c.ComponentResourcePaths,
+  keyof Omit<Entity, "id">
+>([
+  {% for component in defs.components %}
+  ["/ecs/c/{{component.prop_name}}", "{{component.prop_name}}"],
+  {% endfor %}
+]);
+
+export const ENTITY_PROP_TO_RESOURCE_PATH: {
+  [key in keyof Entity]: keyof (c.ComponentResourcePaths &
+    EntityResourcePaths);
+} = {
+  id: "/ecs/entity",
+  {% for component in defs.components %}
+  {{component.prop_name}}: "/ecs/c/{{component.prop_name}}",
+  {% endfor %}
+};
+
+export const COMPONENT_PROP_NAME_TO_ID = new Map<ComponentName, number>([
+{% for component in defs.components %}
+  ["{{component.prop_name}}", {{component.id}}],
+{% endfor %}
+]);
+
+export const COMPONENT_ID_TO_PROP_NAME: ComponentName[] = [];
+{% for component in defs.components %}
+COMPONENT_ID_TO_PROP_NAME[{{component.id}}] = "{{component.prop_name}}";
+{% endfor %}

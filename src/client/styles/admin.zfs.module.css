@@ -1,0 +1,82 @@
+.zfs-array {
+  padding: 0.8rem;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  border: 1px black solid;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.zfs-array > * {
+  margin: 0.5rem;
+}
+
+.zfs-set-enum {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px black solid;
+  border-radius: 10px;
+  align-items: left;
+}
+
+.zfs-set-enum-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.zfs-tuple {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  border: 1px black solid;
+  border-radius: 10px;
+}
+
+.zfs-object {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border: 1px black solid;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.zfs-object .zfs-object-key,
+.zfs-object-value {
+  padding: 0.6rem;
+}
+
+.zfs-object .zfs-object-key {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.zfs-union {
+  padding: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-direction: column;
+  border: 1px black solid;
+  border-radius: 10px;
+  align-items: left;
+}
+
+.zfs-x-button {
+  flex-grow: 0;
+  width: 2rem;
+}
+
+.zfs-object .zfs-object-row-separator {
+  border-top: 1px black solid;
+  margin-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+.zfs-object .zfs-object-property-to-add {
+  padding: 0.6rem;
+}

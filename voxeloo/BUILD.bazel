@@ -1,0 +1,5 @@
+filegroup(
+    name = "clang-tidy-config",
+    data = [".clang-tidy"],
+    visibility = ["//visibility:public"],
+)

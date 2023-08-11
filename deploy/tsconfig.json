@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+      "experimentalDecorators": true,
+      "target": "es2020",
+      "lib": ["dom", "dom.iterable", "esnext", "webworker"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "baseUrl": "./",
+      "incremental": true,
+      "sourceMap": true,
+      "typeRoots": ["./node_modules/@types"]
+    },
+    "exclude": [
+      "k8",
+      "lfs",
+    ],
+    "include": ["biomes.ts"],
+    "ts-node": {
+      "compilerOptions": {
+        "module": "commonjs" // you can also override compilerOptions.  Only ts-node will use these overrides
+      }
+    }
+  }

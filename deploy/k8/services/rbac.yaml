@@ -1,0 +1,25 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8-reader
+rules:
+  - apiGroups: ["kustomize.toolkit.fluxcd.io"]
+    resources: ["kustomizations"]
+    resourceNames: ["biomes"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8-reader
+subjects:
+  - kind: ServiceAccount
+    name: zones-backend
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: k8-reader
+  apiGroup: rbac.authorization.k8s.io

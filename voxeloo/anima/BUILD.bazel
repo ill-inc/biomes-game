@@ -1,0 +1,17 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "anima",
+    srcs = [
+        "find_surfaces.cpp",
+    ],
+    hdrs = glob(["*.hpp"]),
+    deps = [
+        "//voxeloo/common:errors",
+        "//voxeloo/common:spatial",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/tensors",
+    ],
+)

@@ -1,0 +1,156 @@
+{
+  "[cpp]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll.stylelint": true }
+  },
+  "[glsl]": { "editor.defaultFormatter": "raczzalan.webgl-glsl-editor" },
+  "[fs]": { "editor.defaultFormatter": "raczzalan.webgl-glsl-editor" },
+  "[vs]": { "editor.defaultFormatter": "raczzalan.webgl-glsl-editor" },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.organizeImports": true }
+  },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true
+    }
+  },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+  "[noformat]": {
+    "editor.formatOnSave": false
+  },
+
+  // Note that the clang-tidy extension is relative to ${workspaceFolder}.
+  "clang-tidy.buildPath": "voxeloo/build",
+  "cmake.buildDirectory": "${workspaceFolder}/voxeloo/build",
+  "cmake.configureSettings": {
+    "BUILD_TESTING": "ON",
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+    "VOXELOO_ENABLE_JS": "ON",
+    "VOXELOO_ENABLE_PROJECTS": "ON",
+    "VOXELOO_ENABLE_PYTHON": "ON",
+    "VOXELOO_ENABLE_TESTS": "ON"
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/voxeloo",
+
+  "css.validate": false,
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "eslint.packageManager": "yarn",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "files.associations": {
+    "*.ejs": "html",
+    "vector": "cpp",
+    "xutility": "cpp",
+    "tuple": "cpp",
+    "chrono": "cpp",
+    "xstring": "cpp",
+    "complex": "cpp",
+    "filesystem": "cpp",
+    "sstream": "cpp",
+    "utility": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "map": "cpp",
+    "queue": "cpp",
+    "set": "cpp",
+    "stack": "cpp",
+    "xhash": "cpp",
+    "xtree": "cpp",
+    "fft": "cpp",
+    "xlocale": "cpp",
+    "cmath": "cpp",
+    "random": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "future": "cpp",
+    "istream": "cpp",
+    "variant": "cpp",
+    "functional": "cpp",
+    "ostream": "cpp",
+    "format": "cpp",
+    "memory": "cpp",
+    "type_traits": "cpp",
+    "xlocmes": "cpp",
+    "xlocmon": "cpp",
+    "xlocnum": "cpp",
+    "xloctime": "cpp",
+    "**/config/npc/**/*.json": "noformat"
+  },
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "prettier.configPath": ".prettierrc.js",
+  "python.formatting.blackArgs": ["--line-length=80"],
+  "python.formatting.provider": "none",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "clangd.arguments": [
+    "--header-insertion=never",
+    "--compile-commands-dir=${workspaceFolder}",
+    "--query-driver=/**/*"
+  ],
+  "webgl-glsl-editor.format.placeSpaceAfterKeywords": true,
+  "rust-analyzer.inlayHints.maxLength": 20,
+  "Lua.diagnostics.globals": ["cmsgpack", "ARGV", "redis", "KEYS"],
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "githubPullRequests.ignoredPullRequestBranches": ["main"],
+  "mochaExplorer.files": "src/server/**/*.test.ts",
+  "mochaExplorer.require": [
+    "ts-node/register",
+    "src/server/test/global_setup.ts"
+  ],
+  "mochaExplorer.parallel": true,
+  "mochaExplorer.env": {
+    "MOCHA_TEST": "1",
+    "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }",
+    "NODE_OPTIONS": "--openssl-legacy-provider"
+  },
+  "testExplorer.codeLens": true,
+  "tailwindCSS.codeActions": false,
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "extraClassName",
+    "extraClassNames"
+  ],
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.hg/**",
+    "**/.svn/**",
+    "*.ts"
+  ]
+}

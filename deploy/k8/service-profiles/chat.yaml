@@ -1,0 +1,54 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  creationTimestamp: null
+  name: chat.default.svc.cluster.local
+  namespace: default
+spec:
+  routes:
+    # Core
+    - condition:
+        method: GET
+        pathRegex: /alive
+      name: GET /alive
+      isRetryable: true
+    - condition:
+        method: GET
+        pathRegex: /metrics
+      name: GET /metrics
+      isRetryable: true
+    - condition:
+        method: GET
+        pathRegex: /ready
+      name: GET /ready
+      isRetryable: true
+    # ChatService
+    - condition:
+        method: POST
+        pathRegex: /chat/ping
+      name: POST /chat/ping
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /chat/sendMessage
+      name: POST /chat/sendMessage
+    - condition:
+        method: POST
+        pathRegex: /chat/unsendMessage
+      name: POST /chat/unsendMessage
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /chat/deleteEntity
+      name: POST /chat/deleteEntity
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /chat/export
+      name: POST /chat/export
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /chat/subscribe
+      name: POST /chat/subscribe
+      isRetryable: true

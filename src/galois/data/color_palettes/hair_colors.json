@@ -1,0 +1,254 @@
+[
+  {
+    "id": "hair_color_0",
+    "iconColor": "#ba426c",
+    "colors": [
+      "#f5cfe1",
+      "#ecb3cb",
+      "#e497b6",
+      "#dc7ba1",
+      "#d35e8b",
+      "#ba426c",
+      "#9c3255",
+      "#79283e"
+    ]
+  },
+  {
+    "id": "hair_color_1",
+    "iconColor": "#388e38",
+    "colors": [
+      "#a4ef73",
+      "#8ed860",
+      "#7cc94f",
+      "#6cbc43",
+      "#52a72b",
+      "#388e38",
+      "#1a6e33",
+      "#12522d"
+    ]
+  },
+  {
+    "id": "hair_color_2",
+    "iconColor": "#67568e",
+    "colors": [
+      "#ce9ce4",
+      "#bd8fd9",
+      "#ac83cf",
+      "#9b76c4",
+      "#8969b9",
+      "#67568e",
+      "#4a446a",
+      "#35305d"
+    ]
+  },
+  {
+    "id": "hair_color_3",
+    "iconColor": "#108b9e",
+    "colors": [
+      "#71dadd",
+      "#59ccd1",
+      "#41bec5",
+      "#29b1b9",
+      "#19a6ae",
+      "#108b9e",
+      "#266b7b",
+      "#235464"
+    ]
+  },
+  {
+    "id": "hair_color_4",
+    "iconColor": "#bad2d9",
+    "colors": [
+      "#e6f2f3",
+      "#deeeef",
+      "#d9ebed",
+      "#d4e8eb",
+      "#cee3e7",
+      "#bad2d9",
+      "#a4bac0",
+      "#96a8ac"
+    ]
+  },
+  {
+    "id": "hair_color_5",
+    "iconColor": "#7f8c99",
+    "colors": [
+      "#cce0e3",
+      "#bfd6da",
+      "#b3cad1",
+      "#a3b8c0",
+      "#98aab4",
+      "#7f8c99",
+      "#676f7b",
+      "#4e545c"
+    ]
+  },
+  {
+    "id": "hair_color_6",
+    "iconColor": "#242434",
+    "colors": [
+      "#4d4c59",
+      "#444450",
+      "#3b3b4d",
+      "#353546",
+      "#2d2d3f",
+      "#242434",
+      "#1b1b26",
+      "#141414"
+    ]
+  },
+  {
+    "id": "hair_color_7",
+    "iconColor": "#6d2f31",
+    "colors": [
+      "#926757",
+      "#8b5b4d",
+      "#854f44",
+      "#7f423e",
+      "#7c3737",
+      "#6d2f31",
+      "#59232c",
+      "#4d202c"
+    ]
+  },
+  {
+    "id": "hair_color_8",
+    "iconColor": "#623a29",
+    "colors": [
+      "#a4693c",
+      "#955b38",
+      "#864f31",
+      "#75452e",
+      "#623a29",
+      "#513123",
+      "#3d251e",
+      "#2e1c18"
+    ]
+  },
+  {
+    "id": "hair_color_9",
+    "iconColor": "#7e4a2e",
+    "colors": [
+      "#c7925b",
+      "#c1824e",
+      "#ba713f",
+      "#a8663d",
+      "#915c36",
+      "#7e4a2e",
+      "#683a28",
+      "#503028"
+    ]
+  },
+  {
+    "id": "hair_color_10",
+    "iconColor": "#a87f2f",
+    "colors": [
+      "#dbbd54",
+      "#cfaf4b",
+      "#c5a043",
+      "#b88f3d",
+      "#a87f2f",
+      "#946c34",
+      "#775535",
+      "#5b3d25"
+    ]
+  },
+  {
+    "id": "hair_color_11",
+    "iconColor": "#d0a853",
+    "colors": [
+      "#feef9d",
+      "#f7e48f",
+      "#eed680",
+      "#e6ca72",
+      "#debd64",
+      "#d0a853",
+      "#b78b55",
+      "#986e42"
+    ]
+  },
+  {
+    "id": "hair_color_12",
+    "iconColor": "#5d4b42",
+    "colors": [
+      "#bba267",
+      "#ab8f5f",
+      "#977d5c",
+      "#836d55",
+      "#715b4b",
+      "#5d4b42",
+      "#4a3b36",
+      "#3b2e2b"
+    ]
+  },
+  {
+    "id": "hair_color_13",
+    "iconColor": "#8d2225",
+    "colors": [
+      "#d6735c",
+      "#c7604b",
+      "#bf4939",
+      "#b63b32",
+      "#a62f2c",
+      "#8d2225",
+      "#7c1d2b",
+      "#6b192c"
+    ]
+  },
+  {
+    "id": "hair_color_14",
+    "iconColor": "#a44529",
+    "colors": [
+      "#d39950",
+      "#ca8a48",
+      "#c1753e",
+      "#b86537",
+      "#b5562f",
+      "#a44529",
+      "#8c3221",
+      "#7a241e"
+    ]
+  },
+  {
+    "id": "hair_color_15",
+    "iconColor": "#be5c00",
+    "colors": [
+      "#ffce41",
+      "#faba27",
+      "#f8a50d",
+      "#f09305",
+      "#d77703",
+      "#be5c00",
+      "#a34300",
+      "#903402"
+    ]
+  },
+  {
+    "id": "hair_color_16",
+    "iconColor": "#6973cb",
+    "colors": [
+      "#ccebfd",
+      "#bad4f2",
+      "#aec6eb",
+      "#95a8e0",
+      "#7d8bd5",
+      "#6973cb",
+      "#5255b1",
+      "#4a448d"
+    ]
+  },
+  {
+    "id": "hair_color_17",
+    "iconColor": "#7aba0c",
+    "colors": [
+      "#e0f58d",
+      "#d3eb76",
+      "#c8e351",
+      "#b4db26",
+      "#97cd10",
+      "#7aba0c",
+      "#56960f",
+      "#427c0f"
+    ]
+  }
+]

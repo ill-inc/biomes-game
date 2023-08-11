@@ -1,0 +1,321 @@
+// GENERATED: This file is generated from types.ts.j2. Do not modify directly.
+
+import { hashDerived, hashLiteral } from "@/galois/lang/hash";
+
+interface LiteralNode<T> {
+  node: "literal";
+  type: T;
+  hash: string;
+  kind: string;
+  data: string | number | boolean;
+}
+
+interface DerivedNode<T> {
+  node: "derived";
+  type: T;
+  hash: string;
+  kind: string;
+  deps: GeneralNode<string>[];
+}
+
+export function makeLiteral<T extends string>(type: T, kind: string, data: LiteralNode<T>["data"]): LiteralNode<T> {
+  return {
+    node: "literal",
+    type: type,
+    hash: hashLiteral(kind, data),
+    kind: kind,
+    data: data
+  };
+}
+
+export function makeDerived<T extends string>(type: T, kind: string, deps: DerivedNode<T>["deps"]): DerivedNode<T> {
+  return {
+    node: "derived",
+    type: type,
+    hash: hashDerived(kind, deps),
+    kind: kind,
+    deps: deps
+  };
+}
+
+export type GeneralNode<T> = LiteralNode<T> | DerivedNode<T>;
+
+export function isNode<T extends string>(node: unknown, type: T): node is GeneralNode<T> {
+  return (node as GeneralNode<string>)?.type === type;
+}
+
+export function asNode<T extends string>(node: any, type: T) {
+  if (!isNode(node, type)) {
+    throw Error("Failed to coerce node to type '${type}'.")
+  }
+  return node;
+}
+
+export function isLiteral<T extends string>(node: GeneralNode<T>): node is LiteralNode<T> {
+  return node.node === "literal";
+}
+
+export function isDerived<T extends string>(node: GeneralNode<T>): node is DerivedNode<T> {
+  return node.node === "derived";
+}
+
+{% set number_types = ["I8", "I16", "I32", "U8", "U16", "U32", "F32", "F64"] -%}
+
+{%- macro ts_type_recurse(type) %}
+  {%- if type.synthetic -%}
+    {{ts_type(type)}}
+  {%- else -%}
+    {{type.name}}Like
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro ts_type(type) %}
+  {%- if type.kind == "Null" %}
+null
+  {%- elif type.kind == "Str" %}
+string
+  {%- elif type.kind == "Bool" %}
+boolean
+  {%- elif type.kind in number_types %}
+number
+  {%- elif type.kind in ["I64", "U64"] %}
+string
+  {%- elif type.kind == "Literal" %}
+{{type.data}}
+  {%- elif type.kind == "Tuple" %}
+(readonly [
+    {%- for sub in type.subs -%}
+  {{ts_type_recurse(sub)}}{% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+])
+  {%- elif type.kind == "Union" %}
+(
+    {%- for sub in type.subs -%}
+  {{ts_type_recurse(sub)}}{% if not loop.last %} | {% endif %}
+    {%- endfor -%}
+)
+  {%- elif type.kind == "List" %}
+(readonly {{ts_type_recurse(type.subs[0])}}[])
+  {%- elif type.kind == "Reference" %}
+{{type.name}}Like
+  {%- else -%}
+GeneralNode<"{{type.name}}">
+  {%- endif %}
+{%- endmacro -%}
+
+{%- macro ast_type(type) -%}
+export type {{type.name}} = GeneralNode<"{{type.name}}">;
+{%- endmacro -%}
+
+{%- macro raw_type(type) -%}
+export type {{type.name}}Like = {{type.name}} | {{ts_type(type)}};
+{%- endmacro -%}
+
+{% for type in types %}
+  {% if type.kind == "Null" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any) {
+  return isNode(value, "{{type.name}}") || value === null;
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", 0);
+  }
+}
+
+  {% elif type.kind == "Str" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}") || typeof value === "string";
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", value);
+  }
+}
+
+  {% elif type.kind == "Bool" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}") || typeof value === "boolean";
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", value);
+  }
+}
+
+  {% elif type.kind in number_types %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}") || typeof value === "number";
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", value);
+  }
+}
+
+  {% elif type.kind in ["I64", "U64"] %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}") || typeof value === "string";
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", value);
+  }
+}
+
+  {% elif type.kind == "Literal" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}") || value === {{type.data}};
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    return makeLiteral("{{type.name}}", "{{type.kind}}", {{type.data}});
+  }
+}
+
+  {% elif type.kind == "Tuple" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  if (isNode(value, "{{type.name}}")) {
+    return true;
+  }
+  if (value?.length !== {{type.subs | length}}) {
+    return false;
+  }
+    {% for sub in type.subs %}
+  if (!is{{sub.name}}(value[{{loop.index0}}])) {
+    return false;
+  }
+    {% endfor %}
+  return true;
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    const deps = [
+    {% for sub in type.subs %}
+      to{{sub.name}}(value[{{loop.index0}}]),
+    {% endfor %}
+    ];
+    return makeDerived("{{type.name}}", "{{type.kind}}", deps);
+  }
+}
+
+  {% elif type.kind == "Union" %}
+type {{type.name}} =
+{%- for sub in type.subs %}
+ GeneralNode<"{{sub.name}}">{% if not loop.last %} |{% endif %}
+{% endfor -%}
+;
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  {% for sub in type.subs %}
+  if (is{{sub.name}}(value)) {
+    return true;
+  }
+  {% endfor %}
+  return false;
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  {% for sub in type.subs %}
+    {% set name = sub.name %}
+  if (is{{name}}(value)) {
+    return to{{name}}(value);
+  }
+  {% endfor %}
+  throw new Error(`Invalid value "${value}" for type "{{type.name}}"`);
+}
+
+  {% elif type.kind == "List" %}
+{{ast_type(type)}}
+{{raw_type(type)}}
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  if (isNode(value, "{{type.name}}")) {
+    return true;
+  }
+  if (!Array.isArray(value)) {
+    return false;
+  }
+  for (const el of value) {
+    if (!is{{type.subs[0].name}}(el)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  if (isNode(value, "{{type.name}}")) {
+    return value;
+  } else {
+    const deps = Array.from(value).map((el) => to{{type.subs[0].name}}(el));
+    return makeDerived("{{type.name}}", "{{type.kind}}", deps);
+  }
+}
+  {% elif type.kind == "Reference" %}
+  {% else %}
+{{ast_type(type)}}
+export type {{type.name}}Like = {{type.name}};
+
+export function is{{type.name}}(value: any): value is {{type.name}}Like {
+  return isNode(value, "{{type.name}}");
+}
+
+export function to{{type.name}}(value: {{type.name}}Like): {{type.name}} {
+  return value;
+}
+
+{% endif %}
+{% endfor -%}
+
+export interface AssetTypes {
+{% for type in types | sort(attribute="name") %}
+  {% if not type.synthetic %}
+  {{type.name}}: GeneralNode<"{{type.name}}">;
+  {% endif %}
+{% endfor %}
+}
+
+export type Asset = GeneralNode<string>;

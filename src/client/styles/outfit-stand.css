@@ -1,0 +1,4 @@
+.outfit-stand-left-pane canvas {
+  /* Prevents flex-grow from getting out of control */
+  max-height: 220px;
+}

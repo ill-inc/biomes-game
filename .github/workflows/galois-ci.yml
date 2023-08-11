@@ -1,0 +1,79 @@
+name: galois-ci
+
+on:
+  pull_request:
+    paths:
+      - "src/galois/**"
+      - ".github/workflows/galois-ci.yml"
+      - "voxeloo/**"
+      - "package.json"
+      - "requirements.txt"
+      - "scripts/b/**"
+      - "src/server/web/published_asset_data.ts"
+
+permissions:
+  id-token: write # Needed for gcloud auth.
+  contents: read
+
+jobs:
+  # Make sure that builds, lint, and tests all pass for each workspace
+  js-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      - name: Create/activate virtual environment.
+        run: python3 -m venv .venv && echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
+      - run: ./b ts-deps build
+      - run: ./b galois lint
+      - run: ./b galois build
+      - run: ./b test --path 'src/galois/**/test/*.ts'
+
+  # Make sure we can export assets, which tests both js and python components.
+  export-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      - name: pip install
+        uses: ./.github/actions/cached-pip-install
+      - run: ./b ts-deps build
+      - run: ./b galois --no-pip-install-voxeloo assets publish -r '(moss|fishing|tuna|camera)' --dryRun
+
+  # Makes sure that the assets specified in asset_versions.json are uploaded
+  # and available on GCS. If not, it means `./b galois assets publish` needs
+  # to be run.
+  check-assets-uploaded-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      - name: pip install
+        uses: ./.github/actions/cached-pip-install
+      - run: ./b ts-deps build
+      - name: Check that `./b galois assets publish` doesn't need to be executed.
+        run: ./b galois assets check-assets-published

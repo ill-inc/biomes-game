@@ -1,0 +1,175 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "biomes",
+    srcs = ["biomes.cpp"],
+    hdrs = ["biomes.hpp"],
+    deps = [
+        ":shards",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/tensors",
+        "//voxeloo/common:boxifier",
+        "//voxeloo/common:colors",
+        "//voxeloo/common:disjoint_set",
+        "//voxeloo/common:frustum",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:quadifier",
+        "//voxeloo/common:spatial",
+        "//voxeloo/common:transport",
+        "//voxeloo/common:voxels",
+        "@cereal",
+    ],
+)
+
+cc_test(
+    name = "biomes_test",
+    srcs = ["biomes_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":biomes",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:transport",
+        "@catch2",
+    ],
+)
+
+cc_binary(
+    name = "biomes_bench",
+    srcs = ["biomes_bench.cpp"],
+    defines = [
+        "CATCH_CONFIG_MAIN",
+        "CATCH_CONFIG_ENABLE_BENCHMARKING",
+    ],
+    deps = [
+        ":biomes",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "culling",
+    srcs = ["culling.cpp"],
+    hdrs = ["culling.hpp"],
+    deps = [
+        "//voxeloo/tensors",
+        "//voxeloo/common:errors",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:hull",
+        "//voxeloo/common:march",
+        "//voxeloo/common:subbox",
+        "//voxeloo/common:utils",
+        "@eigen",
+    ],
+)
+
+cc_test(
+    name = "culling_test",
+    srcs = ["culling_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":culling",
+        "//voxeloo/common:geometry",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "memoize",
+    hdrs = ["memoize.hpp"],
+    deps = [
+        "@robin-hood-hashing",
+    ],
+)
+
+cc_test(
+    name = "memoize_test",
+    srcs = ["memoize_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":memoize",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "migration",
+    hdrs = ["migration.hpp"],
+    deps = [
+        ":biomes",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/tensors",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:spatial",
+    ],
+)
+
+cc_library(
+    name = "noise",
+    srcs = ["noise.cpp"],
+    hdrs = ["noise.hpp"],
+    deps = [
+        "@opensimplex",
+    ],
+)
+
+cc_library(
+    name = "primitives",
+    hdrs = ["primitives.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:spatial",
+        "@eigen",
+    ],
+)
+
+cc_library(
+    name = "rasterization",
+    hdrs = ["rasterization.hpp"],
+    deps = [
+        "//voxeloo/third_party/tomasakeninemoeller",
+        "//voxeloo/common:errors",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:meshes",
+        "//voxeloo/common:utils",
+        "//voxeloo/common:voxels",
+    ],
+)
+
+cc_test(
+    name = "rasterization_test",
+    srcs = ["rasterization_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":rasterization",
+        "//voxeloo/common:geometry",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "shards",
+    srcs = ["shards.cpp"],
+    hdrs = ["shards.hpp"],
+    deps = [
+        "//voxeloo/common:frustum",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:transport",
+    ],
+)
+
+cc_test(
+    name = "shards_test",
+    srcs = ["shards_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":biomes",
+        ":shards",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:transport",
+        "@catch2",
+    ],
+)

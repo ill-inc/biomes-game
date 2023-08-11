@@ -1,0 +1,5 @@
+{
+  "material_type": "raw",
+  "fs": "blocks.fs",
+  "vs": "blocks.vs"
+}

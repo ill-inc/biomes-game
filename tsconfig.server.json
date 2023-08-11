@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "dist",
+    "noEmit": false,
+    "incremental": false,
+    "sourceMap": true,
+    "module": "CommonJS"
+  },
+  "include": ["modules.d.ts", "src/server", "next-env.d.ts"]
+}

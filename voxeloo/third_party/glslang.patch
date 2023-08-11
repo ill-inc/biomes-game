@@ -1,0 +1,16 @@
+diff --git a/BUILD.bazel b/BUILD.bazel
+index 8dd76e07..8f0ce94b 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -65,9 +65,9 @@ genrule(
+
+ genrule(
+     name = "gen_extension_headers_h",
+-    srcs = ["glslang/ExtensionHeaders", "gen_extension_headers.py"],
++    srcs = ["gen_extension_headers.py"],
+     outs = ["glslang/glsl_intrinsic_header.h"],
+-    cmd_bash = "$(location gen_extension_headers) -i  $(location glslang/ExtensionHeaders) -o $(location glslang/glsl_intrinsic_header.h)",
++    cmd_bash = "$(location gen_extension_headers) -i  glslang/ExtensionHeaders -o $(location glslang/glsl_intrinsic_header.h)",
+     tools = [":gen_extension_headers"],
+ )
+

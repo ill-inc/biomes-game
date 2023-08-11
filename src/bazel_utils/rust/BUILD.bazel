@@ -1,0 +1,9 @@
+load(":toolchain.bzl", "rustfmt_bin")
+
+package(default_visibility = ["//visibility:public"])
+
+# Enables access to the toolchain's version of rustfmt, so it can be passed
+# into scripts.
+rustfmt_bin(
+    name = "rustfmt_bin",
+)

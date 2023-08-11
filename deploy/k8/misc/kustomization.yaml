@@ -1,0 +1,4 @@
+resources:
+  - backend-configs.yaml
+  - ingress.yaml
+  - priorities.yaml

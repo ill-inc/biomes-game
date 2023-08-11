@@ -1,0 +1,72 @@
+.edit-character .avatar-viewer {
+  height: 100%;
+  transition: opacity 1s;
+}
+
+.edit-character .avatar-viewer.loading {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.edit-character .avatar-viewer.loading:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.edit-character .avatar-viewer.loading:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.edit-character .avatar-viewer.loading:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.edit-character .avatar-viewer .three-object-preview-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.edit-character .button,
+.color-button-row .button {
+  width: 100%;
+  aspect-ratio: 1/1;
+  box-sizing: border-box;
+  border-radius: var(--inner-border-radius);
+  box-shadow: var(--cell-offset);
+}
+
+.edit-character .head-shape .button {
+  width: 100%;
+  height: auto;
+}
+
+.edit-character .button.selected,
+.color-button-row .button.selected {
+  box-shadow: 0 0 0 0.2vmin white, inset 0 0 0 0.2vmin var(--dark-grey);
+}
+
+.edit-character .button-row,
+.color-button-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  gap: 0.75vmin;
+  margin-top: 0.75vmin;
+}
+
+.edit-character .button-row-3,
+.color-button-row-3 {
+  grid-template-columns: repeat(3, 1fr);
+}

@@ -1,0 +1,5 @@
+{
+  "material_type": "translucent",
+  "fs": "hexagonal_bloom.fs",
+  "vs": "hexagonal_bloom.vs"
+}

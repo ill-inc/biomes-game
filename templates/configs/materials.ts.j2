@@ -1,0 +1,16 @@
+// GENERATED: This file is generated from materials.ts.j2. Do not modify directly.
+
+interface MaterialProperties {
+  occlusive: boolean;
+}
+
+export const MATERIAL_CONFIG = new Map<number, MaterialProperties>([
+{% for material in materials %}
+  [
+    {{material["id"]}},
+    {
+      occlusive: {{"true" if material["occlusive"] else "false"}},
+    },
+  ],
+{% endfor %}
+]);

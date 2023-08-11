@@ -1,0 +1,146 @@
+.collections-category > .collections-items {
+  padding: 2vmin;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.collections-item {
+  flex: 1 0 20%;
+  margin: 1vmin;
+}
+
+.collections-item img {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.collections-item.uncollected img {
+  filter: brightness(0) drop-shadow(0 0.2vmin 0 white);
+  opacity: 0.1;
+}
+
+.collections-item .leaderboard-sell {
+  width: 100%;
+  text-align: center;
+}
+
+/*
+* Minigame browser
+*/
+.minigame-collections-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75vmin;
+}
+
+.minigame-collections-item:hover {
+  filter: none;
+}
+
+.minigame-collections-item .img-box-shadow-wrapper {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: var(--inner-border-radius);
+}
+
+.minigame-collections-item .attribution {
+  font-weight: 600;
+}
+
+.minigame-collections-item .attribution .md {
+  font-weight: initial;
+}
+
+.minigame-collections-item .md img {
+  width: 1vmin;
+  display: none;
+}
+
+.minigame-collections-item:hover img {
+  display: inline-block;
+}
+
+.collections-detail-icon {
+  width: 10vw;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.collections-detail-icon .tooltipped {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.collections-detail-subtitle {
+  margin: 0 auto;
+  display: block;
+  width: 10vw;
+  text-align: center;
+}
+
+.collections-detail-content-description {
+  text-align: center;
+}
+
+.collections-detail label {
+  text-align: center;
+  margin-top: 5vmin;
+}
+
+.collections-detail-crossbreeds {
+  display: flex;
+  gap: 2vmin;
+}
+
+.collections-detail-crossbreed-chance {
+  white-space: nowrap;
+  font-size: var(--font-size-xxsmall);
+  margin-top: 0;
+}
+
+.collections-detail-crossbreeds .collections-item {
+  flex: 0 0 10vw;
+}
+
+.collections-detail-crossbreed-entry img {
+  width: 1vmin;
+}
+
+.collections-detail-crossbreed-entry > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1vmin;
+  font-size: var(--font-size-xsmall);
+  align-items: flex-start;
+}
+
+.collection-detail > ul > li {
+  width: 100%;
+}
+
+.collections-detail-crossbreed-entry:first-child {
+  margin-top: 0;
+}
+
+.collections-detail-crossbreed-entry {
+  display: flex;
+  margin: 1.5vmin auto 0;
+  flex-direction: column;
+}
+
+.collections-category > label {
+  font-size: var(--font-size-medium);
+  font-weight: 600;
+  padding: 0 0 0 2vmin;
+}
+
+.collections-detail-crossbreed-entry-seed::before {
+  content: "x";
+}
+
+.collections-detail-crossbreed-entry-seed:first-child::before {
+  content: "";
+  margin: 0 0.6vmin 0 0;
+}

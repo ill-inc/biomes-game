@@ -1,0 +1,20 @@
+# See:
+# https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks
+# This is for making the checks always exist, even if the path filter doesn't match.
+
+name: cpp-ci
+
+on:
+  pull_request:
+    paths-ignore:
+      - "voxeloo/**"
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No clang-format required"'
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No clang-tidy required"'

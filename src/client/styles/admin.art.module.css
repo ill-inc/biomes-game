@@ -1,0 +1,115 @@
+.page {
+  height: 100vh;
+  text-shadow: none;
+}
+
+.header {
+  font-size: 1.2em;
+  background-color: rgb(54 57 63);
+  border-bottom: 1px solid rgb(37 38 43);
+  box-shadow: 0 0 2px rgb(37 38 43);
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+.content {
+  background-color: rgb(50 53 58);
+  color: white;
+}
+
+.content h2 {
+  color: white;
+  padding: 0 1em;
+  margin: 1em 0 0;
+}
+
+.stack-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.stack-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-fixed {
+  flex: 0 0 auto;
+}
+
+.item-grows {
+  flex: 1 1 auto;
+}
+
+.card {
+  padding: 1em;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.grid-row > * {
+  margin: 0 1em;
+}
+
+.grid-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.grid-col > * {
+  margin: 0 0 1em;
+}
+
+.divider {
+  margin-top: 1em;
+  border-top: 1px solid rgba(200 200 200 / 10%);
+}
+
+.editor {
+  width: 28em;
+  overflow-y: scroll;
+  max-height: calc(100vh - 6.2em - 2px);
+}
+
+.label {
+  text-align: right;
+  width: 6em;
+}
+
+.title {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.texture {
+  image-rendering: pixelated;
+}
+
+.page ::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgb(46 51 56);
+}
+
+.page ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  background-color: rgb(38 40 43);
+}
+
+.header a {
+  margin: 0 1em;
+  text-transform: capitalize;
+}

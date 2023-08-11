@@ -1,0 +1,5 @@
+{
+  "material_type": "translucent",
+  "fs": "muck_spores.fs",
+  "vs": "muck_spores.vs"
+}

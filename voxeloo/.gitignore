@@ -1,0 +1,45 @@
+synced_data/
+.egg
+.eggs/
+.venv
+.vscode/**
+!.vscode/settings.json
+!.vscode/extensions.json
+/build
+build_js
+dist
+demos/.ipynb_checkpoints
+voxeloo.egg-info
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+*.dll
+
+# Notebooks
+.ipynb_checkpoints/
+node_modules/
+
+
+# Finder
+.DS_Store
+
+# Xcode - User files
+xcuserdata/
+
+**/*.xcodeproj/project.xcworkspace/*
+!**/*.xcodeproj/project.xcworkspace/xcshareddata
+
+**/*.xcodeproj/project.xcworkspace/xcshareddata/*
+!**/*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+**/*.playground/playground.xcworkspace/*
+!**/*.playground/playground.xcworkspace/xcshareddata
+
+**/*.playground/playground.xcworkspace/xcshareddata/*
+!**/*.playground/playground.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+cpp_src/third_party/emsdk/emsdk_set_env.bat
+
+.vscode/**

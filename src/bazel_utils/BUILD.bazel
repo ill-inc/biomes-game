@@ -1,0 +1,21 @@
+package(default_visibility = ["//visibility:public"])
+
+config_setting(
+    name = "build_config_debug",
+    define_values = {"build_config": "debug"},
+)
+
+config_setting(
+    name = "build_config_reldebug",
+    define_values = {"build_config": "reldebug"},
+)
+
+config_setting(
+    name = "build_config_release",
+    define_values = {"build_config": "release"},
+)
+
+config_setting(
+    name = "build_config_fastbuild",
+    define_values = {"build_config": "fastbuild"},
+)

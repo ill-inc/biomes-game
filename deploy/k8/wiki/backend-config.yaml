@@ -1,0 +1,18 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  namespace: default
+  name: wiki
+spec:
+  timeoutSec: 120
+  connectionDraining:
+    drainingTimeoutSec: 125
+  healthCheck:
+    type: HTTP
+    port: 80
+    requestPath: /index.php/Main_Page
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeQueryString: true

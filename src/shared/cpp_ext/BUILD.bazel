@@ -1,0 +1,77 @@
+load("//src/bazel_utils/cpp:release_transitions.bzl", "transition_release_cpp")
+load("//src/bazel_utils:common.bzl", "copy_files_to_directory")
+
+package(default_visibility = ["//visibility:public"])
+
+transition_release_cpp(
+    name = "voxeloo-normal-debug",
+    mode = "debug",
+    target = "//voxeloo/js_ext:wasm-normal",
+)
+
+transition_release_cpp(
+    name = "voxeloo-normal-reldebug",
+    mode = "reldebug",
+    target = "//voxeloo/js_ext:wasm-normal",
+)
+
+transition_release_cpp(
+    name = "voxeloo-normal-release",
+    mode = "release",
+    target = "//voxeloo/js_ext:wasm-normal",
+)
+
+transition_release_cpp(
+    name = "voxeloo-normal-fastbuild",
+    mode = "fastbuild",
+    target = "//voxeloo/js_ext:wasm-normal",
+)
+
+transition_release_cpp(
+    name = "voxeloo-simd-debug",
+    mode = "debug",
+    target = "//voxeloo/js_ext:wasm-simd",
+)
+
+transition_release_cpp(
+    name = "voxeloo-simd-reldebug",
+    mode = "reldebug",
+    target = "//voxeloo/js_ext:wasm-simd",
+)
+
+transition_release_cpp(
+    name = "voxeloo-simd-release",
+    mode = "release",
+    target = "//voxeloo/js_ext:wasm-simd",
+)
+
+transition_release_cpp(
+    name = "voxeloo-simd-fastbuild",
+    mode = "fastbuild",
+    target = "//voxeloo/js_ext:wasm-simd",
+)
+
+# We're transitioning away from a world where we needed to build all wasm
+# configs in parallel, so if we're completely out of that world, then we
+# can just get rid of the big switch statements here and the per-build-config
+# targets above and just directly define `voxeloo-normal` and `voxeloo-simd`
+# here.
+copy_files_to_directory(
+    name = "voxeloo-normal",
+    target = select({
+        "//src/bazel_utils:build_config_debug": ":voxeloo-normal-debug",
+        "//src/bazel_utils:build_config_reldebug": ":voxeloo-normal-reldebug",
+        "//src/bazel_utils:build_config_release": ":voxeloo-normal-release",
+        "//src/bazel_utils:build_config_fastbuild": ":voxeloo-normal-fastbuild",
+    }),
+)
+
+copy_files_to_directory(
+    name = "voxeloo-simd",
+    target = select({
+        "//src/bazel_utils:build_config_debug": ":voxeloo-simd-debug",
+        "//src/bazel_utils:build_config_reldebug": ":voxeloo-simd-reldebug",
+        "//src/bazel_utils:build_config_release": ":voxeloo-simd-release",
+        "//src/bazel_utils:build_config_fastbuild": ":voxeloo-simd-fastbuild",
+    }),
+)

@@ -1,0 +1,101 @@
+// GENERATED: This file is generated from components.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import * as t from "@/shared/ecs/gen/types";
+import { cloneDeepWithItems } from "@/shared/game/item";
+import { BiomesId } from "@/shared/ids";
+import { PathDef } from "@/shared/resources/path_map";
+
+{# Define base component types #}
+// =====================
+// Component definitions
+// =====================
+
+export const DEPRECATED_COMPONENT_IDS: Set<number> = new Set([
+{% for id in defs.deprecated_component_ids %}
+  {{id}},
+{% endfor %}
+]);
+
+export const HFC_COMPONENT_IDS: Set<number> = new Set([
+{% for component in defs.components %}
+{% if component.hfc %}
+  {{component.id}},
+{% endif %}
+{% endfor %}
+]);
+
+export type HfcComponentName =
+{% for component in defs.components %}
+{% if component.hfc %}
+  | "{{component.prop_name}}"
+{% endif %}
+{% endfor %}
+  ;
+
+export const COMPONENT_SERIALIZATION_MODE: Record<number, "server" | "self"> = {
+  {% for component in defs.components %}
+  {% if component.visibility == "server" %}
+  [{{component.id}}]: "server",
+  {% elif component.visibility == "self" %}
+  [{{component.id}}]: "self",
+  {% endif %}
+  {% endfor %}
+};
+
+{% for component in defs.components %}
+export interface {{component.type_name}} {
+  {% for id, field in component.fields %}
+  {% if field.kind.name == "BiomesId" %}
+  {{field.name}}: BiomesId;
+  {% else %}
+  {{field.name}}: t.{{ field.kind.name }};
+  {% endif %}
+  {% endfor %}
+}
+
+export interface Readonly{{component.type_name}} {
+  {% for id, field in component.fields %}
+  {% if field.kind.name == "BiomesId" %}
+  readonly {{field.name}}: BiomesId;
+  {% else %}
+  readonly {{field.name}}: t.Readonly{{ field.kind.name }};
+  {% endif %}
+  {% endfor %}
+}
+
+export class {{component.type_name}} {
+  static ID = {{component.id}};
+
+  {% if component.fields %}
+  static create(
+    fields: Partial<{{component.type_name}}> = {}): {{ component.type_name }} {
+  {% for id, field in component.fields %}
+    if (fields.{{field.name}} === undefined) {
+      fields.{{field.name}} = t.{{ field.kind.default_value }};
+    }
+  {% endfor %}
+    return fields as {{component.name}};
+  }
+
+  static clone(value?: Readonly{{component.name}}): {{component.name}} {
+    return value === undefined ? {{component.type_name}}.create() :
+      cloneDeepWithItems(value) as unknown as {{component.name}};
+  }
+  {% else %}
+  static create(_unused?: any): {{component.type_name}} {
+    return {};
+  }
+
+  static clone(_unused?: any): {{component.type_name}} {
+    return {};
+  }
+  {% endif %}
+}
+{% endfor -%}
+
+export interface ComponentResourcePaths {
+  {% for component in defs.components %}
+  "/ecs/c/{{component.prop_name}}": PathDef<[BiomesId], Readonly{{component.type_name}} | undefined>;
+  {% endfor %}
+};

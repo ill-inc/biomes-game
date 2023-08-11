@@ -1,0 +1,28 @@
+[workspace]
+members = ["py_ext", "wasm"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[package]
+name = "cayley"
+edition.workspace = true
+version.workspace = true
+
+[lib]
+name = "cayley"
+crate-type = ["rlib"]
+
+[[bench]]
+name = "array"
+harness = false
+
+[dependencies]
+bencher = "0.1.5"
+byteorder = "1.4.3"
+float-cmp = "0.9.0"
+gltf = "1.1.0"
+image = "0.24.5"
+rand = "0.8.5"
+ultraviolet = "0.9.0"

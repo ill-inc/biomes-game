@@ -1,0 +1,6 @@
+{
+  "material_type": "translucent",
+  "fs": "voxels.fs",
+  "vs": "voxels.vs",
+  "defines": ["HAS_MREA"]
+}

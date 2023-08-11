@@ -1,0 +1,54 @@
+# Forked from https://github.com/nschloe/action-cached-lfs-checkout.
+# We've seen some sporadic "soft failures" when pulling from local cache where
+# the 'git lfs pull' command would emit error logs, but 'git lfs fsck' would
+# return "OK", but 'git status' would show all LFS files as being modfied.
+# This script checks for that and if this state is observed, it retries the
+# git lfs pull until we land in a good state.
+
+name: "Cached LFS checkout"
+
+description: "Git checkout with LFS files from cache"
+
+branding:
+  icon: "download"
+  color: "green"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create LFS file list
+      run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      shell: bash
+
+    - name: Restore LFS cache
+      uses: actions/cache@v3
+      id: lfs-cache
+      with:
+        path: .git/lfs
+        key: lfs-${{ hashFiles('.lfs-assets-id') }}-v1
+
+    - name: Remove cache key file
+      run: rm .lfs-assets-id
+      shell: bash
+
+    # We've seen 'git lfs pull' have sporadic errors from time to time that
+    # leave 'git status' showing that all lfs files are modified. We retry
+    # a few times in case this happens.
+    - name: Git LFS Pull
+      run: |
+        echo "Running 'git lfs pull'."
+        TRY_COUNT=0
+        while : ; do
+            git reset --hard
+            git lfs pull
+            TRY_COUNT=$((TRY_COUNT+1))
+            if [[ TRY_COUNT -ge 3 ]]; then
+                exit 1
+            fi
+            bash -c "! [ $(git status --porcelain=v1 2>/dev/null | wc -l) == '0' ]" || break
+            echo "Expected 'git status' to show no modified files, instead:"
+            git status
+            echo
+            echo "Retrying 'git lfs pull'..."
+        done
+      shell: bash

@@ -1,0 +1,156 @@
+.create {
+  margin: 20px;
+  background: var(--cell-bg-dark);
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 4px;
+}
+
+.create li {
+  padding: 1vw;
+}
+
+.create .label {
+  font-size: var(--font-size-large);
+}
+
+.create button {
+  background: var(--blue);
+  padding: 0.5vh;
+  margin: 0.5vh auto;
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 4px;
+}
+
+.create pre {
+  display: block;
+  border: 1px solid rgb(255 255 255 / 50%);
+  padding: 0.3vw;
+  font-family: monospace;
+  margin: 0.5vh 1vw;
+}
+
+.preset-list li {
+  padding: 1vw;
+  cursor: pointer;
+}
+
+.preset-list li:hover {
+  background: var(--cell-bg-dark);
+}
+
+.preset-list .preset-enabled {
+  float: left;
+  margin: auto 1vw auto 0;
+}
+
+.preset-list .preset-enabled,
+.preset-list .preset-enabled img {
+  width: 2.5vw;
+  height: 2.5vw;
+}
+
+.preset-list .preset-enabled img {
+  image-rendering: pixelated;
+}
+
+.preset-list .preset-name {
+  font-size: var(--font-size-large);
+}
+
+.preset-list .preset-id {
+  color: var(--tertiary-gray);
+}
+
+.player-selector {
+  display: flex;
+}
+
+.player-selector input {
+  height: 3vh;
+  min-width: 10vw;
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 4px;
+}
+
+.player-selector img {
+  height: 3vh;
+  width: 3vh;
+}
+
+.playtest-actions {
+  display: flex;
+  gap: 1vw;
+  padding: 0.5vw;
+  border-bottom: 1px solid rgb(255 255 255 / 50%);
+}
+
+.playtest-actions label {
+  font-size: var(--font-size-large);
+  color: var(--white);
+  margin: auto 0;
+}
+
+.playtest-actions input {
+  height: 3vh;
+  min-width: 10vw;
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 4px;
+  margin: 1vw;
+}
+
+.player-actions {
+  display: flex;
+  gap: 1vw;
+  padding: 0.5vw;
+  border-bottom: 1px solid rgb(255 255 255 / 50%);
+}
+
+.player-actions label {
+  font-size: var(--font-size-large);
+  color: var(--white);
+  margin: auto 0;
+}
+
+.player-actions .player-action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.player-action-buttons .transacting {
+  height: 3vh;
+  width: 3vh;
+}
+
+.player-preset-data button,
+.player-actions .player-action-buttons button,
+.playtest-actions button {
+  background: var(--blue);
+  margin: 1vw;
+  padding: 0.25vw 1vw;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 4px;
+}
+
+.player-preset-data button.delete {
+  background: var(--red);
+}
+
+.player-preset-data li {
+  display: flex;
+  margin: auto 0;
+}
+
+.player-preset-data {
+  border-bottom: 1px solid rgb(255 255 255 / 50%);
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+}
+
+.player-preset-data label {
+  font-size: var(--font-size-large);
+  color: var(--white);
+  margin: auto 0.5vw auto 0;
+}

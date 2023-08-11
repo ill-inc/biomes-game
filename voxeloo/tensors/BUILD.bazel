@@ -1,0 +1,85 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "tensors",
+    srcs = [
+        "succinct.cpp",
+    ],
+    hdrs = glob(["*.hpp"]),
+    deps = [
+        "//voxeloo/common:bits",
+        "//voxeloo/common:errors",
+        "//voxeloo/common:format",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:hashing",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:transport",
+    ],
+)
+
+cc_test(
+    name = "arrays_test",
+    srcs = ["arrays_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":tensors",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "buffers_test",
+    srcs = ["buffers_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":tensors",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "routines_test",
+    srcs = ["routines_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":tensors",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "succinct_test",
+    srcs = ["succinct_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":tensors",
+        "@catch2",
+    ],
+)
+
+cc_binary(
+    name = "succinct_bench",
+    srcs = ["succinct_bench.cpp"],
+    defines = [
+        "CATCH_CONFIG_MAIN",
+        "CATCH_CONFIG_ENABLE_BENCHMARKING",
+    ],
+    deps = [
+        ":tensors",
+        "//voxeloo/common:random",
+        "@catch2",
+        "@robin-hood-hashing",
+    ],
+)
+
+cc_test(
+    name = "tensors_test",
+    srcs = ["tensors_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":tensors",
+        "@catch2",
+    ],
+)

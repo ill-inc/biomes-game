@@ -1,0 +1,318 @@
+.admin-page {
+  background-color: var(--dialog-bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.admin-page h1 {
+  font-size: 2em;
+}
+
+.admin-page h2 {
+  font-size: 1.75em;
+  font-weight: 500;
+}
+
+.admin-page h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 2vmin 0 0.5vmin;
+}
+
+.admin-page h4 {
+  font-size: 1.25em;
+}
+
+.admin-header {
+}
+
+.admin-header-links {
+  display: flex;
+  flex-direction: row;
+  padding: 12px;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0 0 0 / 10%);
+}
+
+.admin-table-controls {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.admin-table-controls * {
+  margin: 0 5px;
+}
+
+.admin-table {
+  min-width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.admin-table th {
+  text-align: left;
+  font-weight: bold;
+  position: sticky;
+  padding: 12px;
+}
+
+.admin-table tr td {
+  padding: 12px;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.admin-table img {
+  width: 4vmin;
+  height: 4vmin;
+}
+
+.admin-page :is(input, textarea, select) {
+  background: rgb(255 255 255 / 10%);
+  box-shadow: none;
+  margin: 2px;
+  border: none;
+}
+
+.admin-page :is(input, textarea, select):hover {
+  background-color: rgb(255 255 255 / 25%);
+}
+
+.admin-page :is(input, textarea, select):focus {
+  outline: 1px solid rgb(255 255 255 / 75%);
+  background-color: rgb(255 255 255 / 10%);
+}
+
+.admin-page .segmented-control {
+  background: rgb(255 255 255 / 20%);
+  box-shadow: none;
+}
+
+.admin-page select option {
+  text-align: left;
+  background: rgb(80 80 80);
+}
+
+.admin-inventory {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.link-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-page-list li {
+  margin-top: 10px;
+  list-style-type: circle;
+}
+
+.admin-page-list h2 {
+  font-size: 1.5rem;
+}
+
+.admin-react-json {
+  font-size: 0.75rem;
+}
+
+.admin-react-json :global(svg) {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.json-dump {
+  width: 100%;
+  height: 200px;
+}
+
+.admin-sectional-contents {
+  padding: 0.1em;
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.admin-sectional-contents.admin-sectional-fixed-height {
+  flex-direction: row;
+}
+
+.admin-sectional-contents .contents {
+  padding-left: 50px;
+}
+
+.admin-user-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-user-title img {
+  width: 64px;
+  height: 64px;
+  margin-right: 10px;
+}
+
+/*
+* Admin User Cvals
+*/
+
+.admin-sectional-contents ol.cvals {
+  margin: 1rem;
+}
+
+.admin-sectional-contents ol.cvals li {
+  padding: 0.5rem 0;
+}
+
+/*
+* Admin User Groups
+*/
+
+.admin-sectional-contents h4 {
+  padding-top: 10px;
+}
+
+.admin-sectional-contents .section {
+  margin: 5px;
+}
+
+.admin-sectional-contents ul.groups li {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 250px;
+  width: 200px;
+  background: #2a2a2a;
+  margin: 2px;
+  text-align: center;
+}
+
+.admin-sectional-contents ul.groups .missing-tensor {
+  opacity: 0.6;
+}
+
+.admin-sectional-contents ul.groups .deleted-group {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.admin-sectional-contents ul.groups li.deleted-group {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M100 0 L0 100 ' stroke='white' stroke-width='1'/><path d='M0 0 L100 100 ' stroke='white' stroke-width='1'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%, auto;
+}
+
+.admin-sectional-contents ul.groups img {
+  border: 2px solid #333;
+  margin: 4px;
+  width: 128px;
+  height: 128px;
+}
+
+.admin-sectional-contents ul.groups *:hover {
+  opacity: 1;
+}
+
+textarea.groups {
+  width: 600px;
+  height: 120px;
+  border: 2px solid gray;
+  display: block;
+}
+
+.invite-code-page {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.invite-code-table {
+  width: 100%;
+}
+
+.invite-code-page h2 {
+  margin-bottom: 10px;
+}
+
+.invite-code-table th {
+  color: var(--tertiary-gray);
+  text-align: left;
+}
+
+.create-invite {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+
+.create-invite input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.create-invite button {
+  width: 150px !important;
+}
+
+.source-maps-page {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.source-maps-page p {
+  color: lightgrey;
+}
+
+.source-maps-page textarea {
+  height: 300px;
+}
+
+.source-maps-input-section {
+  margin-top: 40px;
+}
+
+.source-maps-output-section {
+  margin-top: 40px;
+}
+
+.source-maps-output-section textarea {
+  color: lightgrey;
+}
+
+.source-maps-page h2 {
+  margin-top: 10px;
+}
+
+.source-maps-page .expand-button {
+  cursor: pointer;
+}
+
+.source-maps-page .example-inputs {
+  margin-left: 20px;
+}
+
+.source-maps-page .example-inputs textarea {
+  color: grey;
+  height: 150px;
+}
+
+.predicate {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}

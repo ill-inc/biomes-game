@@ -1,0 +1,77 @@
+.craftmap-options {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.craftmap-recipes {
+  position: sticky;
+  bottom: 0;
+  background: rgb(0 0 0 / 90%);
+  z-index: 10;
+  border-top: 2px solid rgb(255 255 255 / 50%);
+}
+
+.craftmap-desc {
+  margin: 10px 0;
+}
+
+.craftmap-wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+
+.craftmap-detail {
+  position: sticky;
+  left: 0;
+  float: left;
+  min-width: 350px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgb(0 0 0 / 90%);
+  border-right: 2px solid rgb(255 255 255 / 50%);
+  margin-right: 10px;
+  padding: 0 5px;
+}
+
+.craftmap-detail h2 {
+  font-size: x-large;
+}
+
+.craftmap-title {
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.craftmap-detail .craftmap-name {
+  display: block;
+  font-size: xx-large;
+}
+
+.craftmap-id {
+  margin: auto 10px 0;
+  vertical-align: text-bottom;
+}
+
+.craftmap-tags {
+  margin: auto 5px 0;
+  vertical-align: text-bottom;
+  flex-grow: 1;
+}
+
+.craftmap-close {
+  cursor: pointer;
+  font-size: xx-large;
+}
+
+.craftmap-deep-inputs li,
+.craftmap-deep-outputs li,
+.craftmap-craftlist li {
+  cursor: pointer;
+}
+
+.craftmap-currency-label {
+  opacity: 0.6;
+}

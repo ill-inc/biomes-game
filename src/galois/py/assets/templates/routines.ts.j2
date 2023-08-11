@@ -1,0 +1,67 @@
+// GENERATED: This file is generated from routines.ts.js Do not modify directly.
+
+import * as t from "@/gen/galois/js/lang/types";
+
+{% for overloads in funcs %}
+  {% for func in overloads.funcs %}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type Args_{{func.signature()}} = [
+    {% for name, type in func.args.items() %}
+  t.{{type}}Like,
+    {% endfor %}
+];
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+function is_{{func.signature()}}(...args: any) {
+  if (args.length !== {{func.args | length}}) {
+    return false;
+  }
+    {% for name, type in func.args.items() %}
+  if (!t.is{{type}}(args[{{loop.index0}}])) {
+    return false;
+  }
+    {% endfor %}
+  return true;
+}
+
+    {% if func.fixed() %}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+function call_{{func.signature()}}(): t.GeneralNode<"{{func.type}}"> {
+  return t.makeDerived("{{func.type}}", "{{func.signature()}}", []);
+}
+    {% else %}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+function call_{{func.signature()}}(
+      {% for name, type in func.args.items() %}
+  {{name}}: t.{{type}}Like,
+      {% endfor %}
+): t.GeneralNode<"{{func.type}}"> {
+  const deps = [
+      {% for name, type in func.args.items() %}
+    t.to{{type}}({{name}}),
+      {% endfor %}
+  ];
+  return t.makeDerived("{{func.type}}", "{{func.signature()}}", deps);
+}
+    {% endif %}
+  {% endfor %}
+
+  {% for func in overloads.funcs %}
+export function {{func.name}}(
+    {% for name, type in func.args.items() %}
+  {{name}}: t.{{type}}Like,
+    {% endfor %}
+): t.GeneralNode<"{{func.type}}">;
+  {% endfor %}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export function {{overloads.name}}(...args: any): any {
+  {% for func in overloads.funcs %}
+  if (is_{{func.signature()}}(...args)) {
+    return call_{{func.signature()}}(...args as Args_{{func.signature()}});
+  }
+  {% endfor %}
+  throw new Error("Arguments did not match any overload.");
+}
+
+{% endfor %}

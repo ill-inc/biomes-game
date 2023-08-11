@@ -1,0 +1,5 @@
+{
+  "material_type": "translucent",
+  "fs": "particles.fs",
+  "vs": "particles.vs"
+}

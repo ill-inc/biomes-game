@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+}
+
+div.page {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+div.nav {
+  background-color: rgb(54 57 63);
+  border-bottom: 1px solid rgb(37 38 43);
+  box-shadow: 0 0 2px rgb(37 38 43);
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: center;
+  padding: 10px;
+  z-index: 1;
+}
+
+div.content {
+  background-color: rgb(50 53 58);
+  color: white;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+div.content .error {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  font-size: large;
+  padding: 2em;
+}
+
+div.page .reload-button {
+  position: absolute;
+  right: 20px;
+  top: 80px;
+}
+
+div.content canvas {
+  background-color: rgb(50 53 58);
+  width: 100%;
+  height: 100%;
+}
+
+div.content img.large {
+  margin: 96px;
+  width: 512px;
+  height: 512px;
+  image-rendering: pixelated;
+}
+
+div.content img.small {
+  margin: 96px;
+  width: 128px;
+  height: 128px;
+  image-rendering: pixelated;
+}
+
+div.ui-overlay {
+  color: white;
+  text-align: left;
+  border-radius: 25px;
+  background-color: rgb(0 0 0 / 50%);
+  padding: 30px;
+}
+
+div.content .asset-view-controls {
+  position: absolute;
+  left: 80;
+  top: 300;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+div.scene div.options {
+  position: absolute;
+  left: 80;
+  top: 100;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+div.scene div.options span.label {
+  margin-right: 1em;
+}
+
+div.animations-list .ant-select {
+  min-width: 12em;
+}
+
+div.scene .ant-checkbox-wrapper {
+  color: white;
+  margin: 0;
+}
+
+pre.highlight {
+  width: 800px;
+  margin: auto;
+  text-align: left;
+}
+
+pre.highlight code {
+  border: rgb(37 38 43);
+  box-shadow: inset 0 0 4px;
+}

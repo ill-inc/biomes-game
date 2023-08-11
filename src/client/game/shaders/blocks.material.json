@@ -1,0 +1,5 @@
+{
+  "material_type": "base",
+  "fs": "blocks.fs",
+  "vs": "blocks.vs"
+}

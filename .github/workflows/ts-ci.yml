@@ -1,0 +1,36 @@
+name: ts-ci
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "scripts/node/**"
+      - ".github/workflows/ts-ci.yml"
+      - ".github/actions/**"
+      - "yarn.lock"
+
+permissions:
+  id-token: write # Needed for gcloud auth.
+  contents: read
+
+jobs:
+  ts-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      - name: Create/activate virtual environment.
+        run: python3 -m venv .venv && echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
+      - run: ./b ts-deps build
+      - run: ./b typecheck
+      - run: ./b circular
+      - run: ./b deps-check
+      - run: ./b test

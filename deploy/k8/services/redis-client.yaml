@@ -1,0 +1,38 @@
+# Helper pod to startup a general client with the Redis world data.
+# To use this file you should:
+# 1. Pause auto-deploy: flux suspend kustomization biomes
+# 2. Take down the running Redis: kubectl delete statefulset redis
+# 4. Run this pod: kubectl apply -f deploy/k8/services/redis-client.yaml
+# 5. SSH into it: kubectl exec -it redis-client -- /bin/bash
+# 6. Do whatever you need to!
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-client
+spec:
+  securityContext:
+    runAsUser: 0
+  volumes:
+    - name: data
+      emptyDir: {}
+      # For using the primary's volume.
+      # persistentVolumeClaim:
+      #  claimName: data-redis-0
+    - name: redis-replica-io
+      hostPath:
+        path: /tmp/redis-replica-io
+        type: DirectoryOrCreate
+  containers:
+    - name: redis
+      image: docker.io/bitnami/redis:7.0.5
+      command: ["/bin/bash"]
+      args: ["-c", "sleep infinity"]
+      volumeMounts:
+        - mountPath: "/data"
+          name: data
+        - name: redis-replica-io
+          mountPath: /redis-replica-io
+      resources:
+        requests:
+          cpu: 2.0
+          memory: 5Gi

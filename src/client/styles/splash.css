@@ -1,0 +1,184 @@
+body {
+  background-color: #000;
+}
+
+.splash-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-shadow: var(--splash-shadow);
+  background-image: url(/splash/home-bg.png);
+  background-size: cover;
+}
+
+.splash-page .intro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 85%;
+  max-width: 420px;
+}
+
+.splash-page .error {
+  background-color: var(--light-red);
+  color: var(--white);
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: var(--dialog-border-radius);
+}
+
+.splash-page .description {
+  color: var(--white);
+  font-size: var(--font-size-xlarge);
+  margin-top: 20px;
+  text-align: center;
+  text-justify: auto;
+  text-align-last: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .splash-page .description {
+    font-size: var(--font-size-large);
+  }
+}
+
+.splash-page .email-signup {
+  color: var(--white);
+  font-size: var(--font-size-large);
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.splash-page .invite-or-login {
+  color: var(--white);
+  margin-top: 20px;
+  font-size: var(--font-size-large);
+}
+
+.splash-page .email-signup .dialog-input-wrap {
+  background-color: rgb(255 255 255 / 5%);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgb(255 255 255 /30%);
+  padding: 0 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-radius: var(--dialog-border-radius);
+}
+
+.splash-page .email-signup .dialog-input-wrap .dialog-input {
+  text-shadow: var(--splash-shadow);
+  border: none;
+  box-shadow: none;
+  background: none;
+}
+
+.splash-page .email-signup .dialog-input-wrap .dialog-input-action-button {
+  height: 36px;
+  margin-top: 0;
+  margin-right: 6px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+
+.splash-page .email-signup .dialog-input-wrap input::placeholder {
+  color: var(--white);
+  opacity: 1;
+}
+
+.splash-page .email-signup .dialog-input-wrap input:focus::placeholder {
+  opacity: 0.3;
+}
+
+.splash-page .logo {
+  width: 100%;
+  text-align: center;
+}
+
+.splash-page img {
+  filter: drop-shadow(0 2px 0 rgb(0 0 0 / 25%));
+}
+
+.splash-page .logo .alpha {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.splash-page .logo .alpha-image {
+  image-rendering: pixelated;
+  width: 70px;
+}
+
+.splash-page .logo .biomes-logo {
+  image-rendering: pixelated;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.splash-page .small-biomes-logo {
+  image-rendering: pixelated;
+  margin: 12px;
+}
+
+.splash-page footer {
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.splash-page .splash-header {
+  position: absolute;
+  top: 12px;
+  width: 100%;
+  font-size: var(--font-size-large);
+  display: flex;
+  padding: 12px 24px;
+}
+
+.splash-page .splash-header .right {
+}
+
+.splash-page .center button {
+  height: 42px;
+  padding: 0;
+}
+
+.splash-page .left {
+  flex: 1;
+}
+
+.splash-page .right {
+  flex: 1;
+  text-align: right;
+  gap: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.splash-page .right button {
+  height: 36px;
+  width: auto;
+  padding: 0 12px;
+  margin: 12px;
+}
+
+.about .copyright {
+  font-size: var(--font-size-small);
+}
+
+.splash-captcha-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

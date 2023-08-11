@@ -1,0 +1,76 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "gaia",
+    srcs = [
+        "light.cpp",
+        "muck.cpp",
+        "terrain.cpp",
+        "water.cpp",
+    ],
+    hdrs = glob(["*.hpp"]),
+    deps = [
+        "//voxeloo/common:errors",
+        "//voxeloo/common:hashing",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:metrics",
+        "//voxeloo/common:spatial",
+        "//voxeloo/common:voxels",
+        "//voxeloo/galois:conv",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/tensors",
+        "@com_github_jupp0r_prometheus_cpp//core",
+    ],
+)
+
+cc_test(
+    name = "light_test",
+    srcs = ["light_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":gaia",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "maps_test",
+    srcs = ["maps_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":gaia",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "muck_test",
+    srcs = ["muck_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":gaia",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "stream_test",
+    srcs = ["stream_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":gaia",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "terrain_test",
+    srcs = ["terrain_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":gaia",
+        "@catch2",
+    ],
+)

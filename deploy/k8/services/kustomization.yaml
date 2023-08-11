@@ -1,0 +1,6 @@
+resources:
+  - bob.yaml
+  - rbac.yaml
+  # - redis.yaml - Manually deployed
+  # - redis-other.yaml - Manually deployed
+  # - redis-hfc.yaml - Manually deployed

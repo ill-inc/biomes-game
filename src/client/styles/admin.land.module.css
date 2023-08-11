@@ -1,0 +1,157 @@
+.delete-button {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.map-container {
+  display: flex;
+  height: 80vh;
+}
+
+path.plot {
+  stroke: rgb(0, 0, 0, 0.1);
+  fill: rgb(255, 255, 255, 0);
+}
+
+path.plot:hover {
+  stroke: rgb(255, 255, 255, 0.5);
+}
+
+path.deed {
+  fill: rgb(255, 255, 255, 0.8);
+  stroke: rgb(0, 0, 0, 0.5);
+}
+
+.plot-label,
+.plot-selected-label {
+  opacity: 0.5;
+  pointer-events: none !important;
+}
+
+.deed-label,
+.deed-selected-label {
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
+  pointer-events: none !important;
+}
+
+path.plot-selected {
+  stroke: rgb(0, 0, 255, 1);
+  fill: rgb(255, 255, 255, 0.5);
+}
+
+path.deed-selected {
+  stroke: rgb(0, 255, 255, 1);
+  fill: rgb(255, 255, 255, 1);
+}
+
+.land-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.land-list {
+  min-width: 300px;
+  width: 10vw;
+  overflow: scroll;
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.selected-plots,
+.selected-deed,
+.selected-deeds {
+  width: 15vw;
+  min-width: 350px;
+  overflow: scroll;
+  margin: 10px;
+}
+
+.selected-deed-editor .selected-deed-editor-acl {
+  padding: 0 5px;
+}
+
+.selected-deed-editor-actions button {
+  display: flex;
+}
+
+.selected-deed-editor-actions button,
+.selected-deed-editor-acl button {
+  display: block;
+  background-color: var(--blue);
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.selected-deed-editor-actions button.deed-update {
+  background-color: var(--blue);
+}
+
+.selected-deed-editor-actions button.deed-create {
+  background-color: var(--green);
+}
+
+.selected-deed-editor-actions button.deed-delete,
+.selected-deed-editor-actions button.deed-unselect {
+  background-color: var(--red);
+}
+
+.land-map {
+  flex-grow: 1;
+}
+
+.unselect-button {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.selected-deeds-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.land-map-container {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}
+
+.selected-deed-editor-row-player {
+  display: flex;
+}
+
+.selected-deed-editor-row-player input {
+  height: 30px;
+}
+
+.selected-deed-editor-row-player > div {
+  display: flex;
+  flex-direction: column;
+  padding: 0.2vw;
+}
+
+.selected-deed-editor-row-player > img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-top: auto;
+  margin-bottom: 10px;
+  image-rendering: pixelated;
+}

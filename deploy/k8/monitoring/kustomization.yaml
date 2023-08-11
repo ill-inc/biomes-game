@@ -1,0 +1,15 @@
+resources:
+  - grafana.yaml
+  - pod-monitor.yaml
+  - prometheus-ui.yaml
+  - kube-state-metrics.yaml
+
+configMapGenerator:
+  - name: grafana-config
+    namespace: default
+    files:
+      - grafana.ini=grafana.ini
+  - name: grafana-datasource
+    namespace: default
+    files:
+      - grafana-datasource.yaml=grafana-datasource.yaml

@@ -1,0 +1,65 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  namespace: default
+  name: biomes
+spec:
+  timeoutSec: 120
+  connectionDraining:
+    drainingTimeoutSec: 125
+  healthCheck:
+    type: HTTP
+    port: 3001
+    requestPath: /ready
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeQueryString: true
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  namespace: default
+  name: biomes-nginx
+spec:
+  timeoutSec: 120
+  connectionDraining:
+    drainingTimeoutSec: 125
+  healthCheck:
+    type: HTTP
+    port: 81
+    requestPath: /ready
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeQueryString: true
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  namespace: default
+  name: biomes-sockets
+spec:
+  healthCheck:
+    type: HTTP
+    port: 3001
+    requestPath: /ready
+  timeoutSec: 1800
+  connectionDraining:
+    drainingTimeoutSec: 30 # For lame duck.
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  namespace: default
+  name: biomes-internal
+spec:
+  timeoutSec: 120
+  connectionDraining:
+    drainingTimeoutSec: 125
+  iap:
+    enabled: true
+    oauthclientCredentials:
+      secretName: iap

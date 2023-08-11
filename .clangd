@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-Iexternal/emscripten_bin_linux/emscripten/system/include]

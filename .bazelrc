@@ -1,0 +1,66 @@
+build --enable_platform_specific_config
+
+# Configure C++ 20, clang as default
+build:linux  --repo_env=BAZEL_CXXOPTS="-std=c++20" --cxxopt=-std=c++20 --cxxopt=-Wno-c++20-extensions --repo_env=CC=clang
+build:macos  --repo_env=BAZEL_CXXOPTS="-std=c++20" --cxxopt=-std=c++20 --cxxopt=-Wno-c++20-extensions --repo_env=CC=clang
+build:windows  --repo_env=BAZEL_CXXOPTS="/std:c++20" --cxxopt=/std:c++20
+
+build:release --define build_config=release -c opt --copt=-O3
+build:reldebug --define build_config=reldebug -c opt --copt=-O3 --copt=-g --linkopt=-g
+build:debug --define build_config=debug -c dbg --copt=-g
+build:fastbuild --define build_config=fastbuild -c fastbuild
+build --define build_config=fastbuild -c fastbuild
+
+# Windows-specific reldebug config (useful for profiling on windows)
+build:windows_release -c opt  --copt="/O2" --copt="/Gy" --copt="/arch:AVX2" --copt="/DNDEBUG"
+build:windows_reldebug -c opt  --copt="/O2" --copt="/Gy" --copt="/arch:AVX2" --copt="/DNDEBUG" --copt="/Z7" --linkopt="/DEBUG:FULL"
+
+# Required for bazel_clang_tidy to operate as expected
+build:clang-tidy --aspects clang-tidy/clang-tidy.bzl%clang_tidy_aspect
+build:clang-tidy --output_groups=report --keep_going
+
+# Enable use of remote cache with application default credentials by default.
+# CI can override with --google_credentials flag.
+# This is disabled by default because it requires the user to be logged into
+# gcloud, however if that is possible, you can create a `.bazelrc` file in your
+# home directory that has the line:
+#
+#   build --config=with-remote-cache
+#
+# in it and you can then use the remote cache locally.
+build:with-remote-cache --remote_cache=https://storage.googleapis.com/biomes-bazel-cache --google_default_credentials
+
+# Enables remote cache to be explicitly disabled.
+build:no-remote-cache --nogoogle_default_credentials --remote_cache=
+
+# Regardless of how many CPUs are available (is independently set via
+# --local_cpu_resources), set --jobs to a large value so that we permit
+# downloading of many remotely cached artifacts in parallel. Apologies
+# in advance for those with more than 256 cores.
+build --jobs 256
+
+# Don't import system environment variables, like PATH. Makes remote cache
+# hits across machines a lot more likely.
+build --incompatible_strict_action_env
+
+# If there's a problem with the network, fallback to a local build.
+build --remote_local_fallback
+
+# Don't wait for results to finish uploading to remote cache before returning.
+build --bes_upload_mode=fully_async
+
+# Fix the wrong default that comes from Google's internal monorepo by using
+# __init__.py to delimit a Python package
+build --incompatible_default_to_explicit_init_py
+
+# Improve performance of sandbox by skipping the older
+# my_repo/external/other_repo symlinks.
+build --nolegacy_external_runfiles
+
+# Don't add tar outputs to remote cache, they're fast to just compute.
+build --modify_execution_info=PackageTar=+no-remote
+
+# Ensure that you don't accidentally make non-hermetic actions/tests which
+# depend on remote services. Tag an individual target with
+# tags=["requires-network"] to opt-out of the enforcement.
+build --sandbox_default_allow_network=false

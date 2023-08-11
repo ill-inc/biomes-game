@@ -1,0 +1,572 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "bits",
+    hdrs = ["bits.hpp"],
+)
+
+cc_test(
+    name = "bits_test",
+    srcs = ["bits_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":bits",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "blocks",
+    hdrs = ["blocks.hpp"],
+    deps = [
+        ":bits",
+        ":colors",
+        ":geometry",
+        ":macros",
+        ":meshes",
+        ":quadifier",
+        ":sparse",
+        ":succinct",
+        ":threads",
+        ":voxels",
+        "@cereal",
+    ],
+)
+
+cc_test(
+    name = "blocks_test",
+    srcs = ["blocks_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":blocks",
+        ":colors",
+        ":format",
+        ":geometry",
+        ":meshes",
+        ":transport",
+        "@catch2",
+    ],
+)
+
+cc_binary(
+    name = "blocks_bench",
+    srcs = ["blocks_bench.cpp"],
+    defines = [
+        "CATCH_CONFIG_MAIN",
+        "CATCH_CONFIG_ENABLE_BENCHMARKING",
+    ],
+    deps = [
+        ":blocks",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "boxifier",
+    srcs = ["boxifier.cpp"],
+    hdrs = ["boxifier.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+        ":voxels",
+    ],
+)
+
+cc_test(
+    name = "boxifier_test",
+    srcs = ["boxifier_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":boxifier",
+        ":geometry",
+        ":voxels",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "colors",
+    hdrs = ["colors.hpp"],
+    deps = [
+        ":geometry",
+    ],
+)
+
+cc_test(
+    name = "colors_test",
+    srcs = ["colors_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":colors",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "disjoint_set",
+    hdrs = ["disjoint_set.hpp"],
+)
+
+cc_library(
+    name = "errors",
+    srcs = ["errors.cpp"],
+    hdrs = ["errors.hpp"],
+    features = ["exceptions"],
+    deps = [
+        ":macros",
+    ],
+)
+
+cc_library(
+    name = "format",
+    hdrs = ["format.hpp"],
+    deps = [
+        ":macros",
+    ],
+)
+
+cc_test(
+    name = "format_test",
+    srcs = ["format_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":format",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "frustum",
+    srcs = ["frustum.cpp"],
+    hdrs = ["frustum.hpp"],
+    deps = [
+        ":geometry",
+        ":voxels",
+        "@eigen",
+    ],
+)
+
+genrule(
+    name = "geometry_src",
+    outs = ["geometry.hpp"],
+    cmd = """
+        CLANG_FORMAT="$(execpath //src/bazel_utils/cpp:clang_format)" \
+        $(execpath //voxeloo/gen:gen_geometry) $@
+    """,
+    tools = [
+        "//src/bazel_utils/cpp:clang_format",
+        "//voxeloo/gen:gen_geometry",
+    ],
+)
+
+cc_library(
+    name = "geometry",
+    hdrs = ["geometry.hpp"],
+)
+
+cc_test(
+    name = "geometry_test",
+    srcs = ["geometry_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "hashing",
+    hdrs = ["hashing.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+    ],
+)
+
+cc_library(
+    name = "history",
+    hdrs = ["history.hpp"],
+)
+
+cc_test(
+    name = "history_test",
+    srcs = ["history_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":history",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "hull",
+    srcs = ["hull.cpp"],
+    hdrs = ["hull.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+    ],
+)
+
+cc_test(
+    name = "hull_test",
+    srcs = ["hull_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        ":hull",
+        ":random",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "knn",
+    srcs = ["knn.cpp"],
+    hdrs = ["knn.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+        ":voxels",
+    ],
+)
+
+cc_test(
+    name = "knn_test",
+    srcs = ["knn_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        ":knn",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "macros",
+    hdrs = ["macros.hpp"],
+)
+
+cc_library(
+    name = "meshes",
+    hdrs = ["meshes.hpp"],
+    deps = [
+        ":colors",
+        ":errors",
+        ":geometry",
+        ":macros",
+        ":quadifier",
+        "@cereal",
+    ],
+)
+
+cc_library(
+    name = "march",
+    hdrs = ["march.hpp"],
+    deps = [
+        ":geometry",
+        ":utils",
+    ],
+)
+
+cc_library(
+    name = "metrics",
+    srcs = ["metrics.cpp"],
+    hdrs = ["metrics.hpp"],
+    deps = [
+        "@com_github_jupp0r_prometheus_cpp//core",
+    ],
+)
+
+cc_library(
+    name = "quadifier",
+    srcs = ["quadifier.cpp"],
+    hdrs = ["quadifier.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+    ],
+)
+
+cc_test(
+    name = "quadifier_test",
+    srcs = ["quadifier_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        ":quadifier",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "random",
+    hdrs = ["random.hpp"],
+)
+
+cc_library(
+    name = "rays",
+    srcs = ["rays.cpp"],
+    hdrs = ["rays.hpp"],
+    deps = [
+        ":blocks",
+        ":geometry",
+        ":macros",
+        ":spatial",
+        ":utils",
+        ":voxels",
+    ],
+)
+
+cc_test(
+    name = "rays_test",
+    srcs = ["rays_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":rays",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "runs",
+    hdrs = ["runs.hpp"],
+    deps = [
+        ":succinct",
+        ":transport",
+    ],
+)
+
+cc_test(
+    name = "runs_test",
+    srcs = ["runs_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":runs",
+        "@catch2",
+    ],
+)
+
+cc_binary(
+    name = "runs_bench",
+    srcs = ["runs_bench.cpp"],
+    defines = [
+        "CATCH_CONFIG_MAIN",
+        "CATCH_CONFIG_ENABLE_BENCHMARKING",
+    ],
+    deps = [
+        ":runs",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "sparse",
+    hdrs = ["sparse.hpp"],
+)
+
+cc_test(
+    name = "sparse_test",
+    srcs = ["sparse_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":sparse",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "spatial",
+    hdrs = ["spatial.hpp"],
+    deps = [
+        ":format",
+        ":geometry",
+        ":runs",
+        ":succinct",
+        "@robin-hood-hashing",
+    ],
+)
+
+cc_test(
+    name = "spatial_test",
+    srcs = ["spatial_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":random",
+        ":spatial",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "subbox",
+    srcs = ["subbox.cpp"],
+    hdrs = ["subbox.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+        ":subquad",
+    ],
+)
+
+cc_test(
+    name = "subbox_test",
+    srcs = ["subbox_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        ":subbox",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "subquad",
+    srcs = ["subquad.cpp"],
+    hdrs = ["subquad.hpp"],
+    deps = [
+        ":bits",
+        ":errors",
+        ":geometry",
+    ],
+)
+
+cc_test(
+    name = "subquad_test",
+    srcs = ["subquad_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":geometry",
+        ":subquad",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "succinct",
+    srcs = ["succinct.cpp"],
+    hdrs = ["succinct.hpp"],
+    deps = [
+        ":bits",
+        ":errors",
+        ":format",
+        ":transport",
+    ],
+)
+
+cc_test(
+    name = "succinct_test",
+    srcs = ["succinct_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":random",
+        ":succinct",
+        "@catch2",
+    ],
+)
+
+cc_binary(
+    name = "succinct_bench",
+    srcs = ["succinct_bench.cpp"],
+    defines = [
+        "CATCH_CONFIG_MAIN",
+        "CATCH_CONFIG_ENABLE_BENCHMARKING",
+    ],
+    deps = [
+        ":succinct",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "threads",
+    hdrs = ["threads.hpp"],
+    linkopts = ["-lpthread"],
+    deps = [
+        ":errors",
+    ],
+)
+
+cc_test(
+    name = "threads_test",
+    srcs = ["threads_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":macros",
+        ":threads",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "timers",
+    hdrs = ["timers.hpp"],
+    deps = [
+        ":random",
+    ],
+)
+
+cc_library(
+    name = "transport",
+    srcs = ["transport.cpp"],
+    hdrs = ["transport.hpp"],
+    deps = [
+        ":errors",
+        "@cereal",
+        "@zstd",
+    ],
+)
+
+cc_library(
+    name = "utils",
+    hdrs = ["utils.hpp"],
+    deps = [
+        ":geometry",
+    ],
+)
+
+cc_test(
+    name = "utils_test",
+    srcs = ["utils_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":utils",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "voxels",
+    hdrs = ["voxels.hpp"],
+    deps = [
+        ":errors",
+        ":geometry",
+        ":macros",
+        ":quadifier",
+        ":spatial",
+        ":utils",
+    ],
+)
+
+cc_test(
+    name = "voxels_test",
+    srcs = ["voxels_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":voxels",
+        "@catch2",
+    ],
+)
+
+cc_library(
+    name = "voxeloo",
+    srcs = ["transport.cpp"],
+    hdrs = glob(["*.hpp"]),
+    deps = [
+        "@cereal",
+        "@eigen",
+        "@robin-hood-hashing",
+        "@zstd",
+    ],
+)

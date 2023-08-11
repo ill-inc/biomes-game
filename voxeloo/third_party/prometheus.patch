@@ -1,0 +1,9 @@
+--- a/core/BUILD.bazel
++++ b/core/BUILD.bazel
+@@ -15,5 +15,6 @@ cc_library(
+     hdrs = glob(
+         ["include/**/*.h"],
+     ) + [":export_header"],
+     strip_include_prefix = "include",
++    features = ["exceptions"],
+     visibility = ["//visibility:public"],

@@ -1,0 +1,9 @@
+{
+  "attachment_transform": [
+    { "scale": 0.5 },
+    { "rotate_y": 180 },
+    { "rotate_x": -60 },
+	{ "rotate_z": 15 },
+    { "translate": [0, -5, 10] }
+  ]
+}

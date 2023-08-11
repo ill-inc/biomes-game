@@ -1,0 +1,374 @@
+load("//src/bazel_utils/shaders:defs.bzl", "shader_lib", "shader_program")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all_exported_shaders",
+    srcs = [
+        ":basic",
+        ":basic_translucent",
+        ":block_item",
+        ":blocks",
+        ":boundary",
+        ":breakable",
+        ":depth",
+        ":destruction",
+        ":flora",
+        ":flora_item",
+        ":flora_low_quality",
+        ":glass",
+        ":glass_item",
+        ":hexagonal_bloom",
+        ":highlighted_translucent",
+        ":muck_spores",
+        ":noclip_basic_translucent",
+        ":particles",
+        ":player",
+        ":player_skinned",
+        ":plot_highlight",
+        ":protection",
+        ":punchthrough",
+        ":voxels",
+        ":voxels_diffuse",
+        ":voxels_translucent",
+        ":water",
+        ":wireframe",
+    ],
+)
+
+shader_lib(
+    name = "common",
+    srcs = [
+        "common.glsl",
+    ],
+)
+
+shader_lib(
+    name = "random",
+    srcs = [
+        "random.glsl",
+    ],
+)
+
+shader_lib(
+    name = "terrain",
+    srcs = [
+        "terrain.glsl",
+    ],
+)
+
+shader_lib(
+    name = "lighting",
+    srcs = [
+        "lighting.glsl",
+    ],
+    deps = [":common"],
+)
+
+shader_lib(
+    name = "colors",
+    srcs = ["colors.glsl"],
+    deps = [":common"],
+)
+
+shader_program(
+    name = "block_item",
+    srcs = [
+        "block_item.fs",
+        "block_item.vs",
+    ],
+    material_file = "block_item.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "blocks",
+    srcs = [
+        "blocks.fs",
+        "blocks.vs",
+    ],
+    material_file = "blocks.material.json",
+    deps = [
+        ":common",
+        ":lighting",
+        ":terrain",
+    ],
+)
+
+shader_program(
+    name = "glass",
+    srcs = [
+        "glass.fs",
+        "glass.vs",
+    ],
+    material_file = "glass.material.json",
+    deps = [
+        ":lighting",
+        ":terrain",
+        "//src/client/game/shaders/postprocessing:fog",
+    ],
+)
+
+shader_program(
+    name = "glass_item",
+    srcs = [
+        "glass_item.fs",
+        "glass_item.vs",
+    ],
+    material_file = "glass_item.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "boundary",
+    srcs = [
+        "boundary.fs",
+        "boundary.vs",
+    ],
+    material_file = "boundary.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "flora_item",
+    srcs = [
+        "flora_item.fs",
+        "flora_item.vs",
+    ],
+    material_file = "flora_item.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "flora",
+    srcs = [
+        "flora.fs",
+        "flora.vs",
+    ],
+    material_file = "flora.material.json",
+    deps = [
+        ":common",
+        ":lighting",
+        ":random",
+        ":terrain",
+    ],
+)
+
+shader_program(
+    name = "flora_low_quality",
+    srcs = [
+        "flora.fs",
+        "flora.vs",
+    ],
+    material_file = "flora_low_quality.material.json",
+    deps = [
+        ":common",
+        ":lighting",
+        ":random",
+        ":terrain",
+    ],
+)
+
+shader_program(
+    name = "voxels",
+    srcs = [
+        "voxels.fs",
+        "voxels.vs",
+    ],
+    material_file = "voxels.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "voxels_diffuse",
+    srcs = [
+        "voxels.fs",
+        "voxels.vs",
+    ],
+    material_file = "voxels_diffuse.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "voxels_translucent",
+    srcs = [
+        "voxels.fs",
+        "voxels.vs",
+    ],
+    material_file = "voxels_translucent.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "player",
+    srcs = [
+        "player.fs",
+        "player.vs",
+    ],
+    material_file = "player.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "player_skinned",
+    srcs = [
+        "player.fs",
+        "player.vs",
+    ],
+    material_file = "player_skinned.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "basic",
+    srcs = [
+        "basic.fs",
+        "basic.vs",
+    ],
+    material_file = "basic.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "basic_translucent",
+    srcs = [
+        "basic_translucent.fs",
+        "basic_translucent.vs",
+    ],
+    material_file = "basic_translucent.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "highlighted_translucent",
+    srcs = [
+        "highlighted_translucent.fs",
+        "highlighted_translucent.vs",
+    ],
+    material_file = "highlighted_translucent.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "noclip_basic_translucent",
+    srcs = [
+        "noclip_basic_translucent.fs",
+        "noclip_basic_translucent.vs",
+    ],
+    material_file = "noclip_basic_translucent.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "plot_highlight",
+    srcs = [
+        "plot_highlight.fs",
+        "plot_highlight.vs",
+    ],
+    material_file = "plot_highlight.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "protection",
+    srcs = [
+        "protection.fs",
+        "protection.vs",
+    ],
+    material_file = "protection.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "hexagonal_bloom",
+    srcs = [
+        "hexagonal_bloom.fs",
+        "hexagonal_bloom.vs",
+    ],
+    material_file = "hexagonal_bloom.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "destruction",
+    srcs = [
+        "destruction.fs",
+        "destruction.vs",
+    ],
+    material_file = "destruction.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "particles",
+    srcs = [
+        "particles.fs",
+        "particles.vs",
+    ],
+    material_file = "particles.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "muck_spores",
+    srcs = [
+        "muck_spores.fs",
+        "muck_spores.vs",
+    ],
+    material_file = "muck_spores.material.json",
+    deps = [":random"],
+)
+
+shader_program(
+    name = "water",
+    srcs = [
+        "water.fs",
+        "water.vs",
+    ],
+    material_file = "water.material.json",
+    deps = [
+        ":common",
+        ":lighting",
+        ":terrain",
+    ],
+)
+
+shader_program(
+    name = "depth",
+    srcs = [
+        "basic.vs",
+        "depth_only.fs",
+    ],
+    material_file = "depth.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "breakable",
+    srcs = [
+        "basic.vs",
+        "breakable.fs",
+    ],
+    material_file = "breakable.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "wireframe",
+    srcs = [
+        "wireframe.fs",
+        "wireframe.vs",
+    ],
+    material_file = "wireframe.material.json",
+    deps = [":common"],
+)
+
+shader_program(
+    name = "punchthrough",
+    srcs = [
+        "punchthrough.fs",
+        "punchthrough.vs",
+    ],
+    material_file = "punchthrough.material.json",
+    deps = [":common"],
+)

@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "Voxeloo",
+      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+      "includePath": ["${workspaceFolder}/**"],
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "${default}",
+      "configurationProvider": "ms-vscode.cmake-tools",
+      "compileCommands": "${workspaceFolder}/compile_commands.json"
+    }
+  ],
+  "version": 4
+}

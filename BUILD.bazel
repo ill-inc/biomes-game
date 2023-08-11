@@ -1,0 +1,10 @@
+package(default_visibility = ["//visibility:public"])
+
+exports_files([
+    "scripts/deploy_bazel_ts_deps.sh",
+])
+
+filegroup(
+    name = "prettier_files",
+    srcs = glob(["node_modules/prettier/**"]) + [".prettierrc.js"],
+)

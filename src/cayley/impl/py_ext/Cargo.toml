@@ -1,0 +1,13 @@
+[package]
+name = "py_ext"
+edition.workspace = true
+version.workspace = true
+
+[lib]
+name = "cayley"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.17.3", features = ["extension-module"] }
+cayley = { path = ".." }

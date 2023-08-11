@@ -1,0 +1,2 @@
+# See src/server/shared/config.ts for config definition!
+# Remote the .template suffix here to have your own local config - it will take priority over dev and prod.

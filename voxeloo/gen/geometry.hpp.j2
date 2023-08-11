@@ -1,0 +1,481 @@
+// GENERATED: This file is generated from geometry.hpp.j2. Do not modify
+// directly.
+
+#pragma once
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <ostream>
+#include <sstream>
+#include <string>
+
+namespace voxeloo {
+
+template <typename T>
+struct Vec2 {
+  T x{};
+  T y{};
+
+  // Constructors
+  Vec2() = default;
+  Vec2(const Vec2<T>& other) : x(other.x), y(other.y) {}
+  Vec2(T x, T y) : x(x), y(y) {}
+  Vec2(const std::array<T, 2>& a) : x(a[0]), y(a[1]) {} // NOLINT
+
+  // Default assignment ops
+  auto& operator=(const Vec2<T>& other) {
+    x = other.x;
+    y = other.y;
+    return *this;
+  }
+
+  // Data methods
+  auto ptr() {
+    return reinterpret_cast<T*>(this);
+  }
+  auto ptr() const {
+    return reinterpret_cast<const T*>(this);
+  }
+  auto array() const {
+    return std::array<T, 2>{x, y};
+  }
+
+  // Indexing methods
+  T& operator[](size_t i) {
+    return ptr()[i];
+  }
+  const T& operator[](size_t i) const {
+    return ptr()[i];
+  }
+
+  // Slicing operations
+{%- for sl in vec2_slices %}
+
+  auto {{sl.name}}() const {
+    {{ sl.impl | indent(4) }}
+  }
+{% endfor %}
+
+  // Casting methods
+  template <typename S>
+  auto to() const {
+    return Vec2<S>(static_cast<S>(x), static_cast<S>(y));
+  }
+
+  // Format methods
+  auto str() const {
+    std::stringstream ss;
+    ss << "[" << x << ", " << y << "]";
+    return ss.str();
+  }
+
+  // Custom inplace operations
+{%- for op in vec2_ops %}
+
+  auto& {{op.name}}({{op.arguments()}}) {
+    {{ op.impl | indent(4) }}
+    return *this;
+  }
+{% endfor -%}
+};
+
+template <typename T>
+struct Vec3 {
+  T x{};
+  T y{};
+  T z{};
+
+  // Constructors
+  Vec3() = default;
+  Vec3(const Vec3<T>& other) : x(other.x), y(other.y), z(other.z) {}
+  Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+  Vec3(const std::array<T, 3>& a) : x(a[0]), y(a[1]), z(a[2]) {} // NOLINT
+
+  // Default assignment ops
+  auto& operator=(const Vec3<T>& other) {
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    return *this;
+  }
+
+  // Data methods
+  auto ptr() {
+    return reinterpret_cast<T*>(this);
+  }
+  auto ptr() const {
+    return reinterpret_cast<const T*>(this);
+  }
+  auto array() const {
+    return std::array<T, 3>{x, y, z};
+  }
+
+  // Indexing methods
+  T& operator[](size_t i) {
+    return ptr()[i];
+  }
+  const T& operator[](size_t i) const {
+    return ptr()[i];
+  }
+
+  // Slicing operations
+{%- for sl in vec3_slices %}
+
+  auto {{sl.name}}() const {
+    {{ sl.impl | indent(4) }}
+  }
+{% endfor %}
+
+  // Casting methods
+  template <typename S>
+  auto to() const {
+    return Vec3<S>(static_cast<S>(x), static_cast<S>(y), static_cast<S>(z));
+  }
+
+  // Format methods
+  auto str() const {
+    std::stringstream ss;
+    ss << "[" << x << ", " << y << ", " << z << "]";
+    return ss.str();
+  }
+
+  // Custom inplace operations
+{%- for op in vec3_ops %}
+
+  auto& {{op.name}}({{op.arguments()}}) {
+    {{ op.impl | indent(4) }}
+    return *this;
+  }
+{% endfor -%}
+};
+
+template <typename T>
+struct Vec4 {
+  T x{};
+  T y{};
+  T z{};
+  T w{};
+
+  // Constructors
+  Vec4() = default;
+  Vec4(const Vec4<T>& other) : x(other.x), y(other.y), z(other.z), w(other.w) {}
+  Vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+  Vec4(const std::array<T, 4>& a)  // NOLINT
+      : x(a[0]), y(a[1]), z(a[2]), w(a[3]) {}
+
+  // Default assignment ops
+  auto& operator=(const Vec4<T>& other) {
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    w = other.w;
+    return *this;
+  }
+
+  // Data methods
+  auto ptr() {
+    return reinterpret_cast<T*>(this);
+  }
+  auto ptr() const {
+    return reinterpret_cast<const T*>(this);
+  }
+  auto array() const {
+    return std::array<T, 4>{x, y, z, w};
+  }
+
+  // Indexing methods
+  T& operator[](size_t i) {
+    return ptr()[i];
+  }
+  const T& operator[](size_t i) const {
+    return ptr()[i];
+  }
+
+  // Slicing operations
+{%- for sl in vec4_slices %}
+
+  auto {{sl.name}}() const {
+    {{ sl.impl | indent(4) }}
+  }
+{% endfor %}
+
+  // Casting methods
+  template <typename S>
+  auto to() const {
+    return Vec4<S>(
+        static_cast<S>(x),
+        static_cast<S>(y),
+        static_cast<S>(z),
+        static_cast<S>(w));
+  }
+
+  // Format methods
+  auto str() const {
+    std::stringstream ss;
+    ss << "[" << x << ", " << y << ", " << z << ", " << w << "]";
+    return ss.str();
+  }
+
+  // Custom inplace operations
+{%- for op in vec4_ops %}
+
+  auto& {{op.name}}({{op.arguments()}}) {
+    {{ op.impl | indent(4) }}
+    return *this;
+  }
+{% endfor -%}
+};
+
+template <typename T, size_t dim>
+struct Vec {
+  std::array<T, dim> data{};
+
+  // Constructors
+  Vec() = default;
+  Vec(const Vec<T, dim>& other) : data(other.data) {}
+  Vec(const std::array<T, dim>& data) : data(data) {} // NOLINT
+
+  // Default assignment ops
+  auto& operator=(const Vec<T, dim>& other) {
+    data = other.data;
+    return *this;
+  }
+
+  // Data methods
+  auto ptr() {
+    if constexpr(dim == 0) {
+      return nullptr;
+    } else {
+      return &data[0];
+    }
+  }
+  auto ptr() const {
+    if constexpr(dim == 0) {
+      return nullptr;
+    } else {
+      return &data[0];
+    }
+  }
+  auto array() const {
+    return data;
+  }
+
+  // Indexing methods
+  T& operator[](size_t i) {
+    return data[i];
+  }
+  const T& operator[](size_t i) const {
+    return data[i];
+  }
+
+  // Slicing operations
+  template <size_t lo, size_t hi>
+  auto slice() const {
+    static_assert(lo <= hi);
+    Vec<T, hi - lo> ret;
+    for (size_t i = 0; i < hi - lo; i += 1) {
+      ret[i] = data[lo + i];
+    }
+    return ret;
+  }
+
+  // Casting methods
+  template <typename S>
+  auto to() const {
+    Vec<S, dim> ret;
+    for (size_t i = 0; i < dim; i += 1) {
+      ret[i] = static_cast<S>(data[i]);
+    }
+    return ret;
+  }
+
+  // Format methods
+  auto str() const {
+    std::stringstream ss;
+    ss << "[";
+    if constexpr(dim == 1) {
+      ss << data[0];
+    } else if constexpr(dim == 2) {
+      ss << data[0] << ", " << data[1];
+    } else if constexpr(dim == 3) {
+      ss << data[0] << ", " << data[1] << ", " << data[2];
+    } else if constexpr(dim >= 3) {
+      ss << data[0] << ", " << data[1] << ", ..., " << data[dim - 1];
+    }
+    ss << "]";
+    return ss.str();
+  }
+
+  // Custom inplace operations
+{%- for op in vec_ops %}
+
+  auto& {{op.name}}({{op.arguments()}}) {
+    {{ op.impl | indent(4) }}
+    return *this;
+  }
+{% endfor -%}
+};
+
+// Not instanced casting methods
+template <typename S, typename T>
+inline auto to(const Vec2<T>& v) {
+  return v.template to<S>();
+}
+
+template <typename S, typename T>
+inline auto to(const Vec3<T>& v) {
+  return v.template to<S>();
+}
+
+template <typename S, typename T>
+inline auto to(const Vec4<T>& v) {
+  return v.template to<S>();
+}
+
+template <typename S, typename T, size_t dim>
+inline auto to(const Vec<T, dim>& v) {
+  return v.template to<S>();
+}
+
+// Factories
+template <typename T>
+inline auto vec2(T x, T y) {
+  return Vec2<T>(x, y);
+}
+
+template <typename T>
+inline auto vec3(T x, T y, T z) {
+  return Vec3<T>(x, y, z);
+}
+
+template <typename T>
+inline auto vec4(T x, T y, T z, T w) {
+  return Vec4<T>(x, y, z, w);
+}
+
+template <typename T, typename... Tail>
+inline auto vec(T x, Tail... tail) {
+  return Vec<T, 1 + sizeof...(Tail)>({x, tail...});
+}
+
+// Standard library routines
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vec2<T>& v) {
+  os << v.str();
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vec3<T>& v) {
+  os << v.str();
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vec4<T>& v) {
+  os << v.str();
+  return os;
+}
+
+template <typename T, size_t dim>
+std::ostream& operator<<(std::ostream& os, const Vec<T, dim>& v) {
+  os << v.str();
+  return os;
+}
+
+// Aliases
+{% for t in static_types %}
+using Vec2{{t.abbr}} = Vec2<{{t.name}}>;
+using Vec3{{t.abbr}} = Vec3<{{t.name}}>;
+using Vec4{{t.abbr}} = Vec4<{{t.name}}>;
+{% endfor %}
+
+{%- for t in static_types %}
+
+template <size_t dim>
+using Vec{{t.abbr}} = Vec<{{t.name}}, dim>;
+{% endfor %}
+
+// Operations
+{% for op in general_ops %}
+{% if op.is_fix() %}
+template <typename T>
+inline {{op.ret.name}} {{op.name}}({{op.arguments()}}) {
+  {{ op.impl | indent(2) }}
+}
+{% else %}
+template <typename T, size_t dim>
+inline {{op.ret.name}} {{op.name}}({{op.arguments()}}) {
+  {{ op.impl | indent(2) }}
+}
+{% endif %}
+
+{% endfor -%}
+
+// Define matrix types.
+template <typename T>
+using Mat2x2 = std::array<T, 4>;
+
+template <typename T>
+using Mat3x3 = std::array<T, 9>;
+
+template <typename T>
+using Mat4x4 = std::array<T, 16>;
+
+// Define matrix aliases.
+{% for t in static_types %}
+using Mat2x2{{t.abbr}} = Mat2x2<{{t.name}}>;
+using Mat3x3{{t.abbr}} = Mat3x3<{{t.name}}>;
+using Mat4x4{{t.abbr}} = Mat4x4<{{t.name}}>;
+{% endfor %}
+
+}  // namespace voxeloo
+
+namespace std {
+
+template <typename T>
+struct hash<voxeloo::Vec2<T>> {
+  std::size_t operator()(const voxeloo::Vec2<T>& vec) const {
+    size_t hashed = 0;
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.x) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.y) + hashed);
+    return hashed;
+  }
+};
+
+template <typename T>
+struct hash<voxeloo::Vec3<T>> {
+  std::size_t operator()(const voxeloo::Vec3<T>& vec) const {
+    size_t hashed = 0;
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.x) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.y) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.z) + hashed);
+    return hashed;
+  }
+};
+
+template <typename T>
+struct hash<voxeloo::Vec4<T>> {
+  std::size_t operator()(const voxeloo::Vec4<T>& vec) const {
+    size_t hashed = 0;
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.x) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.y) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.z) + hashed);
+    hashed = 0x9e3779b9 * (std::hash<T>{}(vec.w) + hashed);
+    return hashed;
+  }
+};
+
+template <typename T, size_t dim>
+struct hash<voxeloo::Vec<T, dim>> {
+  std::size_t operator()(const voxeloo::Vec<T, dim>& vec) const {
+    size_t hashed = 0;
+    for (const T& x : vec.array()) {
+      hashed = 0x9e3779b9 * (std::hash<T>{}(x) + hashed);
+    }
+    return hashed;
+  }
+};
+
+}  // namespace std

@@ -1,0 +1,106 @@
+export type KeyCode =
+  | "KeyA"
+  | "KeyB"
+  | "KeyC"
+  | "KeyD"
+  | "KeyE"
+  | "KeyF"
+  | "KeyG"
+  | "KeyH"
+  | "KeyI"
+  | "KeyJ"
+  | "KeyK"
+  | "KeyL"
+  | "KeyM"
+  | "KeyN"
+  | "KeyO"
+  | "KeyP"
+  | "KeyQ"
+  | "KeyR"
+  | "KeyS"
+  | "KeyT"
+  | "KeyU"
+  | "KeyV"
+  | "KeyW"
+  | "KeyX"
+  | "KeyY"
+  | "KeyZ"
+  | "Escape"
+  | "Digit1"
+  | "Digit2"
+  | "Digit3"
+  | "Digit4"
+  | "Digit5"
+  | "Digit6"
+  | "Digit7"
+  | "Digit8"
+  | "Digit9"
+  | "Digit0"
+  | "Minus"
+  | "Equal"
+  | "Backspace"
+  | "Delete"
+  | "Tab"
+  | "BracketLeft"
+  | "BracketRight"
+  | "Enter"
+  | "NumpadEnter"
+  | "ControlLeft"
+  | "ControlRight"
+  | "AltLeft"
+  | "AltRight"
+  | "Semicolon"
+  | "Quote"
+  | "Backquote"
+  | "ShiftLeft"
+  | "ShiftRight"
+  | "Backslash"
+  | "Comma"
+  | "Period"
+  | "Slash"
+  | "Space"
+  | "ArrowUp"
+  | "ArrowDown"
+  | "ArrowLeft"
+  | "ArrowRight"
+  | "MetaLeft"
+  | "MetaRight";
+
+export type GlobalKeyCode = Extract<
+  KeyCode,
+  | "Quote"
+  | "Backquote"
+  | "KeyW"
+  | "KeyA"
+  | "KeyS"
+  | "KeyD"
+  | "KeyE"
+  | "KeyB"
+  | "KeyR"
+  | "KeyV"
+  | "KeyQ"
+  | "KeyI"
+  | "KeyM"
+  | "KeyY"
+  | "KeyC"
+  | "KeyO"
+  | "Period"
+  | "Escape"
+  | "Comma"
+  | "Backslash"
+  | "Tab"
+>;
+
+export const MovementKeys = [
+  "KeyW",
+  "KeyA",
+  "KeyS",
+  "KeyD",
+  "Space",
+  "ShiftLeft",
+  "ShiftRight",
+  "KeyT",
+  "KeyZ",
+];
+
+export type LocalKeyCode = Exclude<KeyCode, GlobalKeyCode>;

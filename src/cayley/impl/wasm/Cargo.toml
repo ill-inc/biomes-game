@@ -1,0 +1,17 @@
+[package]
+name = "wasm"
+edition.workspace = true
+version.workspace = true
+
+[lib]
+name = "cayley"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+cayley = { path = ".." }
+js-sys = "0.3.60"
+static_assertions = "0.1"
+ultraviolet = "0.9.0"
+wasm-bindgen = "0.2"
+wasm-bindgen-test = "0.2"

@@ -1,0 +1,23 @@
+{
+  "recommendations": [
+    // Extensions for TypeScript coding environment.
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    // Extensions for HTML and CSS
+    "stylelint.vscode-stylelint",
+    // Extensions to support CMake/C++ builds.
+    "ms-vscode.cmake-tools",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cpptools",
+    "xaver.clang-format",
+    "cs128.cs128-clang-tidy",
+    // Extensions for Galois.
+    "raczzalan.webgl-glsl-editor",
+    "arcanis.vscode-zipfs",
+    "ms-python.python",
+    "rust-lang.rust-analyzer",
+    // Extensions for Mocha tests in VScode.
+    "hbenl.vscode-mocha-test-adapter",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

@@ -1,0 +1,84 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json, or
+// see https://code.visualstudio.com/docs/remote/containers for the top-level
+// VS Code documentation about developing inside a container.
+{
+  "name": "biomes",
+  "context": ".",
+  "dockerFile": "Dockerfile",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+      },
+      "extensions": [
+        // Extensions for TypeScript coding environment.
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        // Extensions to support C++ builds.
+        "llvm-vs-code-extensions.vscode-clangd",
+        "xaver.clang-format",
+        "notskm.clang-tidy",
+        // Extensions for Galois.
+        "raczzalan.webgl-glsl-editor",
+        "arcanis.vscode-zipfs",
+        "ms-python.python",
+        "bazelbuild.vscode-bazel",
+        "rust-lang.rust-analyzer"
+      ]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available
+  // locally.
+  "forwardPorts": [
+    3000, // The main app web port.
+    3010, // The sync server port.
+    9229 // The Chrome Inspector debugger port.
+  ],
+  "runArgs": [
+    // The following three flags enable ptrace-based debuggers (like gdb for
+    // C++) to work in the container.
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined",
+  ],
+  // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-in-docker.
+  "mounts": [
+    // Persist our installed vscode extensions across sessions.
+    "source=biomes-vscode-extensions,target=/home/docker-user/.vscode-server/extensions,type=volume",
+    // Persist our bash history across sessions.
+    "source=biomes-bashhistory,target=/home/docker-user/commandhistory,type=volume",
+    // Persist the node_modules diretory so that we don't have to re-install
+    // everything each time we open the workspace.
+    "source=biomes-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    // Make sure Next.js caches are persisted across sessions.
+    "source=biomes-nextjs,target=${containerWorkspaceFolder}/.next,type=volume",
+    // This is the directory the build_wasm.sh script uses to put its
+    // C++/emscripten intermediate output.
+    "source=biomes-build-js,target=${containerWorkspaceFolder}/voxeloo/build_js,type=volume",
+    // gcloud stores credential information in .local, so persist that.
+    "source=biomes-home-local,target=/home/docker-user/.local,type=volume",
+    // A few different processes store data in ~/.cache, such as `pip install`, so it's
+    // useful for this to persist.
+    "source=biomes-home-local,target=/home/docker-user/.cache,type=volume",
+    // Remember application config options, and in particular the
+    // gcloud CLI settings/credential tokens.
+    "source=biomes-home-local,target=/home/docker-user/.config,type=volume",
+  ],
+  // Since some of the volumes specified above need to be accessed by the
+  // remoteUser (as opposed to root), we assign ownership of them after the
+  // docker image is created.
+  "postCreateCommand": "sudo chown docker-user node_modules && sudo chown docker-user .next && sudo chown docker-user ${HOME}/commandhistory && sudo chown docker-user voxeloo/build_js && sudo chown docker-user ${HOME}/.local && sudo chown docker-user ${HOME}/.config && git lfs pull",
+  // Ensure node_modules is up-to-date each time we load up this workspace.
+  "postAttachCommand": "yarn install && pip install -r requirements.txt",
+  // This matches up with the user created in the Dockerfile. For some reason
+  // the node binary complains with weird permission denied errors when run
+  // as root.
+  "remoteUser": "docker-user",
+}

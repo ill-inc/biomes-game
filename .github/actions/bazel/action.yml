@@ -1,0 +1,45 @@
+name: "Bazel setup"
+
+description: "Configure environment for running Bazel"
+
+# there isn't an "env" globally for the action, so use inputs to specify these params
+inputs:
+  bazel_output_base:
+    description: Path where Bazel will store its downloaded files and build artifacts.
+    required: false
+    default: ~/bazel_output_base
+
+runs:
+  using: "composite"
+  steps:
+    # Store our Google Cloud credentials into a home directory .bazelrc.
+    # Requires that we have previously authenticated with Google Cloud.
+    - name: "Configure local .bazelrc with auth credentials."
+      run: "echo \"build --config=with-remote-cache --google_credentials=\\\"${GOOGLE_GHA_CREDS_PATH}\\\"\" >> ${HOME}/.bazelrc"
+      shell: bash
+    # We cache the output_user_root since it contains *all* of the downloaded
+    # files. We can `bazel build` with the `--nofetch` flag after this.
+    - name: "Set explicit Bazel directory to use for cache."
+      run: "echo \"startup --output_user_root=\\\"$(readlink -f ${{ inputs.bazel_output_base }})\\\"\" >> ${HOME}/.bazelrc"
+      shell: bash
+    # Disable the repository cache, which would uselessly make output_user_root
+    # larger.
+    - name: "Make it so Bazel doesn't use a repository_cache, no need to share deps between workspaces."
+      run: 'echo "common --repository_cache=" >> ${HOME}/.bazelrc'
+      shell: bash
+    # Note that unfortunately there is a lot of noise about time stamps being
+    # in the future when the cache is restored. The good news is that this
+    # GitHub Actions is addressing this soon:
+    #   https://github.com/actions/toolkit/pull/1327
+    - name: Restore Bazel 3rd party deps cache
+      uses: actions/cache@v3
+      id: bazel-repo-cache
+      with:
+        path: ${{ inputs.bazel_output_base }}
+        key: ${{ runner.os }}-bazel-repos-${{ hashFiles('WORKSPACE.bazel', '.bazelrc', './voxeloo/third_party/**', './src/**/*.bzl', './Cargo.*', './requirements.txt') }}-v2
+    - name: Fetching 3rd party Bazel dependencies
+      # Intuition here would be to call `bazel fetch //...` but it fails to
+      # fetch a significant portion of our dependencies. Instead, we just
+      # do everything we would in a normal build except building everything.
+      run: bazel build --nobuild //...
+      shell: bash

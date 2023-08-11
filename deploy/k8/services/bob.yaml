@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: bob
+  namespace: default
+  name: bob
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      name: bob
+  template:
+    metadata:
+      labels:
+        name: bob
+      namespace: default
+      annotations:
+        kubectl.kubernetes.io/default-container: bob
+    spec:
+      serviceAccountName: zones-backend
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 2000
+      volumes:
+        - name: biomes-config
+          configMap:
+            name: biomes-config
+            items:
+              - key: config
+                path: biomes.config.yaml
+        - name: storage
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: bob-volume
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                storageClassName: "premium-rwo"
+                resources:
+                  requests:
+                    storage: 1Ti
+        - name: dind-certs
+          emptyDir:
+            medium: Memory
+      initContainers:
+        - image: gcr.io/google.com/cloudsdktool/cloud-sdk:326.0.0-alpine
+          name: workload-identity-initcontainer
+          command:
+            - /bin/bash
+            - "-c"
+            - >-
+              curl -s -H 'Metadata-Flavor: Google'
+              'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token'
+              --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
+              exit 1
+      containers:
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/bob:latest
+          name: bob
+          command:
+            - node
+            - "-r"
+            - ts-node/register
+            - --trace-warnings
+            - src/server/bob/main.ts
+            - "--workspace"
+            - /workspace
+            - "--storageMode"
+            - "firestore"
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_OPTIONS
+              value: "--openssl-legacy-provider --max-old-space-size=8192"
+            - name: GOOGLE_CLOUD_PROJECT
+              value: zones-cloud
+            - name: IS_SERVER
+              value: "true"
+            - name: NEXT_TELEMETRY_DISABLED
+              value: "1"
+            - name: DETECT_GCP_RETRIES
+              value: "3"
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+            - name: DOCKER_TLS_CERTDIR
+              value: /certs
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+            - name: BOB_DEPLOY
+              value: "1"
+          volumeMounts:
+            - name: biomes-config
+              mountPath: /biomes
+            - name: storage
+              mountPath: /workspace
+              subPath: workspace
+            - name: dind-certs
+              mountPath: /certs
+          ports:
+            - name: metrics
+              containerPort: 3001
+            - name: main
+              containerPort: 3000
+          resources:
+            requests:
+              memory: 8Gi
+              cpu: "2"
+        - name: dind
+          image: docker:dind
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: /certs
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/docker
+              subPath: dind-storage
+            - name: dind-certs
+              mountPath: /certs

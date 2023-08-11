@@ -1,0 +1,41 @@
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
+
+package(default_visibility = ["//visibility:public"])
+
+rust_library(
+    name = "shader_preprocessor",
+    srcs = ["preprocess.rs"],
+    deps = [
+        "@crate_index//:regex",
+    ],
+)
+
+rust_library(
+    name = "materials",
+    srcs = ["materials.rs"],
+    deps = [
+        "@crate_index//:serde",
+        "@crate_index//:serde_json",
+    ],
+)
+
+rust_library(
+    name = "shader_link_info",
+    srcs = ["link_info.rs"],
+    deps = [
+        "@crate_index//:glsl",
+    ],
+)
+
+rust_binary(
+    name = "shader_gen_ts",
+    srcs = ["gen_ts.rs"],
+    deps = [
+        ":materials",
+        ":shader_link_info",
+        ":shader_preprocessor",
+        "@crate_index//:clap",
+        "@crate_index//:convert_case",
+        "@crate_index//:glsl",
+    ],
+)

@@ -1,0 +1,6 @@
+{
+  "material_type": "base",
+  "defines": ["USE_SKINNING"],
+  "fs": "player.fs",
+  "vs": "player.vs"
+}

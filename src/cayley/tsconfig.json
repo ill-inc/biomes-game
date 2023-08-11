@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": false,
+    "sourceMap": false
+  },
+  "exclude": ["gen/**", "impl/**"],
+  "include": ["../../shared/wasm/global.ts", "**/*"]
+}

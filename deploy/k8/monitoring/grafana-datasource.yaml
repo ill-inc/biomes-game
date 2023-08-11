@@ -1,0 +1,35 @@
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus
+    isDefault: true
+    access: proxy
+    url: http://prometheus-ui.default.svc:9090
+    jsonData:
+      httpMethod: GET
+      timeout: 480
+      manageAlerts: false
+  - name: Google Cloud Monitoring
+    type: stackdriver
+    uid: gcm
+    access: proxy
+    jsonData:
+      defaultProject: zones-cloud
+      authenticationType: gce
+  - name: BigQuery
+    type: grafana-bigquery-datasource
+    uid: gbq
+    jsonData:
+      defaultProject: zones-cloud
+      authenticationType: gce
+  - name: Redis
+    type: redis-datasource
+    uid: redis
+    url: redis:6379
+    jsonData:
+      client: standalone
+      acl: true
+      user: grafana
+    secureJsonData:
+      password: grafana

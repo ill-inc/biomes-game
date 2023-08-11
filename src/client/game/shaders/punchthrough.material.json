@@ -1,0 +1,5 @@
+{
+  "material_type": "punchthrough",
+  "fs": "punchthrough.fs",
+  "vs": "punchthrough.vs"
+}

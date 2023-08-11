@@ -1,0 +1,82 @@
+// GENERATED: This file is generated from events.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import * as t from "@/shared/ecs/gen/types"
+import type { BiomesId } from "@/shared/ids";
+
+export interface EventSet {
+  {% for event in defs.events %}
+  readonly {{event.ts_name}}?: {{event.name}}[];
+  {% endfor %}
+};
+
+interface SuperEventSet {
+  {% for event in defs.events %}
+  readonly {{event.ts_name}}: {{event.name}}[];
+  {% endfor %}
+};
+
+export type EventSetWith<C extends keyof EventSet> = Pick<SuperEventSet, C>;
+
+export interface Event {
+  readonly kind: string;
+}
+
+{% for event in defs.events %}
+export interface Handler{{event.name}} {
+  readonly kind: "{{event.ts_name}}";
+  {% for name, field in event.fields %}
+    {% if field.name == "BiomesId" %}
+    readonly {{name}}: BiomesId;
+    {% else %}
+    {{name}}: t.{{ field.name }};
+    {% endif %}
+  {% endfor %}
+};
+
+export class {{event.name}} implements Event {
+  readonly kind = "{{event.ts_name}}";
+  {% for name, field in event.fields %}
+    {% if field.name == "BiomesId" %}
+    readonly {{name}}: BiomesId;
+    {% else %}
+    {{name}}: t.Readonly{{ field.name }};
+    {% endif %}
+  {% endfor %}
+
+  constructor(
+  {% if event.fields|length > 0 %}
+    {
+  {% for name, field in event.fields %}
+      {{name}} = t.{{ field.default_value }},
+  {% endfor %}
+    }: {
+  {% for name, field in event.fields %}
+      {% if field.name == "BiomesId" %}
+      {{name}}?: BiomesId;
+      {% else %}
+      {{name}}?: t.Readonly{{ field.name }};
+      {% endif %}
+  {% endfor %}
+    }
+  {% endif %}
+  ) {
+  {% for name, field in event.fields %}
+    this.{{name}} = {{name}};
+  {% endfor %}
+  }
+}
+
+{% endfor -%}
+
+export type AnyHandlerEvent =
+{% for event in defs.events %}
+  | Handler{{event.name}}
+{% endfor %}
+;
+
+export type AnyEvent =
+{% for event in defs.events %}
+  | {{event.name}}
+{% endfor %}
+;

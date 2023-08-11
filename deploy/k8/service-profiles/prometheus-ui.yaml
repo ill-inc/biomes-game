@@ -1,0 +1,20 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: prometheus-ui.default.svc.cluster.local
+  namespace: default
+spec:
+  routes:
+    - condition:
+        method: GET
+        pathRegex: /-/healthy
+      name: GET /-/healthy
+    - condition:
+        method: GET
+        pathRegex: /-/ready
+      name: GET /-/ready
+    - condition:
+        method: GET
+        pathRegex: /api/v1/query_range
+      name: GET /api/v1/query_range
+      isRetryable: true

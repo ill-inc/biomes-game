@@ -1,0 +1,208 @@
+# See src/server/shared/config.ts for config definition!
+
+###
+### IMPORTANT IMPORTANT! Use this to halt auto-build/deploy
+###
+bobHaltBuilds: false
+
+# Disable all access to apply/export (i.e. the dev endpoints)
+syncDisableDevEndpoints: false
+
+playerWhisperRadius: 100
+playerChatRadius: 200
+playerYellRadius: .inf
+
+#
+# ECS log retention
+#
+redisMaxEcsLogAgeMs: 900000 # 15 minutes
+
+#
+# Game Logic.
+#
+gameDropExpirationSecs: 60
+gamePlayerExpirationSecs: 15
+
+#
+# Gaia settings
+#
+gaiaClockMultiplier: 1.0
+
+# Gaia growth
+gaiaFloraGrowthSoil: []
+gaiaDisabledSimulations: []
+gaiaShardThrottleMs:
+  - ["irradiance", 250]
+  - ["muck", 500]
+  - ["sky_occlusion", 500]
+  - ["leaf_growth", 1_000]
+  - ["tree_growth", 1_000]
+  - ["water", 1_000]
+  - ["farming", 100]
+
+#
+# Map settings
+#
+mapTileFlushSize: 100
+
+#
+# Load testing Gizmo/Gremlins settings
+#
+gremlinStartingArea: [[200, 75, 200], [800, 75, 800]]
+gremlinsPopulation: 0
+# Give them 2 hours to explore the map before disconnecting and restarting.
+gremlinsDisconnectAfterMs: 7200000
+gremlinsChanceToChat: 0
+gremlinsChanceToSwitchWearables: 0
+gremlinsChanceToUnMuck: 0
+gremlinsChanceToBuild: 0
+
+#
+# Sync settings
+#
+syncMaxClients: 500
+syncMaxInflightRequestsPerClient: 100
+syncMaxInboundEventsPerFrame: 40
+syncMaxEventBoxCar: 10_000
+syncClientGcInterval: 30_000
+syncUseBootstrapChanges: true
+
+# Enable Node-native serialization
+zrpcProtocolVersion: 1
+
+# Map generation
+mapGenerationDpiScales: [1, 2, 4, 8]
+overrideMapMetadata: {}
+
+# Connectivity
+wsZrpcTtlMs: 120_000
+wsZrpcHeartbeatIntervalMs: 200
+wsZrpcHeartbeatTtlMs: 500
+wsZrpcHeartbeatReconnectMs: 3000
+wsZrpcHeartbeatStartupReconnectMs: 6000
+wsZrpcSoftBackpressure: 65536
+
+# Auto-build
+bobBuildIntervalMs: 15000
+bobStuckOnCommitWaitMs: 60000
+bobMentionMinDelayMs: 900000 # 15 minutes.
+
+# Mapping between Github and Discord
+bobGithubEmailToDiscord:
+  - [
+      ["868700+mochimisu@users.noreply.github.com", "mochimisu"],
+      ["<@88427327289040896>", "@brandon"],
+    ]
+  - [["nick@not.fun", "nicknotfun"], ["<@944028492239110174>", "@nillinc"]]
+  - [
+      ["alexei@karpenko.ca", "akarpenko"],
+      ["<@258112508714287106>", "@akarpenko"],
+    ]
+  - [
+      ["tdimson@gmail.com", "turtlesoupy"],
+      ["<@670469561241305089>", "@turtlesoupy"],
+    ]
+  - [["wjfthree@me.com", "wjf3"], ["<@476226172938747916>", "@wjf3"]]
+  - [["aabtop@gmail.com", "aabtop"], ["<@235622012071051264>", "@Top"]]
+  - [["top@ill.inc", "aabtop"], ["<@235622012071051264>", "@Top"]]
+  - [
+      ["taylorgordon20@gmail.com", "taylorgordon20"],
+      ["<@469695561813983249>", "@tg"],
+    ]
+  - [
+      ["iansilber@gmail.com", "iansilber"],
+      ["<@476224623063597056>", "@silberdollarr"],
+    ]
+  - [
+      ["65512704+tansonlee@users.noreply.github.com", "tansonlee"],
+      ["<@546823155964968969>", "@tlee"],
+    ]
+  - [
+      ["33493903+matthew-haines@users.noreply.github.com", "matthew-haines"],
+      ["<@1062038187570114611>", "@matthewh"],
+    ]
+  - [
+      ["devinleamy@gmail.com", "DevinLeamy"],
+      ["<@622595129932382208>", "@Devin"],
+    ]
+  - [
+      ["110620858+mossymucker@users.noreply.github.com", "mossymucker"],
+      ["Mossy Mucker", "Mossy Mucker"],
+    ]
+
+# Manual mapping from user to Discord
+manualUserIdToDiscord:
+  - [8521385202672319, "944028492239110174"] # Nick
+  - [8521385202672316, "258112508714287106"] # akarpenko
+  - [5518985451091968, "476226172938747916"] # Poincare
+  - [5518985451091977, "88427327289040896"] # Lagrange
+  - [5518985451091962, "670469561241305089"] # TommyDee
+  - [8521385202672217, "469695561813983249"] # Gauss
+  - [5518985451091782, "235622012071051264"] # GroovyGravy
+  - [8521385202672298, "476224623063597056"] # silberdollar
+  - [4911201062558487, "622595129932382208"] # Devin
+  - [3149866712076438, "1089913792848216145"] # Enid
+  - [1897086645880344, "764411078695977010"] # parubook
+  - [7619355991105671, "242695904736444416"] # RichIrokez
+  - [4670016781382098, "268454857596207105"] # horov7
+  - [1265183829223279, "332310180391944212"] # benkatz
+  - [1179046585948328, "497688071924482048"] # vitalik
+  - [2301587140303868, "352423136618086410"] # tyrnazoil
+  - [1497409837092056, "305599115595743233"] # tiur
+
+# Redis tuning
+redisMaxTransactionsPerApply: 1000
+
+# Try lowering number of tick batches to reduce overhead.
+animaNpcTickBatches: 3
+animaTickByDistance:
+  - [32, 1]
+  - [64, 2]
+  - [96, 4]
+  - [128, 16]
+  - [160, 64]
+  - [224, 128]
+  - [256, 192]
+animaFarFromPlayerTickRatio: 256
+
+# Bikkie
+bikkieMirrorAssetInterval: 5000
+
+# Chrome
+chromeHeadlessMode: true
+chromeDumpIo: true
+chromeFlags:
+  [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-notifications",
+    "--use-gl=angle",
+    "--use-angle=swiftshader",
+    "--disable-gpu",
+    "--enable-logging=stderr",
+    "--v=2",
+  ]
+
+# Active leaderboards to Discord
+leaderboardToDiscordIgnoreUsers:
+  - 8521385202672319 # Nick
+  - 8521385202672316 # akarpenko
+  - 5518985451091968 # Poincare
+  - 5518985451091977 # Lagrange
+  - 5518985451091962 # TommyDee
+  - 8521385202672217 # Gauss
+  - 5518985451091782 # GroovyGravy
+  - 8521385202672298 # silberdollar
+  - 4911201062558487 # Devin
+  - 3149866712076438 # Enid
+leaderboardToDiscordSync:
+  - ["ecs:fished:fish", 3, "1117920308804984914"] # Elite Fishmonger
+  - ["fh:postPhoto", 5, "1117922312562417766"] # Paparazzi
+  - ["fh:growSeed", 3, "1117921393338765413"] # Elite Farmer
+  - ["fh:receiveLike", 3, "1118275098625966162"] # Influencer
+
+shardManagerDomains:
+  - name: "anima"
+    strategy: "weighted"
+  - name: "" # Default
+    strategy: "balanced"

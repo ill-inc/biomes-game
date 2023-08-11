@@ -1,0 +1,144 @@
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: default
+  name: pod-monitor
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: biomes
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: NotIn
+        values:
+          - sync
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: default
+  name: bob-pod-monitor
+spec:
+  selector:
+    matchLabels:
+      name: bob
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: default
+  name: sync-pod-monitor
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: biomes
+      app.kubernetes.io/name: sync
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: flux-system
+  name: pod-monitor
+spec:
+  selector:
+    matchLabels:
+      app: kustomize-controller
+  endpoints:
+    - port: http-prom
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: default
+  name: prometheus-ui-pod-monitor
+spec:
+  selector:
+    matchLabels:
+      app: prometheus-ui
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  namespace: gmp-system
+  name: collector
+  labels:
+    app.kubernetes.io/name: collector
+    app.kubernetes.io/part-of: google-cloud-managed-prometheus
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: collector
+  endpoints:
+    - port: prom-metrics
+      interval: 120s
+    - port: cfg-rel-metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app
+---
+apiVersion: monitoring.googleapis.com/v1alpha1
+kind: PodMonitoring
+metadata:
+  namespace: default
+  name: redis-pod-monitor
+spec:
+  selector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - redis
+          - redis-l1
+          - redis-l2
+          - redis-replica
+          - redis-hfc
+          - redis-hfc-l1
+          - redis-other
+  endpoints:
+    - port: 9121
+      path: /metrics
+      interval: 120s
+  targetLabels:
+    fromPod:
+      - from: app.kubernetes.io/name
+        to: app

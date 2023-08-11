@@ -1,0 +1,358 @@
+.challenge-edit {
+  margin: 0 auto;
+  min-width: 500px;
+  width: 50%;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.challenge-edit .title {
+  font-size: var(--font-size-xlarge);
+  font-weight: 500;
+  color: var(--white);
+}
+
+.challenge-edit .section {
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section button {
+  cursor: pointer;
+  height: 30px;
+  padding: 10px;
+}
+
+.challenge-edit .section .section-header {
+  margin: 40px 0 8px;
+  font-size: var(--font-size-large);
+  font-weight: 500;
+}
+
+.challenge-edit .title-props {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  flex-direction: column;
+}
+
+.serialized-diffs {
+  display: flex;
+}
+
+.step-icon-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.reward-entry {
+  display: flex;
+}
+
+.reward-entry-title {
+  display: flex;
+  margin-top: 12px;
+}
+
+.reward-entry > * {
+  margin: 5px 2px;
+}
+
+:is(.reward-entry, .reward-entry-title) > *:first-child {
+  margin-left: 0;
+  flex-grow: 1;
+}
+
+:is(.reward-entry, .reward-entry-title) > *:last-child {
+  margin-right: 0;
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.add-reward {
+  opacity: 0.5;
+}
+
+.flag-recursive {
+  width: 100%;
+}
+
+.flag-recursive .flag-header > label {
+  display: none;
+}
+
+.flag-recursive.flag-recursive-root .flag-header > label {
+  display: block;
+}
+
+.flag-recursive.flag-recursive-root > .flag-recursive-entries {
+  margin-left: 0;
+}
+
+.flag-recursive-entries {
+  margin-left: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+  border-radius: 12px;
+}
+
+.flag-recursive-entries:first-of-type {
+  margin-left: 0;
+}
+
+.flag-entry {
+  min-height: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 2px solid rgb(255 255 255 / 30%);
+  padding: 24px;
+  flex: 1;
+  border-radius: 12px;
+}
+
+.flag-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.flag-buttons button {
+  /* flex: 1; */
+
+  /* flex-grow: 0; */
+
+  /* flex-shrink: 0; */
+
+  /* width: max-content !important; */
+  cursor: pointer;
+}
+
+.flag-entry li {
+  margin: auto 0 2px;
+}
+
+.flag-entry .item {
+  flex-grow: 1;
+}
+
+.flag-entry .item-qty {
+  width: 150px;
+}
+
+.flag-param-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.flag-param-editor li {
+  flex: 1;
+}
+
+.flag-param-editor li:first-child {
+  margin-left: 0;
+}
+
+.flag-param-editor li:last-child {
+  margin-right: 0;
+}
+
+.flag-entry .flag-id {
+  display: none;
+}
+
+.save-challenge {
+  border: 2px solid rgb(255 255 255 / 50%);
+}
+
+.serialized-diffs {
+  font-family: monospace;
+  font-size: small;
+  font-weight: bold;
+}
+
+.serialized-diffs .diff-arrow {
+  word-wrap: normal;
+  margin: auto 5px;
+  font-size: xx-large;
+}
+
+.serialized-diffs pre {
+  border: 1px solid rgb(255 255 255 / 25%);
+  background: black;
+  width: 50%;
+  overflow: scroll;
+}
+
+.challenge-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.challenge-list .add-challenge {
+  margin: 10px;
+  padding: 10px;
+}
+
+.challenge-list .challenge-item {
+  text-align: left;
+  width: 100%;
+  display: flex;
+  padding: 10px;
+}
+
+.challenge-list .challenge-item .dependencies {
+  opacity: 0.5;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.unlock-section .add-unlock {
+  opacity: 0.5;
+}
+
+.step-header {
+  font-size: var(--font-size-marge);
+  font-weight: 600;
+}
+
+.step-header-simple {
+  display: none;
+}
+
+/** Simplified steps inside the granted from menu */
+.granted-from .step-header {
+  display: none;
+}
+
+.granted-from .flag-entry {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  border: 0;
+}
+
+.granted-from .flag-buttons {
+  display: none;
+}
+
+.granted-from .step-header-simple {
+  display: block;
+  margin: auto auto 0 0;
+}
+
+.granted-from .flag-header .segmented-control {
+  display: none;
+}
+
+.granted-from .flag-entry ul {
+  height: revert;
+}
+
+.granted-from .flag-entry button {
+  padding: 10px;
+}
+
+.granted-from .flag-entry:last-child {
+  background-color: var(--cell-bg-dark);
+  padding: 1em;
+  border: 1px solid white;
+}
+
+.flag-with-reward .reward-entry label {
+  display: none;
+}
+
+.flag-entry .description {
+  flex-grow: 1;
+}
+
+.flag-with-reward {
+  margin: 0 0 20px;
+}
+
+.challenge-edit-loading-notice {
+  border: 2px solid rgb(255 255 255 / 50%);
+  padding: 10px;
+  background: black;
+  font-size: xx-large;
+  text-align: center;
+  margin: auto;
+  width: 200px;
+}
+
+/* Flags page */
+.flag-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.flag-list li .flag-list-body {
+  display: flex;
+}
+
+.flag-list li .id {
+  width: 15vh;
+}
+
+.flag-list li .id.selected {
+  font-weight: bolder;
+  color: red;
+}
+
+.flag-list li .kind {
+  width: 15vh;
+}
+
+.flag-list li .kind {
+  width: 15vh;
+}
+
+.flags-header {
+  position: sticky;
+  top: 0;
+  background: rgb(0 0 0 / 75%);
+  padding: 10px;
+  z-index: 10;
+}
+
+.flags-header .flag-buttons {
+  display: flex;
+  justify-content: left;
+  margin: 1vh 0;
+}
+
+.flags-header .flag-buttons button {
+  margin: 0 5px;
+  padding: 3px;
+  border-radius: 4px;
+  border: 1px solid rgb(255 255 255 / 50%);
+}
+
+.flags-header .selected-flags {
+  display: flex;
+  flex-direction: column;
+}
+
+.flags-header .selected-flags > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flags-header .selected-flags > ul li {
+  margin-right: 1vh;
+}

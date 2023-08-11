@@ -1,0 +1,32 @@
+{
+  "name": "cayley",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "browserslist": [
+    "last 2 chrome versions",
+    "last 2 safari versions"
+  ],
+  "scripts": {
+    "build": "./build.sh",
+    "bench": "./build.sh -b release && ts-node bench/run.ts",
+    "test": "./build.sh -b debug && ava"
+  },
+  "ava": {
+    "files": [
+      "graphics/**/test/*.ts",
+      "numerics/**/test/*.ts"
+    ],
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
+  },
+  "devDependencies": {
+    "ava": "^5.1.1",
+    "chalk": "4",
+    "rimraf": "^3.0.0",
+    "ts-node": "^10.9.1"
+  }
+}

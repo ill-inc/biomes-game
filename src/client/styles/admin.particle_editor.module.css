@@ -1,0 +1,88 @@
+.ui-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.editor {
+  width: 25%;
+  padding: 16px;
+  overflow: auto;
+}
+
+.preview-wrapper {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  height: 80vh;
+  width: 79%;
+}
+
+.editor-table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.editor-table tr td {
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.radio {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.radio label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.vec3-input {
+  width: 100%;
+  display: flex;
+  gap: 4px;
+}
+
+.vec3-input div {
+  flex: 1;
+  position: relative;
+}
+
+.vec3-input div input {
+  width: 100% !important;
+}
+
+.vec3-input > div > div {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-6px, -50%);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: var(--font-size-small);
+}
+
+.editor label {
+  /* margin-top: 10px; */
+  font-size: var(--font-size-medium);
+}
+
+.editor h4 {
+  margin: 0;
+}
+
+.editor input[type="number"] {
+  width: 32%;
+}
+
+.editor input::-webkit-outer-spin-button,
+.editor input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.editor h4 {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: var(--font-size-medium);
+  color: var(--tertiary-gray);
+}

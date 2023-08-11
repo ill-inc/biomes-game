@@ -1,0 +1,309 @@
+.map {
+  height: var(--mini-phone-height);
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: var(--mini-phone-height);
+  line-height: 100% !important;
+  color: var(--white);
+  font-family: "Fira Sans" !important;
+  font-weight: 600;
+  font-size: var(--font-size-medium) !important;
+  text-shadow: var(--text-bordered);
+  text-align: center !important;
+}
+
+.fullpage-map .leaflet-container {
+  height: 100vh;
+}
+
+.fullpage-map .leaflet-top {
+  top: auto;
+  bottom: 1vmin;
+}
+
+/* HACK: fix hairline fractures in leaflet tiles */
+.leaflet-tile-container img {
+  will-change: transform;
+  outline: 1px solid transparent;
+}
+
+.navigation-overlay-wrap {
+  pointer-events: none;
+  position: absolute;
+  left: 10vw;
+  top: 25vh;
+  width: 80vw;
+  height: 50vh;
+  border-radius: 50%;
+  font-weight: 500;
+  color: var(--white);
+  text-shadow: var(--text-bordered);
+  font-size: var(--font-size-small);
+}
+
+.navigation-overlay-wrap .challenge-icon {
+  width: 2vmin;
+  height: 2vmin;
+}
+
+.navigation-overlay-wrap .challenge-icon .outer-stroke path {
+  stroke: white;
+  stroke-width: 0.8vmin;
+}
+
+.navigation-overlay-wrap .challenge-icon .inner-stroke path {
+  stroke: black;
+  stroke-width: 1.5vmin;
+}
+
+.navigation-overlay-marker,
+.navigation-overlay-arrow {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6vmin;
+  height: 6vmin;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-overlay-arrow img {
+  width: 2.25vmin;
+  height: 2.25vmin;
+}
+
+.navigation-overlay-marker {
+  gap: 0.5vmin;
+  align-items: center;
+  flex-direction: column;
+}
+
+.navigation-overlay-arrow {
+  align-items: flex-start;
+}
+
+.navigation-overlay-marker > img {
+  width: 2vmin;
+  height: 2vmin;
+}
+
+.leaflet-container .leaflet-pane .beam-marker img {
+  width: 100%;
+  height: auto;
+}
+
+.beam-marker,
+.beam-marker img {
+  width: 2.5vmin;
+}
+
+.leaflet-container .quest {
+  width: 5vmin;
+  height: 5vmin;
+}
+
+/*
+* Pannable map
+*/
+
+.pannable-map-container {
+  display: flex;
+
+  /*
+  Unfortunately these must be synced to code
+  modify `iconSize` on leaflet divs
+  */
+
+  --avatar-size: 3vmin;
+}
+
+.pannable-map-container .dialog {
+  width: 340px;
+  border-right: 2px solid var(--dark-grey);
+}
+
+.pannable-map-container .dialog .inner {
+  height: calc(var(--mini-phone-height) - 40px - 8px);
+  overflow-y: auto;
+}
+
+.pannable-map-container .dialog .title {
+  font-size: var(--font-size-large);
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pannable-map-container h2 {
+  padding: 8px;
+  color: var(--secondary-gray);
+}
+
+.marker-wrapper {
+  position: absolute;
+}
+
+.marker-wrapper:hover {
+  z-index: 999999 !important;
+}
+
+.marker-wrapper .marker:hover {
+  transform: scale(1.1);
+}
+
+.marker-wrapper .tooltip-content:has(+ .marker:hover) {
+  opacity: 1;
+}
+
+.marker-wrapper .tooltip-content {
+  border-radius: var(--dialog-border-radius);
+  display: none;
+  margin-top: -8.5vmin;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.marker-wrapper:hover .tooltip-content {
+  display: block;
+}
+
+.pan-photo-marker {
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 100%), 0 4px 0 0 rgb(0 0 0 / 50%);
+  background-color: var(--dark-grey);
+}
+
+.pan-photo-marker img {
+  width: 40px;
+  height: 40px;
+  transition: width 1s;
+}
+
+.pan-photo-marker.big img {
+  width: 128px;
+  height: 128px;
+}
+
+.local-marker-inner {
+  width: 3vmin;
+  height: 3vmin;
+  background-size: 100% 100%;
+}
+
+.pannable-map-list-users .tracked .img-box-shadow-wrapper .b-shadow-inner {
+  box-shadow: inset 0 0 0 0.2vmin var(--light-purple);
+}
+
+:is(.challenge-list, .pannable-map-list-users, .pannable-map-list-deeds) li {
+  width: calc(100% + 1.5vmin);
+  margin-left: -0.75vmin;
+  padding: 0.375vmin 0.75vmin;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  cursor: pointer;
+  gap: 0.75vmin;
+  font-weight: 500;
+}
+
+:is(.challenge-list, .pannable-map-list-users, .pannable-map-list-deeds)
+  li:hover {
+  background: rgb(255 255 255 / 5%);
+}
+
+.pannable-map-list-users .user .username {
+  flex: 1;
+  color: var(--white);
+}
+
+.pannable-map-list-users .user button {
+  width: auto;
+  display: none;
+}
+
+.pannable-map-list-users .user button.set {
+  display: block;
+}
+
+.pannable-map-list-users .user button.set,
+.pannable-map-list-users .user:hover button {
+  display: block;
+}
+
+body .pannable-map-container .leaflet-bar {
+  border: none;
+  box-shadow: var(--offset-box);
+  background: var(--dialog-bg);
+}
+
+.pannable-map-container .leaflet-bar a {
+  background-color: var(--dialog-bg);
+  color: var(--off-white);
+  border: none;
+  width: 3vmin;
+  height: 3vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pannable-map-container .leaflet-bar a span {
+  font-size: var(--font-size-medium);
+}
+
+.pannable-map-container .leaflet-touch .leaflet-bar a:first-child {
+  border-radius: none;
+}
+
+.leaflet-container {
+  background-color: var(--dialog-bg-dark) !important;
+}
+
+.leaflet-bar a {
+  color: var(--white) !important;
+}
+
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+  background-color: var(--dialog-bg-hover) !important;
+  color: var(--white) !important;
+}
+
+.leaflet-bar a.leaflet-disabled {
+  background-color: var(--dialog-bg) !important;
+  opacity: 0.2;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: none !important;
+}
+
+.extra-map-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75vmin;
+}
+
+.button.dialog-button.current-location-button {
+  width: 3vmin;
+  height: 3vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button.dialog-button.current-location-button img {
+  width: 1.5vmin;
+  height: 1.5vmin;
+  filter: var(--image-stroke);
+}

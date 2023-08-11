@@ -1,0 +1,5 @@
+{
+  "material_type": "raw",
+  "fs": "depth_only.fs",
+  "vs": "basic.vs"
+}

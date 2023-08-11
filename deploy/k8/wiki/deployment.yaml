@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: wiki
+    app.kubernetes.io/name: wiki
+    name: wiki
+  name: wiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: wiki
+      app.kubernetes.io/name: wiki
+      name: wiki
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: wiki
+        app.kubernetes.io/name: wiki
+        name: wiki
+    spec:
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - image: mediawiki:1.39
+          name: wiki
+          command:
+            - /bin/sh
+            - "-c"
+            - >-
+              cp -f /storage/LocalSettings.php /var/www/html &&
+              cp -f /storage/favicon.ico /var/www/html &&
+              rm -rf /var/www/html/mw-config &&
+              apache2-foreground
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 0.1
+              memory: 256Mi
+          volumeMounts:
+            - name: wiki-storage
+              mountPath: /var/www/html/images
+              subPath: images
+            - name: wiki-storage
+              mountPath: /sqlite
+              subPath: sqlite
+            - name: wiki-storage
+              mountPath: /storage
+      volumes:
+        - name: wiki-storage
+          persistentVolumeClaim:
+            claimName: wiki-storage

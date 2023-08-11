@@ -1,0 +1,49 @@
+name: "Cached yarn install"
+
+description: "Run 'yarn install', if out-of-date"
+
+branding:
+  icon: "download"
+  color: "green"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "20"
+
+    - run: npm install -g yarn
+      shell: bash
+
+    # The documentation here (https://github.com/actions/cache/blob/main/examples.md#node---npm)
+    # suggests *against* caching the node_modules directory, since it may change
+    # across node versions. However caching `$(yarn cache dir)` instead does
+    # not yield any significant speed improvements, so we just ensure that
+    # the node version here is part of the key.
+    - run: node --version > .current_node_version
+      shell: bash
+
+    - name: Restore node_modules cache
+      uses: actions/cache@v3
+      id: node_modules-cache
+      with:
+        path: ./node_modules
+        key: ${{ runner.os }}-${{ hashFiles('.current_node_version') }}-node_modules-${{ hashFiles('./yarn.lock') }}-v1
+        # Start from an older cache if we don't have an exact match.
+        restore-keys: |
+          ${{ runner.os }}-${{ hashFiles('.current_node_version') }}-
+
+    # Clean up the node version key so it doesn't polute the repo.
+    - run: rm .current_node_version
+      shell: bash
+
+    - run: yarn install --production=false --frozen-lockfile --non-interactive
+      shell: bash
+
+    # Ensure we have read access on all files, because at the end of the
+    # workflow the caching step above will try to tar all the files up and
+    # complain if it doesn't have read access to all of them (by default some
+    # bin files end up with execute-only access).
+    - run: chmod u+r -R node_modules
+      shell: bash

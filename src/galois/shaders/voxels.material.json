@@ -1,0 +1,5 @@
+{
+  "material_type": "raw",
+  "fs": "voxels.fs",
+  "vs": "voxels.vs"
+}

@@ -1,0 +1,85 @@
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library", "rust_shared_library", "rust_test")
+load("@rules_rust//wasm_bindgen:wasm_bindgen.bzl", "rust_wasm_bindgen")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@pip_deps//:requirements.bzl", "requirement")
+load("//src/bazel_utils/rust:release_transitions.bzl", "transition_release_rust")
+
+package(default_visibility = ["//visibility:public"])
+
+py_binary(
+    name = "gen_ops_script",
+    srcs = ["scripts/gen_ops.py"],
+    main = "scripts/gen_ops.py",
+    deps = [
+        requirement("docopt"),
+    ],
+)
+
+genrule(
+    name = "gen_ops",
+    outs = ["src/program/gen/ops.rs"],
+    cmd = """
+        RUSTFMT="$(execpath //src/bazel_utils/rust:rustfmt_bin)" \
+        $(execpath :gen_ops_script) $@
+    """,
+    tools = [
+        ":gen_ops_script",
+        "//src/bazel_utils/rust:rustfmt_bin",
+    ],
+)
+
+rust_library(
+    name = "cayley",
+    srcs = glob(
+        ["src/**/*.rs"],
+        exclude = ["src/program/gen/ops.rs"],
+    ) + [":src/program/gen/ops.rs"],
+    deps = [
+        "@crate_index//:byteorder",
+        "@crate_index//:gltf",
+        "@crate_index//:image",
+        "@crate_index//:rand",
+        "@crate_index//:ultraviolet",
+    ],
+)
+
+rust_test(
+    name = "cayley_test",
+    crate = ":cayley",
+    data = glob(["data/**"]),
+    deps = [
+        "@crate_index//:float-cmp",
+    ],
+)
+
+rust_shared_library(
+    name = "wasm_interface",
+    srcs = glob(["wasm/**/*.rs"]),
+    deps = [
+        ":cayley",
+        "@crate_index//:js-sys",
+        "@crate_index//:ultraviolet",
+        "@crate_index//:wasm-bindgen",
+    ],
+)
+
+rust_binary(
+    name = "benches",
+    srcs = glob(["benches/**/*.rs"]),
+    deps = [
+        ":cayley",
+        "@crate_index//:bencher",
+    ],
+)
+
+rust_wasm_bindgen(
+    name = "wasm_bundler",
+    target = "bundler",
+    wasm_file = ":wasm_interface",
+)
+
+rust_wasm_bindgen(
+    name = "wasm_nodejs",
+    target = "nodejs",
+    wasm_file = ":wasm_interface",
+)

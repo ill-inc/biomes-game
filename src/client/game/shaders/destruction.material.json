@@ -1,0 +1,5 @@
+{
+  "material_type": "translucent",
+  "fs": "destruction.fs",
+  "vs": "destruction.vs"
+}

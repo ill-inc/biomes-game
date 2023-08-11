@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [opened, reopened, labeled, edited]
+  pull_request_review:
+    types: [dismissed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  autoapproval:
+    runs-on: ubuntu-latest
+    name: Autoapproval
+    steps:
+      - uses: dkhmelenko/autoapproval@v1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

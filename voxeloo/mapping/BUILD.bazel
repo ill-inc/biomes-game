@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "mapping",
+    srcs = [
+        "heights.cpp",
+    ],
+    hdrs = glob(["*.hpp"]),
+    deps = [
+        "//voxeloo/common:errors",
+        "//voxeloo/common:hashing",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:random",
+        "//voxeloo/common:voxels",
+        "//voxeloo/galois:terrain",
+        "//voxeloo/tensors",
+    ],
+)

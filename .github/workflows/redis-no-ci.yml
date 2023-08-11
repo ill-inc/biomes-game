@@ -1,0 +1,22 @@
+# See:
+# https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks
+# This is for making the checks always exist, even if the path filter doesn't match.
+
+name: redis-ci
+
+on:
+  pull_request:
+    paths-ignore:
+      - "src/server/shared/world/**"
+      - "src/server/shared/firehose/**"
+      - "src/server/shared/chat/**"
+      - "src/server/shared/discovery/**"
+      - "src/server/shared/distributed_notifier/**"
+      - "src/server/shared/election/**"
+      - ".github/workflows/redis-ci.yml"
+
+jobs:
+  redis-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No Redis CI required"'

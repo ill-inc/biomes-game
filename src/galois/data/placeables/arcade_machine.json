@@ -1,0 +1,12 @@
+{
+  "transform": [{ "rotate_y": 180 }, { "translate": [-0.9, 0, 1] }],
+  "attachment_transform": [
+    { "rotate_z": -90 },
+    { "scale": 0.8 },
+    { "translate": [10, 0, -20] }
+  ],
+  "icon_settings": {
+    "camera_dir": [-1, 1, -1],
+    "lighting_dir": [-7, 5, -11]
+  }
+}

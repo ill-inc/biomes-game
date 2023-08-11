@@ -1,0 +1,30 @@
+# List of all Bazel targets which generate data that our TypeScript code
+# depends on.
+filegroup(
+    name = "all_ts_deps",
+    srcs = [
+        "//src/cayley/impl:wasm_bundler",
+        "//src/cayley/impl:wasm_nodejs",
+        "//src/client/game/shaders:all_exported_shaders",
+        "//src/client/game/shaders/postprocessing:all_exported_shaders",
+        "//src/galois/js/lang:ts_defs",
+        "//src/galois/shaders:all_exported_shaders",
+        "//src/shared/cpp_ext:voxeloo-normal",
+        "//src/shared/cpp_ext:voxeloo-simd",
+    ],
+)
+
+# Script that will place symlinks of all the typeScript generated file
+# dependencies into a folder specified as an argument.
+sh_binary(
+    name = "deploy_all_ts_deps",
+    srcs = ["//:scripts/deploy_bazel_ts_deps.sh"],
+    data = [
+        ":BUILD.bazel",
+        ":all_ts_deps",
+    ],
+    env = {
+        "ROOT_PREFIX": "$(execpath :BUILD.bazel)",
+        "DEPLOY_FILES": "$(locations :all_ts_deps)",
+    },
+)

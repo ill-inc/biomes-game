@@ -1,0 +1,147 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: biomes-primary
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: biomes
+    networking.gke.io/managed-certificates: "biomes-v3,biomes-v4"
+    kubernetes.io/ingress.global-static-ip-name: biomes-primary
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  name: http
+          - path: /api/assets
+            pathType: Prefix
+            backend:
+              service:
+                name: asset
+                port:
+                  name: http
+          - path: /ro-sync/
+            pathType: Prefix
+            backend:
+              service:
+                name: ro-sync
+                port:
+                  name: http
+          - path: /sync/
+            pathType: Prefix
+            backend:
+              service:
+                name: sync
+                port:
+                  name: http
+          - path: /sync/oob
+            pathType: Prefix
+            backend:
+              service:
+                name: oob
+                port:
+                  name: http
+          - path: /beta-sync/
+            pathType: Prefix
+            backend:
+              service:
+                name: sync
+                port:
+                  name: http
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  namespace: default
+  name: biomes
+spec:
+  redirectToHttps:
+    enabled: true
+    responseCodeName: PERMANENT_REDIRECT
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: biomes-internal
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: biomes
+    networking.gke.io/managed-certificates: "biomes-internal-v2"
+    kubernetes.io/ingress.global-static-ip-name: biomes-internal
+spec:
+  rules:
+    - host: dash.internal.biomes.gg
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  name: http
+    - host: prom.internal.biomes.gg
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-ui
+                port:
+                  name: http
+---
+# Note!
+# Modifying this cert will delete and recreate it, see:
+#  https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs#manual-update
+# For steps to modify without disruption.
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  namespace: default
+  name: biomes-v3
+spec:
+  domains:
+    - www.biomes.gg
+    - play.biomes.gg
+---
+# Note!
+# Modifying this cert will delete and recreate it, see:
+#  https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs#manual-update
+# For steps to modify without disruption.
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  namespace: default
+  name: biomes-v4
+spec:
+  domains:
+    - www.biomes.gg
+    - play.biomes.gg
+    - api.biomes.gg
+    - api0.biomes.gg
+    - api1.biomes.gg
+    - api2.biomes.gg
+    - api3.biomes.gg
+    - api4.biomes.gg
+    - api5.biomes.gg
+    - api6.biomes.gg
+---
+# Note!
+# Modifying this cert will delete and recreate it, see:
+#  https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs#manual-update
+# For steps to modify without disruption.
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  namespace: default
+  name: biomes-internal-v2
+spec:
+  domains:
+    - prom.internal.biomes.gg
+    - dash.internal.biomes.gg

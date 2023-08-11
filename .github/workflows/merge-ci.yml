@@ -1,0 +1,37 @@
+name: merge-ci
+
+# By triggering this test to run on main, it ensures that our caches are
+# populated and up-to-date. GitHub's current policy is that feature branche
+# cache results are not able to influence upstream branch caches, for security
+# reasons.
+#   https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write # Needed for gcloud auth.
+  contents: read
+
+jobs:
+  ts-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: gcloud auth
+        uses: ./.github/actions/gcloud-auth
+      - name: git lfs pull
+        uses: ./.github/actions/cached-lfs-pull
+      - name: yarn install
+        uses: ./.github/actions/cached-yarn-install
+      - name: bazel setup
+        uses: ./.github/actions/bazel
+      - name: pip install
+        uses: ./.github/actions/cached-pip-install
+      - name: Restore eslint cache.
+        uses: ./.github/actions/cached-eslint
+      - run: ./b lint ts
+      - run: ./b test

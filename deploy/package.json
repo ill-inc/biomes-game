@@ -1,0 +1,15 @@
+{
+  "name": "biomes-deploy",
+  "version": "1.0.0",
+  "repository": "git@github.com:ill-inc/biomes.git",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build:deploy": "ts-node k8/biomes.ts"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "^0.16.3",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "attachment_transform": [{ "rotate_x": 90 }, { "translate": [0, -8, 0] }],
+  "transform": [{ "rotate_y": 270 }]
+}

@@ -1,0 +1,18 @@
+resources:
+  - monitoring
+  - misc
+  - service-profiles
+  - services
+  - biomes.yaml
+
+configMapGenerator:
+  - name: biomes-config
+    namespace: default
+    files:
+      - config=biomes.config.yaml
+    options:
+      disableNameSuffixHash: true
+  - name: nginx-config
+    namespace: default
+    files:
+      - config=nginx.conf

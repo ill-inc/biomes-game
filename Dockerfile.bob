@@ -1,0 +1,133 @@
+FROM --platform=linux/amd64 docker.io/curlimages/curl:latest as linkerd
+ARG LINKERD_AWAIT_VERSION=v0.2.7
+RUN curl -sSLo /tmp/linkerd-await https://github.com/linkerd/linkerd-await/releases/download/release%2F${LINKERD_AWAIT_VERSION}/linkerd-await-${LINKERD_AWAIT_VERSION}-amd64 && \
+        chmod 755 /tmp/linkerd-await
+
+FROM --platform=linux/amd64 docker.io/curlimages/curl:latest as dcg
+ARG VERSION=2.1.6
+RUN curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${VERSION}/docker-credential-gcr_linux_amd64-${VERSION}.tar.gz" \
+        | tar xz docker-credential-gcr -C /tmp \
+        && chmod +x /tmp/docker-credential-gcr
+
+
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN groupadd --gid 1001 nextjs && useradd --uid 1001 --gid 1001 -m nextjs
+
+WORKDIR /app
+ENV WORKDIR=/app
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV GOOGLE_CLOUD_PROJECT zones-cloud
+ENV CLOUDSDK_INSTALL_DIR /usr/local/gcloud/
+ENV NVM_DIR /usr/local/nvm
+ENV IS_SERVER true
+
+COPY --from=linkerd /tmp/linkerd-await /usr/bin/linkerd-await
+COPY --from=dcg /tmp/docker-credential-gcr /usr/bin/docker-credential-gcr
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --fix-missing && apt-get -y install \
+        bash \
+        libcairo2-dev \
+        build-essential \
+        clang \
+        curl \
+        docker.io \
+        locales \
+        libcairo2-dev \
+        libpango1.0-dev \
+        libjpeg-dev \
+        libgif-dev \
+        librsvg2-dev \
+        git \
+        git-lfs \
+        libjpeg-dev \
+        make \
+        openssh-server \
+        rsync \
+        python3-pip \
+        python3 \
+        python3-venv \
+        python3-dev
+
+# Install Bazel.
+ARG BAZEL_VERSION=6.0.0
+RUN curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > ${HOME}/bazel-archive-keyring.gpg && \
+        mv ${HOME}/bazel-archive-keyring.gpg /usr/share/keyrings && \
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && \
+        apt-get update && apt-get -y install bazel-${BAZEL_VERSION} && \
+        ln -s $(which bazel-${BAZEL_VERSION}) /usr/bin/bazel
+
+RUN apt-get clean && apt-get purge && apt-get autoremove --purge -y
+
+RUN ln -sf python3 /usr/bin/python
+
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+
+RUN pip3 install --no-cache --upgrade pip \
+        virtualenv \
+        crcmod \
+        setuptools \
+        wheel \
+        && python3 -m venv .venv
+
+ENV PATH="/app/.venv/bin:/usr/local/gcloud/google-cloud-sdk/bin:${PATH}"
+
+RUN curl -sSL https://sdk.cloud.google.com | bash
+
+# Upgrade crcmod for gsutil.
+RUN pip3 uninstall crcmod && \
+        pip3 install --no-cache-dir -U crcmod
+
+# Install nvm and node.
+RUN mkdir ${NVM_DIR}
+ENV NODE_VERSION 20.0.0
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+        && . "$NVM_DIR/nvm.sh"  \
+        && nvm install ${NODE_VERSION} \
+        && nvm alias default ${NODE_VERSION} \
+        && nvm use default
+
+ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:$PATH
+
+# Install yarn.
+RUN npm install -g yarn
+
+# Very slowly changing, do this first.
+COPY public public/
+COPY src/galois/data src/galois/data/
+
+COPY scripts/build_server.sh scripts/build_server.sh
+COPY scripts/tsconfig-replace-paths scripts/tsconfig-replace-paths
+# Copy the yarn environment and set it up.
+COPY .env \
+        yarn.lock \
+        *.ts *.js *.json \
+        ./
+RUN yarn install --frozen-lockfile
+
+# Set some enviornment up (important is after yarn!)
+ENV NODE_ENV production
+ENV NODE_OPTIONS --openssl-legacy-provider
+
+# Source frequently changes, so do in order of likelihood to change.
+COPY src/galois/js src/galois/js
+COPY deploy/k8/biomes.config.yaml deploy/k8/biomes.config.yaml
+COPY src src/
+RUN [ -d "src/gen" ]  # Must have run `./b ts-deps build` first.
+
+COPY BUILD_ID.bob ./BUILD_ID
+
+COPY --chmod=755 scripts/b scripts/b
+COPY --chmod=755 b b
+# Passing in --no-check-ts-deps because we expect `src/gen` to have been
+# created already when we copy over `src` above. Difficult to generate here
+# because we don't have auth tokens to enable remote cache.
+RUN ./b --no-check-ts-deps build server
+
+USER nextjs
+
+ENTRYPOINT ["node"]
+CMD ["dist/bob.js"]

@@ -1,0 +1,21 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@pip_deps//:requirements.bzl", "requirement")
+
+package(default_visibility = ["//visibility:public"])
+
+py_binary(
+    name = "gen_geometry",
+    srcs = ["gen_geometry.py"],
+    data = ["geometry.hpp.j2"],
+    deps = [
+        requirement("jinja2"),
+    ],
+)
+
+py_binary(
+    name = "gen_light_kernel",
+    srcs = ["gen_light_kernel.py"],
+    deps = [
+        requirement("numpy"),
+    ],
+)

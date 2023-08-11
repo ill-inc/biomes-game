@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["*"],
+      "@/galois/*": ["galois/js/*"],
+      "@/wasm/cayley": ["gen/cayley/impl/wasm_bundler"],
+      "public/*": ["public/*"]
+    }
+  }
+}

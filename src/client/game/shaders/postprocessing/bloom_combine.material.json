@@ -1,0 +1,5 @@
+{
+  "vs": "forward_uv.vs",
+  "fs": "bloom_combine.fs",
+  "material_type": "raw"
+}

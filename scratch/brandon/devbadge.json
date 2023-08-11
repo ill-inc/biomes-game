@@ -1,0 +1,19 @@
+{
+  "name": "Biomes Dev Badge",
+  "symbol": "BDBGE",
+  "description": "Test Dev Badge for Biomes",
+  "seller_fee_basis_points": 10000,
+  "image": "https://arweave.net/3TPVQ97bZSAYrP3acW1tD3MkccVsiCxdhlJgOvb4MFk",
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "https://arweave.net/3TPVQ97bZSAYrP3acW1tD3MkccVsiCxdhlJgOvb4MFk"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      { "address": "tstAb1UcvtFTaeNLE5GhFpnbG3xJfu9a3Q4Dskzirti", "share": 100 }
+    ]
+  }
+}

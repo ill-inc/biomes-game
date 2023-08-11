@@ -1,0 +1,244 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "muck",
+    hdrs = ["muck.hpp"],
+    deps = [
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "blocks",
+    hdrs = ["blocks.hpp"],
+    deps = [
+        ":florae",
+        ":material_properties",
+        ":muck",
+        ":sbo",
+        "//voxeloo/common:errors",
+        "//voxeloo/common:hashing",
+        "//voxeloo/tensors",
+        "@cereal",
+    ],
+)
+
+cc_library(
+    name = "glass",
+    hdrs = ["glass.hpp"],
+    deps = [
+        ":blocks",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "collision",
+    hdrs = ["collision.hpp"],
+    deps = [
+        "//voxeloo/common:boxifier",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:subbox",
+        "//voxeloo/common:voxels",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "conv",
+    hdrs = ["conv.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "csg",
+    hdrs = ["csg.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "florae",
+    hdrs = ["florae.hpp"],
+    deps = [
+        ":collision",
+        ":material_properties",
+        ":muck",
+        ":utils",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:hashing",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:transport",
+        "//voxeloo/tensors",
+        "@cereal",
+    ],
+)
+
+cc_library(
+    name = "groups",
+    hdrs = ["groups.hpp"],
+    deps = [
+        ":blocks",
+        ":csg",
+        ":florae",
+        ":glass",
+        ":muck",
+        ":shapes",
+        ":terrain",
+        ":utils",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:voxels",
+        "//voxeloo/tensors",
+        "@cereal",
+    ],
+)
+
+genrule(
+    name = "light_kernel_src",
+    outs = ["gen/light_kernel.hpp"],
+    cmd = """
+        CLANG_FORMAT="$(execpath //src/bazel_utils/cpp:clang_format)" \
+        $(execpath //voxeloo/gen:gen_light_kernel) $@
+    """,
+    tools = [
+        "//src/bazel_utils/cpp:clang_format",
+        "//voxeloo/gen:gen_light_kernel",
+    ],
+)
+
+cc_library(
+    name = "lighting",
+    hdrs = [
+        "gen/light_kernel.hpp",
+        "lighting.hpp",
+    ],
+    deps = [
+        ":sbo",
+        ":shapes",
+        ":utils",
+        "//voxeloo/common:bits",
+        "//voxeloo/common:errors",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "material_properties",
+    hdrs = [
+        "material_properties.hpp",
+    ],
+    deps = [
+        ":muck",
+        ":sbo",
+        ":utils",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "sbo",
+    hdrs = ["sbo.hpp"],
+    deps = [
+        "//voxeloo/common:errors",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "shapes",
+    hdrs = ["shapes.hpp"],
+    deps = [
+        ":blocks",
+        ":collision",
+        ":conv",
+        ":glass",
+        "//voxeloo/biomes:culling",
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:transport",
+        "//voxeloo/common:voxels",
+        "//voxeloo/tensors",
+        "@cereal",
+    ],
+)
+
+cc_library(
+    name = "terrain",
+    hdrs = ["terrain.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "transforms",
+    hdrs = ["transforms.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:voxels",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_library(
+    name = "utils",
+    hdrs = ["utils.hpp"],
+    deps = [
+        "//voxeloo/common:errors",
+    ],
+)
+
+cc_library(
+    name = "water",
+    hdrs = ["water.hpp"],
+    deps = [
+        "//voxeloo/common:geometry",
+        "//voxeloo/common:macros",
+        "//voxeloo/common:transport",
+        "//voxeloo/common:voxels",
+        "//voxeloo/tensors",
+    ],
+)
+
+cc_test(
+    name = "galois_test",
+    srcs = ["galois_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":blocks",
+        ":florae",
+        ":groups",
+        ":muck",
+        ":sbo",
+        ":terrain",
+        "//voxeloo/common:geometry",
+        "//voxeloo/tensors",
+        "@catch2",
+    ],
+)
+
+cc_test(
+    name = "lighting_test",
+    srcs = ["lighting_test.cpp"],
+    defines = ["CATCH_CONFIG_MAIN"],
+    deps = [
+        ":blocks",
+        ":florae",
+        ":lighting",
+        "//voxeloo/tensors",
+        "@catch2",
+    ],
+)

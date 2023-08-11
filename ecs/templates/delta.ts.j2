@@ -1,0 +1,332 @@
+// GENERATED: This file is generated from delta.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import * as c from "@/shared/ecs/gen/components";
+import {
+  AsDelta,
+  COMPONENT_PROP_NAME_TO_ID,
+  Entity,
+  ReadonlyEntity,
+} from "@/shared/ecs/gen/entities";
+import { BiomesId } from "@/shared/ids";
+import { removeNilishInPlace } from "@/shared/util/object";
+import { entriesIn } from "lodash";
+
+export type RawDelta = Omit<AsDelta<Entity>, "id">;
+
+export abstract class ReadonlyDelta {
+  abstract get id(): BiomesId;
+  abstract hasComponent<C extends keyof Entity>(component: C): boolean;
+  abstract staleOk(): ReadonlyDelta;
+
+  has<C extends keyof Entity>(
+    ...components: C[]
+  ): this is DeltaWith<C> {
+    for (const component of components) {
+      if (!this.hasComponent(component)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  asReadonlyEntity(): ReadonlyEntity {
+    const entity: any = { id: this.id };
+    {% for component in defs.components %}
+    {
+      const component = this.{{component.ts_name}}();
+      if (component !== undefined) {
+        entity.{{component.prop_name}} = component;
+      }
+    }
+    {% endfor %}
+    return entity;
+  }
+
+  {% for component in defs.components %}
+  abstract {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined;
+  {% endfor %}
+}
+
+export abstract class Delta extends ReadonlyDelta {
+  private readonly hooks: (() => void)[] = [];
+
+  constructor(protected delta?: RawDelta | undefined) {
+    super();
+  }
+
+  addHook(hook: () => void) {
+    this.hooks.push(hook);
+  }
+
+  protected runHooks() {
+    for (const hook of this.hooks) {
+      hook();
+    }
+  }
+
+  has<C extends keyof Entity>(
+    ...components: C[]
+  ): this is DeltaWith<C> {
+    for (const component of components) {
+      if (!this.hasComponent(component)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  fork(): DeltaPatch {
+    return new DeltaPatch(this);
+  }
+
+  copyFrom(other: ReadonlyEntity) {
+    this.delta ??= {};
+    {% for component in defs.components %}
+    if (other.{{component.prop_name}} !== undefined) {
+      this.delta.{{component.prop_name}} = c.{{component.type_name}}.clone(other.{{component.prop_name}});
+    }
+    {% endfor %}
+  }
+
+  {% for component in defs.components %}
+  {% if component.fields %}
+  {% if not component.hfc %}
+  mutable{{component.type_name}}(): c.{{component.type_name}} {
+    this.delta ??= {};
+    if (this.delta.{{component.prop_name}} === undefined) {
+      this.delta.{{component.prop_name}} = c.{{component.type_name}}.clone(this.{{component.ts_name}}());
+    }
+    return this.delta.{{component.prop_name}}!;
+  }
+  {% endif %}
+
+  set{{component.type_name}}(x: c.{{component.type_name}}) {
+    (this.delta ??= {}).{{component.prop_name}} = x;
+  }
+  {% else %}
+  set{{component.type_name}}() {
+    (this.delta ??= {}).{{component.prop_name}} = c.{{component.type_name}}.create();
+  }
+  {% endif %}
+
+  clear{{component.type_name}}() {
+    (this.delta ??= {}).{{component.prop_name}} = null;
+  }
+  {% endfor %}
+
+  apply(delta: RawDelta) {
+    if (this.delta === undefined) {
+      this.delta = delta;
+    } else {
+      this.delta = {
+        ...this.delta,
+        ...delta,
+      };
+    }
+  }
+}
+
+type SnakeToCamelCase<S extends string> =
+  S extends `${infer T}_${infer U}` ?
+  `${T}${Capitalize<SnakeToCamelCase<U>>}` :
+  S;
+
+export interface SuperReadonlyDelta extends ReadonlyDelta {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.{{component.type_name}};
+  {% endfor %}
+}
+
+export type ReadonlyDeltaWith<C extends keyof ReadonlyEntity> = (Pick<
+  SuperDelta,
+  SnakeToCamelCase<C> & keyof SuperDelta
+> &
+  { staleOk(): ReadonlyDeltaWith<C> } &
+  Omit<ReadonlyDelta, SnakeToCamelCase<C>>) &
+  ReadonlyDelta;
+
+export interface SuperDelta extends Delta {
+  readonly id: BiomesId;
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.{{component.type_name}};
+  {% endfor %}
+}
+
+export type DeltaWith<C extends keyof ReadonlyEntity> = (Pick<
+  SuperDelta,
+  SnakeToCamelCase<C> & keyof SuperDelta
+> &
+  { staleOk(): ReadonlyDeltaWith<C> } &
+  Omit<Delta, SnakeToCamelCase<C>>) &
+  Delta;
+
+export class EntityBackedDelta extends Delta {
+  constructor(
+    private readonly entity: ReadonlyEntity,
+    delta?: RawDelta | undefined
+  ) {
+    super(delta);
+  }
+
+  staleOk(): ReadonlyDelta {
+    return this;
+  }
+
+  hasComponent<C extends keyof Entity>(component: C): boolean {
+    if (component === "id") {
+      return true;
+    }
+    if (this.delta !== undefined) {
+      const delta = this.delta[component as keyof RawDelta];
+      if (delta !== undefined) {
+        return !!delta;
+      }
+    }
+    return this.entity[component] !== undefined;
+  }
+
+  get id(): BiomesId {
+    return this.entity.id;
+  }
+
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    if (this.delta?.{{component.prop_name}} !== undefined) {
+      return this.delta.{{component.prop_name}} ?? undefined;
+    }
+    return this.entity.{{component.prop_name}};
+  }
+  {% endfor %}
+}
+
+export class PatchableEntity extends Delta {
+  public readonly readComponentIds = new Set<number>();
+  private staleVariant?: ReadonlyDelta;
+
+  constructor(
+    private readonly entity: ReadonlyEntity
+  ) {
+    super();
+  }
+
+  staleOk(): ReadonlyDelta {
+    return (this.staleVariant ??= new EntityBackedDelta(this.entity, this.delta));
+  }
+
+  hasComponent<C extends keyof Entity>(component: C): boolean {
+    if (component === "id") {
+      return true;
+    }
+    if (this.delta !== undefined) {
+      const delta = this.delta[component as keyof RawDelta];
+      if (delta !== undefined) {
+        return !!delta;
+      }
+    }
+    this.readComponentIds.add(COMPONENT_PROP_NAME_TO_ID.get(component)!);
+    return this.entity[component] !== undefined;
+  }
+
+  get id(): BiomesId {
+    return this.entity.id;
+  }
+
+  private markAllComponentsAsRead() {
+    for (const id of COMPONENT_PROP_NAME_TO_ID.values()) {
+      this.readComponentIds.add(id);
+    }
+  }
+
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    if (this.delta?.{{component.prop_name}} !== undefined) {
+      return this.delta.{{component.prop_name}} ?? undefined;
+    }
+    this.readComponentIds.add({{component.id}});
+    return this.entity.{{component.prop_name}};
+  }
+  {% endfor %}
+
+  clear() {
+    this.delta = {};
+    for (const [key, value] of entriesIn(this.entity)) {
+      if (key === "id" || !value) {
+        continue;
+      }
+      this.delta[key as keyof RawDelta] = null;
+    }
+    this.markAllComponentsAsRead();
+  }
+
+  finish(): AsDelta<Entity> | undefined {
+    this.runHooks();
+    if (this.delta === undefined) {
+      return;
+    }
+    const delta = {
+      ...this.delta,
+      id: this.id,
+    };
+    this.delta = undefined;
+    return delta;
+  }
+
+  finishAsNew(): Entity {
+    const delta = this.finish();
+    if (delta === undefined) {
+      return {
+        id: this.id,
+      };
+    }
+    removeNilishInPlace(delta);
+    return delta as Entity;
+  }
+}
+
+export class DeltaPatch extends Delta {
+  constructor(private readonly parent: Delta) {
+    super();
+  }
+
+  staleOk() {
+    return this.parent.staleOk();
+  }
+
+  hasComponent<C extends keyof Entity>(component: C): boolean {
+    if (component === "id") {
+      return true;
+    }
+    if (this.delta !== undefined) {
+      const delta = this.delta[component as keyof RawDelta];
+      if (delta !== undefined) {
+        return !!delta;
+      }
+    }
+    return this.parent.hasComponent(component);
+  }
+
+  get id(): BiomesId {
+    return this.parent.id;
+  }
+
+  {% for component in defs.components %}
+  {{component.ts_name}}(): c.Readonly{{component.type_name}} | undefined {
+    if (this.delta?.{{component.prop_name}} !== undefined) {
+      return this.delta.{{component.prop_name}} ?? undefined;
+    }
+    return this.parent.{{component.ts_name}}();
+  }
+  {% endfor %}
+
+  commit() {
+    const hadDelta = this.delta !== undefined;
+    this.runHooks();
+    if (hadDelta) {
+      this.parent.apply(this.delta!);
+    }
+    this.delta = undefined;
+    return hadDelta;
+  }
+}

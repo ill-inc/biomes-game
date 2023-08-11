@@ -1,0 +1,55 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  creationTimestamp: null
+  name: replica.default.svc.cluster.local
+  namespace: default
+spec:
+  routes:
+    # Core
+    - condition:
+        method: GET
+        pathRegex: /alive
+      name: GET /alive
+      isRetryable: true
+    - condition:
+        method: GET
+        pathRegex: /metrics
+      name: GET /metrics
+      isRetryable: true
+    - condition:
+        method: GET
+        pathRegex: /ready
+      name: GET /ready
+      isRetryable: true
+    # ReplicaService
+    - condition:
+        method: POST
+        pathRegex: /replica/ping
+      name: POST /replica/ping
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /replica/get
+      name: POST /replica/get
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /replica/has
+      name: POST /replica/has
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /replica/centerOfTerrain
+      name: POST /replica/centerOfTerrain
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /replica/getByKeys
+      name: POST /replica/getByKeys
+      isRetryable: true
+    - condition:
+        method: POST
+        pathRegex: /replica/subscribe
+      name: POST /replica/subscribe
+      isRetryable: true

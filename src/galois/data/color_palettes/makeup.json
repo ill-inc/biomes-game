@@ -1,0 +1,41 @@
+[
+  {
+    "id": "blue",
+    "iconColor": "#155f8e",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#2688b2",
+      "#2c6a92",
+      "#283b52",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "green",
+    "iconColor": "#237014",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#3f7d30",
+      "#2a631f",
+      "#2c3c2a",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "red",
+    "iconColor": "#a3182a",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#89202d",
+      "#6b1c29",
+      "#441724",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+--- a/python_configure.bzl
++++ b/python_configure.bzl
+@@ -213,8 +213,8 @@ def _get_python_lib(repository_ctx, python_bin):
+                  "try:\n" +
+                  "  library_paths = site.getsitepackages()\n" +
+                  "except AttributeError:\n" +
+-                 " from distutils.sysconfig import get_python_lib\n" +
+-                 " library_paths = [get_python_lib()]\n" +
++                 " from sysconfig import get_path\n" +
++                 " library_paths = [get_path(\"purelib\")]\n" +
+                  "all_paths = set(python_paths + library_paths)\n" +
+                  "paths = []\n" +
+                  "for path in all_paths:\n" +
+@@ -252,13 +252,11 @@ def _get_python_include(repository_ctx, python_bin):
+             python_bin,
+             "-c",
+             "from __future__ import print_function;" +
+-            "from distutils import sysconfig;" +
+-            "print(sysconfig.get_python_inc())",
++            "import sysconfig;" +
++            "print(sysconfig.get_path(\"include\"))",
+         ],
+         error_msg = "Problem getting python include path.",
+-        error_details = ("Is the Python binary path set up right? " +
+-                         "(See ./configure or " + _PYTHON_BIN_PATH + ".) " +
+-                         "Is distutils installed?"),
++        error_details = "Is the Python binary path set up right?",
+     )
+     return result.stdout.splitlines()[0]
+

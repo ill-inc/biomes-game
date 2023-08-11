@@ -1,0 +1,30 @@
+/* These need to be in a global css since SSR is disabled for the tangled tree */
+.tangled-tree {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+}
+
+.tangled-tree svg {
+  transform: scale(1);
+}
+
+.tangled-tree svg .link {
+  fill: none;
+  cursor: default;
+}
+
+.tangled-tree svg .node {
+  stroke-linecap: round;
+}
+
+.tangled-tree svg text {
+  fill: white;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.tangled-tree svg text .sublabel {
+  font-size: 14px;
+}

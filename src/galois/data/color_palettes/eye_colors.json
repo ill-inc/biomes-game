@@ -1,0 +1,236 @@
+[
+  {
+    "id": "eye_color_0",
+    "iconColor": "#51291b",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#6f3d2a",
+      "#502a1d",
+      "#3b1f1b",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_1",
+    "iconColor": "#7e3508",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#8b471d",
+      "#6d2f0e",
+      "#4c1905",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_2",
+    "iconColor": "#a75714",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#bf7126",
+      "#9a4b11",
+      "#6f2b0c",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_3",
+    "iconColor": "#aa7600",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#b29400",
+      "#8f5f00",
+      "#593500",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_4",
+    "iconColor": "#f2630f",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#fc8a2b",
+      "#d95508",
+      "#a02e09",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_5",
+    "iconColor": "#5b6a78",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#73828e",
+      "#5a6775",
+      "#404555",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_6",
+    "iconColor": "#4c5217",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#4d6f42",
+      "#40441d",
+      "#40241b",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_7",
+    "iconColor": "#237014",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#3f7d30",
+      "#2a631f",
+      "#2c3c2a",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_8",
+    "iconColor": "#09a139",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#10b62c",
+      "#18823a",
+      "#1a5736",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_9",
+    "iconColor": "#1ab2c8",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#0bc2b6",
+      "#178b96",
+      "#1e606d",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_10",
+    "iconColor": "#0a77bd",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#1c90c1",
+      "#0a67a3",
+      "#233f61",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_11",
+    "iconColor": "#3631d3",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#4863e3",
+      "#3b37ad",
+      "#2d2b5a",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_12",
+    "iconColor": "#6f1ba5",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#8b40b2",
+      "#6f2f9d",
+      "#3a254f",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_13",
+    "iconColor": "#bd1ca1",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#cb479f",
+      "#9d2e89",
+      "#632258",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_14",
+    "iconColor": "#f875a0",
+    "colors": [
+      "#e4dde9",
+      "#4b4b4b",
+      "#f18db6",
+      "#c56083",
+      "#95334c",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_15",
+    "iconColor": "#e9191c",
+    "colors": [
+      "#dcdbd4",
+      "#4b4b4b",
+      "#f8363a",
+      "#ca1d29",
+      "#8f1c30",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_16",
+    "iconColor": "#a3182a",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#89202d",
+      "#6b1c29",
+      "#441724",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  },
+  {
+    "id": "eye_color_17",
+    "iconColor": "#232333",
+    "colors": [
+      "#bbd8de",
+      "#4b4b4b",
+      "#2f2f44",
+      "#232333",
+      "#191919",
+      "#4b4b4b",
+      "#4b4b4b"
+    ]
+  }
+]

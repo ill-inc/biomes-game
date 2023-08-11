@@ -1,0 +1,297 @@
+// GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+import * as c from "@/shared/ecs/gen/components";
+import * as e from "@/shared/ecs/gen/entities";
+import * as ev from "@/shared/ecs/gen/events";
+import * as t from "@/shared/ecs/gen/types";
+import { BiomesId, isBiomesId, zBiomesId, parseBiomesId } from "@/shared/ids";
+import { log } from "@/shared/logging";
+
+
+{% for component in defs.components %}
+export class {{component.type_name}}Serde {
+  {% if component.fields %}
+  static serialize(component: c.Readonly{{component.type_name}}) {
+    const data = [];
+    {% for id, field in component.fields %}
+    if (component.{{field.name}} !== null) {
+      data[{{id}} - 1] = {{ field.kind.serialize("component." + field.name, "t") }};
+    }
+    {% endfor %}
+    return data;
+  }
+  {% else %}
+  static serialize(_: any) {
+    return [];
+  }
+  {% endif %}
+
+  static deserialize(data: any): c.{{component.type_name}} {
+    const fields: Partial<c.{{component.name}}> = {};
+    if (!Array.isArray(data)) {
+      {% for id, field in component.fields %}
+        if (data[{{id}}] !== undefined) {
+          fields.{{field.name}} = {{ field.kind.deserialize("data[" ~ id ~ "]", "t") }};
+        } else if (data.{{field.name}} !== undefined) {
+          fields.{{field.name}} = {{ field.kind.deserialize("data." + field.name, "t") }};
+        }
+      {% endfor %}
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] === null || data[i] === undefined) {
+          continue;
+        }
+        switch (i + 1) {
+        {% for id, field in component.fields %}
+          case {{id}}:
+            fields.{{field.name}} = {{ field.kind.deserialize("data[i]", "t") }};
+            break;
+        {% endfor %}
+        }
+      }
+    }
+    return c.{{component.type_name}}.create(fields);
+  }
+}
+{% endfor %}
+
+function badEntity(message: string, data: unknown): never {
+  log.warn(`Bad entity: ${message}`, {
+    data: process.env.IS_SERVER ? data : undefined,
+  });
+  throw new Error(`Bad entity: ${message}`);
+}
+
+const COMPONENT_ID_TO_DESERIALIZE = {
+  {% for component in defs.components %}
+  {{component.id}}: {{ component.type_name }}Serde.deserialize,
+  {% endfor %}
+};
+
+const COMPONENT_ID_TO_PROP_NAME: { [key: number]: keyof e.Entity } = {
+  {% for component in defs.components %}
+  {{component.id}}: "{{component.prop_name}}",
+  {% endfor %}
+};
+
+export interface SerializeForClient {
+  whoFor: "client"
+  id: BiomesId
+}
+
+export interface SerializeForServer {
+  whoFor: "server"
+}
+
+export const SerializeForServer = {
+  whoFor: "server"
+} as const;
+
+export type SerializeTarget = SerializeForClient | SerializeForServer;
+
+export class EntitySerde {
+  static serialize(target: SerializeTarget, entity?: e.ReadonlyEntity | e.Entity | e.AsDelta<e.Entity> | e.AsDelta<e.ReadonlyEntity>, encodeDelta = false) {
+    if (!entity) {
+      return undefined;
+    }
+    const data: any = [entity.id];
+    {% for component in defs.components %}
+      {% if component.visibility == "server" %}
+      if (target.whoFor !== "client") {
+      {% elif component.visibility == "self" %}
+      if (target.whoFor !== "client" || entity.id === target.id) {
+      {% endif %}
+      if (entity.{{ component.prop_name }} !== undefined) {
+        if (entity.{{ component.prop_name }} === null) {
+          if (encodeDelta) {
+            data.push({{component.id}}, null);
+          }
+        } else {
+          data.push(
+            {{component.id}},
+            {{component.type_name}}Serde.serialize(entity.{{ component.prop_name }}));
+        }
+      }
+      {% if component.visibility == "self" or component.visibility == "server" %}
+      }
+      {% endif %}
+    {% endfor %}
+    return data;
+  }
+
+  private static decodeArrayData(
+    data: unknown[],
+    decodeDelta: boolean
+  ): e.AsDelta<e.Entity> | e.Entity {
+    if (data.length === 0) {
+      badEntity("empty array data", data);
+    } else if (data.length === 2 && typeof data[1] === "object") {
+      // Legacy Entity.
+      const legacyEntity = data[1] as any;
+      const entity: any = {
+        id: legacyEntity.id
+      };
+      if (!isBiomesId(entity.id)) {
+        badEntity("invalid id", data);
+      }
+      {% for component in defs.components %}
+      {
+        const value = legacyEntity.{{component.prop_name}};
+        if (value === null && decodeDelta) {
+          entity.{{component.prop_name}} = null;
+        } else if (value) {
+          entity.{{component.prop_name}} = {{ component.type_name }}Serde.deserialize(legacyEntity.{{component.prop_name}});
+        }
+      }
+      {% endfor %}
+      return entity as e.Entity;
+    }
+
+    // Modern entity.
+    if (data.length % 2 !== 1) {
+      badEntity("data length uneven", data);
+    }
+    const id = parseBiomesId(data[0]);
+    const entity: any = {
+      id,
+    };
+    for (let i = 1; i < data.length; ++i) {
+      const componentId = data[i];
+      if (typeof componentId !== "number") {
+        badEntity("non-numeric component id", data);
+      }
+      const payload = data[++i];
+      if (payload === null) {
+        if (decodeDelta) {
+          entity[COMPONENT_ID_TO_PROP_NAME[componentId as number]] = null;
+          continue;
+        }
+        badEntity("null component", data);
+      } else if (!payload) {
+        continue;
+      }
+      try {
+        const deserialize =
+          COMPONENT_ID_TO_DESERIALIZE[
+            componentId as keyof typeof COMPONENT_ID_TO_DESERIALIZE
+          ];
+        if (!deserialize) {
+          if (c.DEPRECATED_COMPONENT_IDS.has(componentId)) {
+            continue;
+          }
+          badEntity(`unknown component id: ${componentId}`, data);
+        }
+        const component = deserialize(payload);
+        if (!component) {
+          badEntity(`invalid component ${componentId}`, data);
+        }
+        entity[COMPONENT_ID_TO_PROP_NAME[componentId as number]] = component;
+      } catch (error) {
+        if (process.env.IS_SERVER) {
+          log.error(`${id}: Could not understand component: ${componentId}`, {
+            error,
+          });
+          throw error;
+        } else {
+          log.warn(
+            `${id}: Could not understand component: ${componentId}, ignoring`,
+            {
+              error,
+            }
+          );
+        }
+      }
+    }
+    return entity as e.Entity;
+  }
+
+  static deserialize(entityData: unknown, decodeDelta: false): e.Entity;
+  static deserialize(
+    entityData: undefined | unknown,
+    decodeDelta: false
+  ): e.Entity | undefined;
+  static deserialize(entityData: unknown, decodeDelta: true): e.AsDelta<e.Entity>;
+  static deserialize(
+    entityData: undefined | unknown,
+    decodeDelta: true
+  ): e.AsDelta<e.Entity> | undefined;
+  static deserialize(
+    entityData: unknown,
+    decodeDelta: boolean = false
+  ): e.AsDelta<e.Entity> | e.Entity | undefined {
+    if (!entityData) {
+      return undefined;
+    }
+    if (Array.isArray(entityData)) {
+      return EntitySerde.decodeArrayData(entityData, decodeDelta);
+    } else if (typeof entityData !== "object") {
+      badEntity("non-object", entityData);
+    }
+    const entity: any = {
+      id: (entityData as any)[0],
+    };
+    if (!isBiomesId(entity.id)) {
+      badEntity("invalid id", entityData);
+    }
+    {% for component in defs.components %}
+    {
+      const field = (entityData as any)[{{component.id}}];
+      if (field === null && decodeDelta) {
+        entity.{{component.prop_name}} = null;
+      } else if (field) {
+        entity.{{component.prop_name}} = {{ component.type_name }}Serde.deserialize(field);
+      }
+    }
+    {% endfor %}
+    return entity as e.Entity;
+  }
+}
+
+{% for event in defs.events %}
+class {{event.name}}Serde {
+  static serialize(event: ev.{{event.name}}) {
+    return {
+      kind: "{{event.ts_name}}",
+      {% for name, field in event.fields %}
+        {{name}}: {{ field.serialize("event." + name, "t") }},
+      {% endfor %}
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.{{event.name}}(
+      {% if event.fields %}
+      {
+        {% for name, field in event.fields %}
+          {{name}}: {{ field.deserialize("data." + name, "t") }},
+        {% endfor %}
+      }
+      {% endif %}
+    );
+  }
+}
+{% endfor %}
+
+export class EventSerde {
+    static serialize(event?: ev.Event) {
+        switch (event?.kind) {
+        {% for event in defs.events %}
+        case "{{event.ts_name}}":
+            return {{event.name}}Serde.serialize(event as ev.{{event.name}});
+        {% endfor %}
+        }
+    }
+
+    static deserialize(data: any): ev.Event {
+        const kind = data.kind as string;
+        switch (kind) {
+        {% for event in defs.events %}
+        case "{{event.ts_name}}":
+            return {{event.name}}Serde.deserialize(data);
+        {% endfor %}
+        default:
+            throw new Error(`Unknown event kind: ${kind}`);
+        }
+    }
+}

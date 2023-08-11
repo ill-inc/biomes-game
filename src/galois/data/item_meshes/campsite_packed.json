@@ -1,0 +1,7 @@
+{
+  "attachment_transform": [{ "rotate_z": -90 }, { "translate": [4, -8, -10] }],
+  "icon_settings": {
+    "camera_dir": [-1, 1, -1],
+    "lighting_dir": [-7, 5, -11]
+  }
+}

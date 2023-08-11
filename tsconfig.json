@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "paths": {
+      "@/*": ["*"],
+      "@/galois/*": ["galois/js/*"],
+      "@/wasm/cayley": ["gen/cayley/impl/wasm_nodejs"],
+      "public/*": ["public/*"]
+    },
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2022",
+    "typeRoots": ["node_modules/@types", "src/third-party/local-types"]
+  },
+  "files": ["modules.d.ts", "next-env.d.ts", "server.webpack.config.ts"],
+  "include": [
+    "deploy/**/*.ts",
+    "public/**/*",
+    "scripts/node/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.json",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "src/galois/data/**/*" // Improves compilation performance
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs" // you can also override compilerOptions.  Only ts-node will use these overrides
+    },
+    "require": ["tsconfig-paths/register"],
+    "swc": true,
+    "transpileOnly": true // you can specify ts-node options here
+  }
+}

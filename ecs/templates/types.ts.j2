@@ -1,0 +1,280 @@
+// GENERATED: This file is generated from types.ts.j2. Do not modify directly.
+// Content Hash: $$OUTPUT_HASH$$
+
+{% for type in types if type.external %}
+{% if type.kind == "BiomesId" %}
+import { ReadonlyBiomesId, BiomesId, zBiomesId } from "@/shared/ids";
+import {
+  defaultBiomesId,
+  serializeBiomesId,
+  deserializeBiomesId
+} from "@/shared/ecs/extern";
+export {
+  defaultBiomesId,
+  serializeBiomesId,
+  deserializeBiomesId
+} from "@/shared/ecs/extern";
+{% else %}
+export type { {{type.kind}}, Readonly{{type.kind}}, } from "@/shared/ecs/extern";
+export {
+  z{{type.kind}},
+  default{{type.kind}},
+  serialize{{type.kind}},
+  deserialize{{type.kind}}
+} from "@/shared/ecs/extern";
+import {
+  {{type.kind}},
+  Readonly{{type.kind}},
+  z{{type.kind}},
+  default{{type.kind}},
+  serialize{{type.kind}},
+  deserialize{{type.kind}}
+} from "@/shared/ecs/extern";
+{% endif %}
+{% endfor %}
+import { z } from "zod";
+import { isInteger } from "lodash";
+import { ok } from "assert";
+
+// ================
+// Type schema
+// ================
+
+{% for type in types %}
+  {% if type.kind == "String" %}
+    {{ type.zdeclaration }} = z.{{ type.ts_type }}();
+  {% elif type.kind == "Buffer" %}
+    {{ type.zdeclaration }} = z.instanceof(Uint8Array);
+  {% elif type.kind == "Bool" %}
+    {{ type.zdeclaration }} = z.{{ type.ts_type }}();
+  {% elif type.numeric %}
+    {{ type.zdeclaration }} = z.{{ type.ts_type }}();
+  {% elif type.bigint %}
+    {{ type.zdeclaration }} = z.{{ type.ts_type }}();
+  {% elif type.kind == "Enum" %}
+    {{ type.zdeclaration }} = z.enum([
+      {% for value in type.enum %}
+        {{value}},
+      {% endfor %}
+    ]);
+  {% elif type.kind == "Tuple" %}
+    {{ type.zdeclaration }} = z.tuple([
+      {%- for sub in type.subs.values() -%}
+        z{{ sub.name }},
+      {%- endfor -%}
+    ]);
+  {% elif type.kind == "Optional" %}
+    {{ type.zdeclaration }} = z{{ type.subs[0].name }}.optional();
+  {% elif type.kind == "OneOf" %}
+    {% if type.subs|length == 1 %}
+      {{ type.zdeclaration }} = z{{ (type.subs.values()|first).name }}.extend({
+        kind: z.literal("{{ type.subs.keys()|first }}"),
+      });
+    {% else %}
+      {{ type.zdeclaration }} = z.discriminatedUnion("kind", [
+        {%- for key, sub in type.subs.items() -%}
+          z{{ sub.name }}.extend({kind: z.literal("{{ key }}")}),
+        {%- endfor -%}
+      ]);
+    {% endif %}
+  {% elif type.kind == "List" %}
+    {{ type.zdeclaration }} = z{{ type.subs[0].name }}.array().default([]);
+  {% elif type.kind == "Map" %}
+    {{ type.zdeclaration }} = z.map(
+      z{{ type.subs[0].name }},
+      z{{ type.subs[1].name }}
+    );
+  {% elif type.kind == "Set" %}
+    {{ type.zdeclaration }} = z.set(
+      z{{ type.subs[0].name }}
+    );
+  {% elif type.kind == "Dict" %}
+    {{ type.zdeclaration }} = z.object({
+        {% for key, sub in type.subs.items() %}
+          {{key}}: z{{ sub.name }},
+        {% endfor %}
+    });
+  {% endif %}
+{% endfor %}
+
+// ================
+// Type definitions
+// ================
+
+{% for type in types if not type.external  %}
+  {{ type.declaration }} = {{ type.ts_type }};
+{% endfor %}
+
+{% for type in types if not type.external %}
+  {{ type.readonly_declaration }} = {{ type.readonly_ts_type }};
+{% endfor %}
+
+
+// =============
+// Type defaults
+// =============
+
+{% for type in types %}
+  {% if type.kind == "String" %}
+    export const default{{ type.name }} = "";
+  {% elif type.kind == "Bool" %}
+    export const default{{ type.name }} = false;
+  {% elif type.kind == "Buffer" %}
+    export const default{{ type.name }} = () => new Uint8Array();
+  {% elif type.numeric %}
+    export const default{{ type.name }} = 0;
+  {% elif type.bigint %}
+    export const default{{ type.name }} = 0n;
+  {% elif type.kind == "Enum" %}
+    export const default{{ type.name }} = {{ type.enum[0] }};
+  {% elif type.kind == "Tuple" %}
+    export const default{{ type.name }} = () => ([
+      {%- for sub in type.subs.values() -%}
+        {{ sub.default_value }},
+      {%- endfor -%}
+    ] as {{ type.ts_type_name }});
+  {% elif type.kind == "Optional" %}
+    export const default{{ type.name }} = undefined;
+  {% elif type.kind == "OneOf" %}
+    export const default{{ type.name }} = () => ({
+      ...{{ (type.subs.values()|first).default_value }},
+      kind: "{{ type.subs.keys()|first }}",
+    } as {{ type.ts_type_name }});
+  {% elif type.kind == "List" %}
+    export const default{{ type.name }} = () => ([]);
+  {% elif type.kind == "Map" %}
+    export const default{{ type.name }} = () => (new Map() as {{ type.ts_type_name }});
+  {% elif type.kind == "Set" %}
+    export const default{{ type.name }} = () => (new Set() as {{ type.ts_type_name }});
+  {% elif type.kind == "Dict" %}
+    export const default{{ type.name }} = () => ({
+      {% for key, sub in type.subs.items() %}
+        {{key}}: {{ sub.default_value }},
+      {% endfor %}
+    } as {{ type.ts_type_name }});
+  {% endif %}
+{% endfor %}
+
+// ==================
+// Type Serialization
+// ==================
+
+// Hand-written logic for big integers.
+const serializeBigInt = (value: number|bigint): string => {
+  return String(value);
+};
+const deserializeBigInt = (value: unknown): bigint => {
+  if (typeof value === "bigint") {
+    return value;
+  } else if (typeof value === "number" && isInteger(value)) {
+    return BigInt(value);
+  } else if (typeof value === "string" && value.match(/^-?\d+$/)) {
+    return BigInt(value);
+  }
+  throw new Error(`Invalid bigint value: ${value}`);
+};
+
+export const serializeI64 = serializeBigInt;
+export const deserializeI64 = deserializeBigInt;
+export const serializeU64 = serializeBigInt;
+export const deserializeU64 = deserializeBigInt;
+
+const zGenericArray = z.array(z.unknown()).default([]);
+const zDiscriminatedObject = z.object({ kind: z.string() }).passthrough();
+const zGenericMapArray = z.array(z.tuple([z.unknown(), z.unknown()])).default([]);
+
+{% for type in types if not type.bigint and not type.external %}
+{% if not type.pure_json %}
+export function serialize{{type.name}}(value: Readonly{{type.ts_type_name}}) {
+  {% if type.kind  == "Tuple" %}
+    return [
+    {%- for sub in type.subs.values() -%}
+      {{ sub.serialize("value[" ~ (loop.index - 1) ~ "]") }}{{"" if loop.last else ", "}}
+    {%- endfor %}
+    ];
+  {% elif type.kind == "Optional" %}
+    return value === undefined || value === null ? undefined : {{ type.subs[0].serialize("value") }};
+  {% elif type.kind == "OneOf" %}
+    switch (value.kind) {
+      {%- for key, sub in type.subs.items() -%}
+        case "{{key}}":
+          return {
+            ...{{ sub.serialize("value") }},
+            kind: "{{key}}"
+          };
+      {%- endfor -%}
+    }
+  {% elif type.kind == "List" %}
+    return value.map((x) => {{type.subs[0].serialize("x")}});
+  {% elif type.kind == "Map" %}
+    return Array.from(value,
+      ([k, v]) => [{{ type.subs[0].serialize("k")}}, {{ type.subs[1].serialize("v") }}]
+    );
+  {% elif type.kind == "Set" %}
+    return Array.from(value,
+      (v) => {{ type.subs[0].serialize("v")}}
+    );
+  {% elif type.kind == "Dict" %}
+    return {
+      {% for key, sub in type.subs.items() %}
+        {{key}}: {{ sub.serialize("value." + key) }}{{"" if loop.last else ", "}}
+      {% endfor %}
+    };
+  {% endif %}
+}
+{% endif %}
+
+{% if type.kind == "Dict" %}
+const zRaw{{type.name}} = z.object({
+  {% for key, sub in type.subs.items() %}
+    {{key}}: z.unknown(){{"" if loop.last else ", "}}
+  {% endfor %}
+});
+{% endif %}
+
+export function deserialize{{type.name}}(data: unknown): {{type.ts_type_name}} {
+  {% if type.kind  == "Tuple" %}
+    const arr = zGenericArray.parse(data);
+    return [{%- for sub in type.subs.values() -%}
+      {{ sub.deserialize("arr[" ~ (loop.index - 1) ~ "]") }}{{"" if loop.last else ", "}}
+    {%- endfor %}];
+  {% elif type.kind == "Optional" %}
+    return data === null || data === undefined ? undefined : {{ type.subs[0].deserialize("data") }};
+  {% elif type.kind == "OneOf" %}
+    const obj = zDiscriminatedObject.parse(data);
+    switch (obj.kind) {
+      {%- for key, sub in type.subs.items() -%}
+        case "{{key}}":
+          return {
+            ...{{ sub.deserialize("obj") }},
+            kind: "{{key}}"
+          };
+      {%- endfor -%}
+        default:
+          throw new Error(`Unknown OneOf variant: ${obj.kind}`);
+    }
+  {% elif type.kind == "List" %}
+    const arr = zGenericArray.parse(data);
+    return arr.map((x: any) => {{type.subs[0].deserialize("x")}});
+  {% elif type.kind == "Map" %}
+    const arr = zGenericMapArray.parse(data);
+    return new Map(arr.map(
+          ([k, v]: any) => [{{ type.subs[0].deserialize("k") }}, {{ type.subs[1].deserialize("v") }}]
+        ));
+  {% elif type.kind == "Set" %}
+    const arr = zGenericArray.parse(data);
+    return new Set(arr.map(
+      (v: any) => {{ type.subs[0].deserialize("v") }}
+    ))
+  {% elif type.kind == "Dict" %}
+    const obj = zRaw{{type.name}}.parse(data);
+    return {
+      {% for key, sub in type.subs.items() %}
+        {{key}}: {{ sub.deserialize("obj." + key) }}{{"" if loop.last else ", "}}
+      {% endfor %}
+    };
+  {% else %}
+    return z{{ type.name }}.parse(data);
+  {% endif %}
+}
+{% endfor %}

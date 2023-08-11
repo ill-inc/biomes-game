@@ -1,0 +1,5 @@
+{
+  "vs": "forward_uv.vs",
+  "fs": "color_correction.fs",
+  "material_type": "raw"
+}

@@ -1,0 +1,13 @@
+{
+    "extends": "../../../tsconfig.json",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "noEmit": false,
+        "sourceMap": false,
+        "target": "es2020",
+    },
+    "include": [
+        "../../shared/wasm/global.ts",
+        "**/*",
+    ]
+}

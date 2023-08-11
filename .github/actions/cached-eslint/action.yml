@@ -1,0 +1,20 @@
+name: "Cached eslint restore"
+
+description: "Restore the eslint cache from a previous run."
+
+branding:
+  icon: "download"
+  color: "green"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Restore .eslintcache
+      uses: actions/cache@v3
+      id: eslintcache-cache
+      with:
+        path: ./.next/cache/eslint
+        key: ${{ runner.os }}-eslintcache-${{ hashFiles('./yarn.lock') }}-v1
+        # Start from an older cache if we don't have an exact match.
+        restore-keys: |
+          ${{ runner.os }}-eslintcache-

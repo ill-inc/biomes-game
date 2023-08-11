@@ -1,0 +1,6 @@
+{
+  "vs": "forward_uv.vs",
+  "fs": "skyfade.fs",
+  "material_type": "raw",
+  "defines": ["APPLY_COLOR_CORRECTION"]
+}

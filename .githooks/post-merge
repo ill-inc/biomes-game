@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Apply git LFS hooks.
+if command -v git-lfs >/dev/null 2>&1; then
+    git lfs post-merge "$@"
+else
+    echo
+    echo >&2 "WARNING: This repository is configured for Git LFS but 'git-lfs' was not found on your path. Install git lfs at https://git-lfs.github.com/. You may continue but note that your binary files will likely not have the correct contents."
+    echo
+fi

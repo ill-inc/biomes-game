@@ -1,0 +1,80 @@
+FROM docker.io/curlimages/curl:latest as linkerd
+ARG LINKERD_AWAIT_VERSION=v0.2.7
+RUN curl -sSLo /tmp/linkerd-await https://github.com/linkerd/linkerd-await/releases/download/release%2F${LINKERD_AWAIT_VERSION}/linkerd-await-${LINKERD_AWAIT_VERSION}-amd64 && \
+        chmod 755 /tmp/linkerd-await
+
+FROM ubuntu:22.04 as jemalloc
+RUN apt-get update --fix-missing && apt-get -y install build-essential wget
+RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.0/jemalloc-5.3.0.tar.bz2 | tar -xj && \
+        cd jemalloc-5.3.0 && \
+        ./configure && \
+        make && \
+        make install
+
+FROM ubuntu:22.04
+RUN groupadd --gid 1001 nodejs && useradd --uid 1001 --gid 1001 -m nextjs
+
+WORKDIR /app
+
+ENV WORKDIR=/app
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV GOOGLE_CLOUD_PROJECT zones-cloud
+ENV IS_SERVER true
+ENV NODE_ENV production
+ENV NODE_OPTIONS --openssl-legacy-provider --enable-source-maps
+
+COPY --from=linkerd /tmp/linkerd-await /usr/bin/linkerd-await
+COPY --from=jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --fix-missing && apt-get -y install \
+        bash \
+        openssh-server \
+        curl \
+        python3 \
+        python3-pip \
+        python3-venv \
+        wget \
+        gnupg
+
+# Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
+# Note: this installs the necessary libs to make the bundled version of Chrome that Puppeteer
+# installs, work.
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg \
+    && sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-khmeros fonts-kacst fonts-freefont-ttf libxss1 \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+  PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+
+RUN apt-get clean && apt-get purge && apt-get autoremove --purge -y
+
+RUN ln -sf python3 /usr/bin/python
+RUN pip3 install --no-cache --upgrade pip && python3 -m venv .venv
+ENV PATH /app/.venv/bin:${PATH}
+
+ARG NODE_VERSION=20.0.0
+ARG NODE_PACKAGE=node-v${NODE_VERSION}-linux-x64
+ARG NODE_INSTALL_DIR=/usr/local
+ARG NODE_HOME=${NODE_INSTALL_DIR}/${NODE_PACKAGE}
+
+RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/${NODE_PACKAGE}.tar.xz | tar -xvJC ${NODE_INSTALL_DIR}
+ENV PATH ${NODE_HOME}/bin:${PATH}
+
+# First copy base files, these change slowly
+COPY --chown=nextjs:nodejs .venv/ .venv/
+COPY --chown=nextjs:nodejs node_modules/ node_modules/
+COPY --chown=nextjs:nodejs .env* *.js *.json yarn.lock ./
+COPY --chown=nextjs:nodejs public/ public/
+COPY --chown=nextjs:nodejs src/ src/
+COPY --chown=nextjs:nodejs deploy/ deploy/
+COPY --chown=nextjs:nodejs dist/ dist/
+COPY --chown=nextjs:nodejs .next/ .next/
+
+
+USER nextjs
+
+ENTRYPOINT ["node"]
+CMD ["dist/web.js"]

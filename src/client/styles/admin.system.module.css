@@ -1,0 +1,33 @@
+.image-wrapper {
+  background-color: gray;
+  cursor: pointer;
+}
+.image-uploader {
+  position: relative;
+}
+
+.image-uploader .clear {
+  display: none;
+}
+
+.image-uploader:hover .clear {
+  display: unset;
+  background-color: red;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  border-radius: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+.image-wrapper.thumbnail {
+  width: 100px;
+  min-height: 100px;
+}
+
+.image-wrapper.thumbnail img {
+  width: 100px;
+  min-height: 100px;
+}

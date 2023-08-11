@@ -1,0 +1,47 @@
+name: "Cached pip install"
+
+description: "Run 'pip install', if out-of-date"
+
+branding:
+  icon: "download"
+  color: "green"
+
+runs:
+  using: "composite"
+  steps:
+    # We create and use a virtual environment so that we can just cache this
+    # entire directory and re-use it if our Python environment doesn't change.
+    - name: Create virtual environment.
+      run: python3 -m venv .venv
+      shell: bash
+
+    # We "activate" the virtual environment here by adding it to our PATH. This
+    # will apply for all subsequent steps.
+    - name: Activate the virtual environment.
+      run: echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Restore pip install cache
+      uses: actions/cache@v3
+      id: pip-cache
+      with:
+        path: ./.venv
+        # We reference '.venv/pyvenv.cfg' in the key here since it contains
+        # the Python version that we're using.
+        key: ${{ runner.os }}-pip-${{ hashFiles('.venv/pyvenv.cfg') }}-${{ hashFiles('./requirements.txt', './voxeloo/**') }}-v1
+
+    - run: pip install wheel
+      if: steps.pip-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    - run: pip install -r requirements.txt
+      if: steps.pip-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    # We supply the `--no-native` option to avoid building a hyper-customized
+    # binary for the target CPU. GitHub Actions workers are not stable and
+    # what we build (and cache!) on one machine's CPU may not work on another.
+    # In particular, there was trouble in the past with avx-512 instructions.
+    - run: pip install ./voxeloo --install-option="--no-native" --install-option="--no-cache" -v
+      if: steps.pip-cache.outputs.cache-hit != 'true'
+      shell: bash

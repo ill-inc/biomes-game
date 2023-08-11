@@ -1,0 +1,245 @@
+load("//src/bazel_utils/shaders:defs.bzl", "shader_lib", "shader_program")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all_exported_shaders",
+    srcs = [
+        ":bloom_combine",
+        ":bloom_downsample",
+        ":bloom_threshold",
+        ":color_correction",
+        ":combine",
+        ":depth",
+        ":gamma22",
+        ":gaussian13",
+        ":gaussian5",
+        ":gaussian9",
+        ":sky_color_debug",
+        ":sky_color_multiple_scattering",
+        ":sky_color_sky_map",
+        ":sky_color_transmittance",
+        ":skyfade",
+        ":skyfade_color_correction",
+        ":skyfade_volume",
+        ":ssao",
+    ],
+)
+
+shader_lib(
+    name = "packing",
+    srcs = [
+        "packing.glsl",
+    ],
+)
+
+shader_lib(
+    name = "fog",
+    srcs = [
+        "fog.glsl",
+    ],
+)
+
+shader_lib(
+    name = "sky_constants",
+    srcs = ["sky_constants.glsl"],
+)
+
+shader_lib(
+    name = "sky_functions",
+    srcs = ["sky_functions.glsl"],
+)
+
+shader_program(
+    name = "bloom_threshold",
+    srcs = [
+        "bloom_threshold.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "bloom_threshold.material.json",
+)
+
+shader_program(
+    name = "bloom_downsample",
+    srcs = [
+        "bloom_downsample.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "bloom_downsample.material.json",
+)
+
+shader_program(
+    name = "bloom_combine",
+    srcs = [
+        "bloom_combine.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "bloom_combine.material.json",
+)
+
+shader_program(
+    name = "gaussian5",
+    srcs = [
+        "forward_uv.vs",
+        "gaussian5.fs",
+    ],
+    material_file = "gaussian5.material.json",
+)
+
+shader_program(
+    name = "gaussian9",
+    srcs = [
+        "forward_uv.vs",
+        "gaussian9.fs",
+    ],
+    material_file = "gaussian9.material.json",
+)
+
+shader_program(
+    name = "gaussian13",
+    srcs = [
+        "forward_uv.vs",
+        "gaussian13.fs",
+    ],
+    material_file = "gaussian13.material.json",
+)
+
+shader_program(
+    name = "depth",
+    srcs = [
+        "depth.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "depth.material.json",
+    deps = [":packing"],
+)
+
+shader_program(
+    name = "combine",
+    srcs = [
+        "combine.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "combine.material.json",
+)
+
+shader_program(
+    name = "ssao",
+    srcs = [
+        "forward_uv.vs",
+        "ssao.fs",
+    ],
+    material_file = "ssao.material.json",
+    deps = [":packing"],
+)
+
+shader_program(
+    name = "skyfade",
+    srcs = [
+        "forward_uv.vs",
+        "skyfade.fs",
+    ],
+    material_file = "skyfade.material.json",
+    deps = [
+        ":fog",
+        ":packing",
+        ":sky_constants",
+        "//src/client/game/shaders:colors",
+    ],
+)
+
+shader_program(
+    name = "skyfade_color_correction",
+    srcs = [
+        "forward_uv.vs",
+        "skyfade.fs",
+    ],
+    material_file = "skyfade_color_correction.material.json",
+    deps = [
+        ":fog",
+        ":packing",
+        ":sky_constants",
+        "//src/client/game/shaders:colors",
+    ],
+)
+
+shader_program(
+    name = "sky_color_transmittance",
+    srcs = [
+        "forward_uv.vs",
+        "sky_color_transmittance.fs",
+    ],
+    material_file = "sky_color_transmittance.material.json",
+    deps = [
+        ":sky_constants",
+        ":sky_functions",
+    ],
+)
+
+shader_program(
+    name = "sky_color_multiple_scattering",
+    srcs = [
+        "forward_uv.vs",
+        "sky_color_multiple_scattering.fs",
+    ],
+    material_file = "sky_color_multiple_scattering.material.json",
+    deps = [
+        ":sky_constants",
+        ":sky_functions",
+    ],
+)
+
+shader_program(
+    name = "sky_color_sky_map",
+    srcs = [
+        "forward_uv.vs",
+        "sky_color_sky_map.fs",
+    ],
+    material_file = "sky_color_sky_map.material.json",
+    deps = [
+        ":sky_constants",
+        ":sky_functions",
+    ],
+)
+
+shader_program(
+    name = "sky_color_debug",
+    srcs = [
+        "forward_uv.vs",
+        "sky_color_debug.fs",
+    ],
+    material_file = "sky_color_debug.material.json",
+    deps = [
+        ":sky_constants",
+        ":sky_functions",
+    ],
+)
+
+shader_program(
+    name = "skyfade_volume",
+    srcs = [
+        "forward_uv.vs",
+        "skyfade_volume.fs",
+    ],
+    material_file = "skyfade_volume.material.json",
+    deps = [":packing"],
+)
+
+shader_program(
+    name = "gamma22",
+    srcs = [
+        "forward_uv.vs",
+        "gamma22.fs",
+    ],
+    material_file = "gamma22.material.json",
+)
+
+shader_program(
+    name = "color_correction",
+    srcs = [
+        "color_correction.fs",
+        "forward_uv.vs",
+    ],
+    material_file = "color_correction.material.json",
+    deps = ["//src/client/game/shaders:colors"],
+)

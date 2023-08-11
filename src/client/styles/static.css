@@ -1,0 +1,879 @@
+.static header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+}
+
+.static .social {
+  display: flex;
+  gap: 24px;
+  font-size: var(--font-size-large);
+}
+
+.static .social img {
+  width: 32px;
+  height: 32px;
+  margin: 5px;
+  image-rendering: pixelated;
+}
+
+.static .social button {
+  width: 42px;
+  height: 42px;
+}
+
+.static:not("full") .content {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+@media only screen and (width <= 720px) {
+  .about.content section {
+    flex-direction: column !important;
+    padding: 64px 0 !important;
+    gap: 16px !important;
+    align-items: stretch;
+  }
+}
+
+.static .content p {
+  padding: 10px 0;
+}
+
+.static .bold {
+  font-weight: bold;
+}
+
+.static .underline {
+  text-decoration: underline;
+}
+
+.static .content h1 {
+  padding: 40px 0;
+  font-size: xx-large;
+}
+
+.static .content.privacy h2 {
+  padding: 24px 0 4px;
+  font-size: larger;
+}
+
+.static .content h3 {
+  display: inline;
+  font-weight: bold;
+}
+
+.static .content ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.static .content.tos .address {
+  margin: 20px 50px 40px;
+}
+
+.static .content.tos .address > span {
+  display: block;
+  margin: 10px 0;
+}
+
+/* Auto generated from HTML export */
+.static .content.tos .lst-kix_list_4-1 > li {
+  counter-increment: lst-ctn-kix_list_4-1;
+}
+
+.static .content.tos ol.lst-kix_list_3-1 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-2 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-1 > li {
+  counter-increment: lst-ctn-kix_list_3-1;
+}
+
+.static .content.tos ol.lst-kix_list_3-3 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-4.start {
+  counter-reset: lst-ctn-kix_list_3-4 0;
+}
+
+.static .content.tos ol.lst-kix_list_3-4 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-0 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-0 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-0 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) ". ";
+}
+
+.static .content.tos ol.lst-kix_list_3-1.start {
+  counter-reset: lst-ctn-kix_list_3-1 0;
+}
+
+.static .content.tos .lst-kix_list_3-1 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_3-2 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-0 > li {
+  counter-increment: lst-ctn-kix_list_4-0;
+}
+
+.static .content.tos ul.lst-kix_list_1-3 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-5 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) "."
+    counter(lst-ctn-kix_list_3-4, decimal) "."
+    counter(lst-ctn-kix_list_3-5, decimal) ". ";
+}
+
+.static .content.tos ul.lst-kix_list_1-4 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-1 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-4 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) "."
+    counter(lst-ctn-kix_list_3-4, decimal) ". ";
+}
+
+.static .content.tos ul.lst-kix_list_1-2 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-7 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-3 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) ". ";
+}
+
+.static .content.tos ol.lst-kix_list_3-5 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-8 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-6 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-5 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-7 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_1-6 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-8 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-8 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) "."
+    counter(lst-ctn-kix_list_3-4, decimal) "."
+    counter(lst-ctn-kix_list_3-5, decimal) "."
+    counter(lst-ctn-kix_list_3-6, decimal) "."
+    counter(lst-ctn-kix_list_3-7, decimal) "."
+    counter(lst-ctn-kix_list_3-8, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_3-6 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) "."
+    counter(lst-ctn-kix_list_3-4, decimal) "."
+    counter(lst-ctn-kix_list_3-5, decimal) "."
+    counter(lst-ctn-kix_list_3-6, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-3 > li {
+  counter-increment: lst-ctn-kix_list_4-3;
+}
+
+.static .content.tos .lst-kix_list_3-7 > li::before {
+  content: "" counter(lst-ctn-kix_list_3-0, decimal) "."
+    counter(lst-ctn-kix_list_3-1, decimal) "."
+    counter(lst-ctn-kix_list_3-2, decimal) "."
+    counter(lst-ctn-kix_list_3-3, decimal) "."
+    counter(lst-ctn-kix_list_3-4, decimal) "."
+    counter(lst-ctn-kix_list_3-5, decimal) "."
+    counter(lst-ctn-kix_list_3-6, decimal) "."
+    counter(lst-ctn-kix_list_3-7, decimal) ". ";
+}
+
+.static .content.tos ol.lst-kix_list_4-5.start {
+  counter-reset: lst-ctn-kix_list_4-5 0;
+}
+
+.static .content.tos ol.lst-kix_list_3-7.start {
+  counter-reset: lst-ctn-kix_list_3-7 0;
+}
+
+.static .content.tos ol.lst-kix_list_4-2.start {
+  counter-reset: lst-ctn-kix_list_4-2 0;
+}
+
+.static .content.tos .lst-kix_list_3-2 > li {
+  counter-increment: lst-ctn-kix_list_3-2;
+}
+
+.static .content.tos .lst-kix_list_4-4 > li {
+  counter-increment: lst-ctn-kix_list_4-4;
+}
+
+.static .content.tos .lst-kix_list_4-8 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) "."
+    counter(lst-ctn-kix_list_4-4, decimal) "."
+    counter(lst-ctn-kix_list_4-5, decimal) "."
+    counter(lst-ctn-kix_list_4-6, decimal) "."
+    counter(lst-ctn-kix_list_4-7, decimal) "."
+    counter(lst-ctn-kix_list_4-8, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-7 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) "."
+    counter(lst-ctn-kix_list_4-4, decimal) "."
+    counter(lst-ctn-kix_list_4-5, decimal) "."
+    counter(lst-ctn-kix_list_4-6, decimal) "."
+    counter(lst-ctn-kix_list_4-7, decimal) ". ";
+}
+
+.static .content.tos ol.lst-kix_list_4-1.start {
+  counter-reset: lst-ctn-kix_list_4-1 0;
+}
+
+.static .content.tos ol.lst-kix_list_4-8.start {
+  counter-reset: lst-ctn-kix_list_4-8 0;
+}
+
+.static .content.tos ol.lst-kix_list_3-3.start {
+  counter-reset: lst-ctn-kix_list_3-3 0;
+}
+
+.static .content.tos .lst-kix_list_3-0 > li {
+  counter-increment: lst-ctn-kix_list_3-0;
+}
+
+.static .content.tos .lst-kix_list_3-3 > li {
+  counter-increment: lst-ctn-kix_list_3-3;
+}
+
+.static .content.tos ol.lst-kix_list_4-0.start {
+  counter-reset: lst-ctn-kix_list_4-0 0;
+}
+
+.static .content.tos .lst-kix_list_3-6 > li {
+  counter-increment: lst-ctn-kix_list_3-6;
+}
+
+.static .content.tos li.li-bullet-2::before {
+  margin-left: -36pt;
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 36pt;
+}
+
+.static .content.tos ol.lst-kix_list_3-2.start {
+  counter-reset: lst-ctn-kix_list_3-2 0;
+}
+
+.static .content.tos ol.lst-kix_list_4-7.start {
+  counter-reset: lst-ctn-kix_list_4-7 0;
+}
+
+.static .content.tos .lst-kix_list_2-6 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_2-7 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_3-7 > li {
+  counter-increment: lst-ctn-kix_list_3-7;
+}
+
+.static .content.tos .lst-kix_list_2-4 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_2-5 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_2-8 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos ol.lst-kix_list_4-6.start {
+  counter-reset: lst-ctn-kix_list_4-6 0;
+}
+
+.static .content.tos ol.lst-kix_list_3-0.start {
+  counter-reset: lst-ctn-kix_list_3-0 0;
+}
+
+.static .content.tos ol.lst-kix_list_4-3.start {
+  counter-reset: lst-ctn-kix_list_4-3 0;
+}
+
+.static .content.tos .lst-kix_list_4-7 > li {
+  counter-increment: lst-ctn-kix_list_4-7;
+}
+
+.static .content.tos ol.lst-kix_list_3-8.start {
+  counter-reset: lst-ctn-kix_list_3-8 0;
+}
+
+.static .content.tos li.li-bullet-1::before {
+  margin-left: -36pt;
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 36pt;
+}
+
+.static .content.tos .lst-kix_list_4-0 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_3-8 > li {
+  counter-increment: lst-ctn-kix_list_3-8;
+}
+
+.static .content.tos .lst-kix_list_4-1 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-6 > li {
+  counter-increment: lst-ctn-kix_list_4-6;
+}
+
+.static .content.tos .lst-kix_list_4-4 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) "."
+    counter(lst-ctn-kix_list_4-4, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-3 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-5 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) "."
+    counter(lst-ctn-kix_list_4-4, decimal) "."
+    counter(lst-ctn-kix_list_4-5, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-2 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_4-6 > li::before {
+  content: "" counter(lst-ctn-kix_list_4-0, decimal) "."
+    counter(lst-ctn-kix_list_4-1, decimal) "."
+    counter(lst-ctn-kix_list_4-2, decimal) "."
+    counter(lst-ctn-kix_list_4-3, decimal) "."
+    counter(lst-ctn-kix_list_4-4, decimal) "."
+    counter(lst-ctn-kix_list_4-5, decimal) "."
+    counter(lst-ctn-kix_list_4-6, decimal) ". ";
+}
+
+.static .content.tos .lst-kix_list_3-5 > li {
+  counter-increment: lst-ctn-kix_list_3-5;
+}
+
+.static .content.tos ol.lst-kix_list_4-0 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_3-4 > li {
+  counter-increment: lst-ctn-kix_list_3-4;
+}
+
+.static .content.tos ol.lst-kix_list_4-1 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-4.start {
+  counter-reset: lst-ctn-kix_list_4-4 0;
+}
+
+.static .content.tos ol.lst-kix_list_4-2 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-3 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_3-6.start {
+  counter-reset: lst-ctn-kix_list_3-6 0;
+}
+
+.static .content.tos ul.lst-kix_list_2-8 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-8 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-2 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_1-0 > li::before {
+  content: "\0025cf  ";
+}
+
+.static .content.tos ul.lst-kix_list_2-3 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-0 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-1 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-4 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-6 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-5 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_1-1 > li::before {
+  content: "o  ";
+}
+
+.static .content.tos .lst-kix_list_1-2 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos ul.lst-kix_list_2-7 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-6 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-4 {
+  list-style-type: none;
+}
+
+.static .content.tos ol.lst-kix_list_4-7 {
+  list-style-type: none;
+}
+
+.static .content.tos ul.lst-kix_list_2-5 {
+  list-style-type: none;
+}
+
+.static .content.tos .lst-kix_list_1-3 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_1-4 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos ol.lst-kix_list_3-5.start {
+  counter-reset: lst-ctn-kix_list_3-5 0;
+}
+
+.static .content.tos .lst-kix_list_4-8 > li {
+  counter-increment: lst-ctn-kix_list_4-8;
+}
+
+.static .content.tos .lst-kix_list_1-7 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_1-5 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_1-6 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos li.li-bullet-0::before {
+  margin-left: -18pt;
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 18pt;
+}
+
+.static .content.tos .lst-kix_list_2-0 > li::before {
+  content: "\0025cf  ";
+}
+
+.static .content.tos .lst-kix_list_2-1 > li::before {
+  content: "o  ";
+}
+
+.static .content.tos .lst-kix_list_4-5 > li {
+  counter-increment: lst-ctn-kix_list_4-5;
+}
+
+.static .content.tos .lst-kix_list_1-8 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_2-2 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_2-3 > li::before {
+  content: "\0025aa  ";
+}
+
+.static .content.tos .lst-kix_list_4-2 > li {
+  counter-increment: lst-ctn-kix_list_4-2;
+}
+
+.static .content.tos ol {
+  margin: 0;
+  padding: 0;
+}
+
+.static .content.tos .c3 {
+  margin-left: 18pt;
+  padding-top: 0;
+  padding-left: 0;
+  padding-bottom: 12pt;
+  line-height: 1;
+  page-break-after: avoid;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c28 {
+  margin-left: 36pt;
+  padding-top: 0;
+  padding-left: 18pt;
+  padding-bottom: 0;
+  line-height: 1.0791666666666666;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c8 {
+  margin-left: 72pt;
+  padding-top: 0;
+  padding-left: 18pt;
+  padding-bottom: 12pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c13 {
+  margin-left: 54pt;
+  padding-top: 0;
+  padding-left: 0;
+  padding-bottom: 12pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c6 {
+  margin-left: 36pt;
+  padding-top: 0;
+  padding-left: 18pt;
+  padding-bottom: 12pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c22 {
+  padding-top: 0;
+  padding-bottom: 12pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: center;
+  font-weight: bold;
+}
+
+.static .content.tos .c19 {
+  padding-top: 0;
+  padding-bottom: 8pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: justify;
+}
+
+.static .content.tos .c14 {
+  padding-top: 0;
+  padding-bottom: 12pt;
+  line-height: 1;
+  orphans: 2;
+  widows: 2;
+  text-align: left;
+}
+
+.static .content.tos .c1 {
+  padding: 0;
+  margin: 0;
+}
+
+.static .content.tos .c25 {
+  margin-left: 18pt;
+  padding-left: 0;
+}
+
+.static .content.tos .c15 {
+  margin-left: 72pt;
+  padding-left: 0;
+}
+
+.permalink .posts-grid {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.permalink .posts-grid .thumbnail-wrapper {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.permalink .posts-grid .thumbnail-wrapper img {
+  width: inherit;
+  height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.permalink .profile-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.permalink .profile-tabs {
+  margin-bottom: 24px;
+}
+
+.permalink .profile-tabs ul {
+  margin: 0;
+}
+
+.permalink .post-attribution {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+}
+
+.permalink .post-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.permalink .post-author img {
+  box-shadow: var(--offset-box);
+  width: 32px;
+  height: 32px;
+}
+
+.permalink .profile-info .avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  border: 2px solid black;
+  background-color: var(--mint);
+  margin: 12px;
+  box-shadow: var(--offset-box);
+}
+
+.permalink .profile-info .metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.permalink .profile-info .metrics .metric {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.permalink .preview {
+  aspect-ratio: 1/1;
+  height: 100%;
+  width: 100%;
+}
+
+.permalink .three-object-preview-wrapper {
+  box-shadow: var(--offset-box);
+}
+
+.permalink .three-object-preview-wrapper canvas {
+  aspect-ratio: 1/1;
+}
+
+/* About */
+.about.content {
+  text-align: center;
+  font-size: var(--font-size-large);
+}
+
+.static.content ul {
+  list-style: square;
+  margin: 16px 0 16px 20px;
+}
+
+.static.content ul li {
+  margin-bottom: 8px;
+}
+
+.static.content p {
+  margin-bottom: 16px;
+}
+
+.about.content.inset-content {
+  max-width: 800px;
+  padding: 32px;
+  margin: auto;
+}
+
+.static {
+  text-shadow: var(--splash-shadow);
+}
+
+.about.content .headline {
+  font-size: 2em;
+  margin: 64px 0;
+}
+
+.about.content.inset-content section {
+  /* margin-bottom: 156px; */
+  padding: 78px 0;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  text-align: left;
+}
+
+.about.content.inset-content section > * {
+  flex: 1;
+}
+
+.about.content.inset-content section h1 {
+  margin: 16px 0;
+  padding: 0;
+  color: var(--white);
+}
+
+.about.content.inset-content video,
+.about.content.inset-content img.hero {
+  aspect-ratio: 1/1;
+  border: 10px solid #fff;
+  width: 100%;
+}
+
+.about.content section.timeline-team {
+  align-items: flex-start;
+}
+
+.about.content .center {
+  text-align: center;
+}
+
+.about.content .logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about.content .biomes-gi-logos {
+  width: 128px;
+}

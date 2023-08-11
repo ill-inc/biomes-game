@@ -1,0 +1,29 @@
+# See src/server/shared/config.ts for config definition!
+
+playerChatRadius: 100
+
+# Adjusted websocket connection in local development.
+wsZrpcTtlMs: 20000
+wsZrpcHeartbeatTtlMs: 20000
+wsZrpcHeartbeatReconnectMs: 10000
+wsZrpcHeartbeatStartupReconnectMs: 20000
+
+# With only a single sync server locally, starting up many gremlins has a
+# noticeable performance impact.
+gremlinStartingArea: [[500, 75, 500], [500, 75, 500]]
+gremlinsPopulation: 1
+gremlinsWaitBeforeInitialConnectRangeMs: [5_000, 10_000]
+gremlinsWaitBeforeReconnectRangeMs: [5_000, 10_000]
+gremlinsDisconnectAfterMs: 300_000
+
+# Speed up the local gaia clock rate
+gaiaClockMultiplier: 20.0
+
+# Spawn NPCs sooner rather than later on local dev.
+animaSpawnTickTimeMs: 10
+
+# Only one process here, so will be lower than in production.
+animaGlobalSpawnLimit: 2000
+
+# Faster flush periods for local map generation.
+mapTileFlushPeriodMs: 60000

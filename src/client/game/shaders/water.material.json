@@ -1,0 +1,5 @@
+{
+  "material_type": "translucent",
+  "fs": "water.fs",
+  "vs": "water.vs"
+}

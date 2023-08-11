@@ -1,0 +1,77 @@
+.draggable-container {
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+}
+
+.draggable-container .draggable-spacer {
+  cursor: grab;
+}
+
+.admin-challenges-graph-container .draggable-spacer {
+  background: var(--dark-grey);
+}
+
+.challenges-graph-container {
+  width: 100%;
+  height: 80vh;
+}
+
+.challenges-nav-or-editor-button {
+  color: var(--white);
+  width: 100%;
+  border-radius: var(--inner-border-radius);
+  box-shadow: var(--cell-offset);
+  text-shadow: var(--text-drop-shadow);
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  min-height: 5vh;
+  padding-left: 1.5vmin;
+  padding-right: 1.5vmin;
+  font-size: var(--font-size-large);
+}
+
+.challenges-graph-container .draggable-spacer {
+  background: var(--dialog-bg-dark);
+}
+
+.challenge-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75vmin;
+}
+
+.challenge-node .label {
+  text-align: center;
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  color: var(--white);
+}
+
+.challenge-node .challenge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--dialog-border-radius);
+  box-shadow: var(--offset-box);
+  cursor: pointer;
+  background-color: var(--tertiary-gray);
+}
+
+.challenge-node.completed .challenge-icon {
+  background-color: var(--purple);
+}
+
+.challenge-node.selected .challenge-icon {
+  background-color: var(--red);
+}
+
+.challenge-node .challenge-icon:hover {
+  filter: brightness(80%);
+}
+
+.challenge-node img {
+  width: 80%;
+}

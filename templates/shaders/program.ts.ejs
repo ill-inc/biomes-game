@@ -1,0 +1,148 @@
+import * as THREE from "three";
+
+<%_
+function uniformType(uniform) {
+  switch (uniform.type) {
+    case "int":
+      return "number";
+    case "uint":
+      return "number";
+    case "float":
+      return "number";
+    case "bool":
+      return "boolean";
+    case "vec2":
+      return "[number, number]";
+    case "vec3":
+      return "[number, number, number]";
+    case "vec4":
+      return "[number, number, number, number]";
+    case "ivec2":
+      return "[number, number]";
+    case "ivec3":
+      return "[number, number, number]";
+    case "ivec4":
+      return "[number, number, number, number]";
+    case "mat2":
+      return "number[]";
+    case "mat3":
+      return "number[]";
+    case "mat4":
+      return "number[]";
+    case "sampler1D":
+      return "THREE.Texture";
+    case "sampler2D":
+      return "THREE.Texture";
+    case "sampler3D":
+      return "THREE.Data3DTexture";
+    case "samplerCube":
+      return "THREE.CubeTexture";
+    case "sampler1DArray":
+      return "THREE.Texture";
+    case "sampler2DArray":
+      return "THREE.DataArrayTexture";
+    case "usampler2D":
+      return "THREE.DataTexture";
+  }
+}
+
+function uniformDefault(uniform) {
+  switch (uniform.type) {
+    case "int":
+      return "0";
+    case "uint":
+      return "0";
+    case "float":
+      return "0";
+    case "bool":
+      return "false";
+    case "vec2":
+      return "[0, 0]";
+    case "vec3":
+      return "[0, 0, 0]";
+    case "vec4":
+      return "[0, 0, 0, 0]";
+    case "ivec2":
+      return "[0, 0]";
+    case "ivec3":
+      return "[0, 0, 0]";
+    case "ivec4":
+      return "[0, 0, 0, 0]";
+    case "mat2":
+      return "new Array(4).fill(0)";
+    case "mat3":
+      return "new Array(9).fill(0)";
+    case "mat4":
+      return "new Array(16).fill(0)";
+    case "sampler1D":
+      return undefined;
+    case "sampler2D":
+      return undefined;
+    case "sampler3D":
+      return undefined;
+    case "samplerCube":
+      return undefined;
+    case "sampler1DArray":
+      return undefined;
+    case "sampler2DArray":
+      return undefined;
+   }
+}
+
+function uniformDefaultAssign(uniform) {
+  const value = uniformDefault(uniform);
+  return value === undefined ? "" : ` = ${value}`;
+}
+
+function programName(program) {
+  return program.replace(/\w/, c => c.toUpperCase());
+}
+_%>
+export interface <%= programName(program) %>Uniforms {
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %>: <%= uniformType(uniform) %>;
+<%_ } _%>
+}
+
+const <%= program %>VertexShader = `<%- vs _%>`;
+
+const <%= program %>FragmentShader = `<%- fs _%>`;
+
+export function make<%= programName(program) %>Material({
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %><%= uniformDefaultAssign(uniform)%>,
+<%_ } _%>
+}: {
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %><%= uniformDefault(uniform) !== undefined ? "?" : "" %>: <%= uniformType(uniform)%>,
+<%_ } _%>
+}) {
+return new THREE.<%= raw ? "RawShaderMaterial" : "ShaderMaterial" %>({
+uniforms: {
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %>: { value: <%= uniform.name %> },
+<%_ } _%>
+},
+vertexShader: <%= program %>VertexShader,
+fragmentShader: <%= program %>FragmentShader,
+});
+}
+
+export function update<%= programName(program) %>Material(
+material: THREE.RawShaderMaterial,
+{
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %>,
+<%_ } _%>
+}: {
+<% for (const uniform of uniforms) { _%>
+<%= uniform.name %>?: <%= uniformType(uniform) %>,
+<%_ } _%>
+}
+) {
+<% for (const uniform of uniforms) { _%>
+if (<%= uniform.name %> !== undefined) {
+material.uniforms.<%= uniform.name %> = { value: <%= uniform.name %> };
+}
+<%_ } _%>
+}

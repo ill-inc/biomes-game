@@ -1,0 +1,19 @@
+load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+load("@pip_deps//:requirements.bzl", "entry_point")
+
+package(default_visibility = ["//visibility:public"])
+
+refresh_compile_commands(
+    name = "refresh_compile_commands",
+    targets = {
+        "//voxeloo/...": "",
+    },
+)
+
+alias(
+    name = "clang_format",
+    actual = entry_point(
+        pkg = "clang-format",
+        script = "clang-format",
+    ),
+)

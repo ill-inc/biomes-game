@@ -1,0 +1,84 @@
+__pycache__
+.cow
+.DS_Store
+.env.local
+.cache
+.next
+.next-source-maps
+.venv
+.githooks.user
+.*.pid
+.b
+/build
+build.spec
+cmake_out
+dist/
+galois_package/
+node_modules
+public/hud/.DS_Store
+tsconfig.project.tsbuildinfo
+tsconfig.server.tsbuildinfo
+tsconfig.tsbuildinfo
+v8_profiler_benchmarks_results/**
+yarn-error.log
+biomes.config.local.yaml
+.ipynb_checkpoints/
+*Zone.Identifier
+
+# "desktop.ini" files are an artifact of copying files from Google Drive.
+**/desktop.ini
+
+# Blender stores backup files with the extension ".blend1"
+**/*.blend1
+
+# Output from if you run redis-server
+dump.rdb
+
+# Bucket mirrors
+public/buckets/biomes-social
+public/buckets/biomes-static
+public/buckets/biomes-bikkie
+
+# This is pulled in from GCS when starting the web server.
+public/asset_data
+**/hashes.db
+
+# GitHub Actions may place a file containing permission credentials into the
+# checkout folder, and we'd like our `git status` checks to ignore it.
+gha-creds*
+
+# Compiled output of service worker.
+**/public/workbox-*.js
+**/public/sw.js
+**/public/sw.js.map
+**/public/worker-*.js
+**/public/worker-*.js.LICENSE.txt
+
+### Added by Hedron's Bazel Compile Commands Extractor: https://github.com/hedronvision/bazel-compile-commands-extractor
+# The external link: Differs on Windows vs macOS/Linux, so we can't check it in. The pattern needs to not have a trailing / because it's a symlink on macOS/Linux.
+/external
+# Bazel output symlinks: Same reasoning as /external. You need the * because people can change the name of the directory your repository is cloned into, changing the bazel-<workspace_name> symlink.
+/bazel-*
+# Compiled output -> don't check in
+/compile_commands.json
+# Directory where clangd puts its indexing work
+/.cache/
+
+
+# Python stuff
+*.egg-info
+
+# Rust generated language server support file.
+rust-project.json
+
+# Bazel-generated TypeScript dependencies.
+src/gen
+# The merge base with origin/main that we last generated ts dependencies for.
+.ts_deps_mainbase
+
+# Artifact created when Bob is deployed locally.
+BUILD_ID.bob
+
+# Biomes data snapshot installed files.
+snapshot_backup.json
+biomes_data_snapshot.tar.gz.hash.md5
