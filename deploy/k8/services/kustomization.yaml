@@ -1,6 +1,13 @@
 resources:
-  - bob.yaml
+  # - bob.yaml
   - rbac.yaml
   # - redis.yaml - Manually deployed
   # - redis-other.yaml - Manually deployed
   # - redis-hfc.yaml - Manually deployed
+  - redis-l1.yaml
+
+configMapGenerator:
+  - name: redis-l1-conf
+    namespace: default
+    files:
+      - config=redis-l1.conf
