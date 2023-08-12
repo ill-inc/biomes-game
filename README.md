@@ -10,6 +10,6 @@ See https://www.biomes.gg for more details
 
 Biomes uses a distributed architecture but can run locally. Get things started by [running the server locally](docs/runningLocally.md)
 
-To contribute, see our [source code documentation](https://ill-inc.github.io/biomes)
+To contribute, see our [source code documentation](https://ill-inc.github.io/biomes-game)
 
 Join the [developer community in Discord](https://www.discord.com/biomes)
