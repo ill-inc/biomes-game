@@ -9,7 +9,7 @@ Biomes is an open source massively-multiplayer, fully destructable game running 
 {% assign sorted = site.pages | sort:"order" %}
 {% for page in sorted %}
     {% if page.title and page.url != "/" %}
-    <li><a href="{{ page.url }}">
+    <li><a href="{{ page.url | relative_url }}">
         {{ page.title }}</a>{% if page.description %}: {{ page.description }}{% endif %}
     </li>
     {% endif %}

@@ -6,7 +6,7 @@ order: 20
 
 Biomes server functions are divided across multiple microservices, to be able to scale efficiently according to demand.
 
-![Server Architecture](images/biomes-server-architecture.png)
+![Server Architecture](assets/images/biomes-server-architecture.png)
 
 - When a player loads the game, they load a client from the `web` server.
 - The client then loads assets from the `asset` server, and establishes a connection with the `sync` server to fetch ECS data local to their player's position.
