@@ -44,7 +44,7 @@ export function bucketURL(bucket: string, path: string, useCDN = true) {
 }
 
 export function localPath(bucket: CloudBucketKey, path: string) {
-  return `./public/buckets/${bucketURL(bucket, path)}`;
+  return `./public${bucketURL(bucket, path)}`;
 }
 
 type ValidCloudBucketKey = keyof typeof allCloudBuckets;
