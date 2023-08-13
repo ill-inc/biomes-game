@@ -1,7 +1,5 @@
 import styles from "@/client/styles/new_site.module.css";
-import type { PropsWithChildren } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import playButton from "/public/hud/icon-16-play.png";
 import trailerPoster from "/public/splash/trailer-poster.png";
 
@@ -36,21 +34,6 @@ export const getServerSideProps = async () => {
       primaryCTA: CONFIG.primaryCTA,
     },
   };
-};
-
-const Subtitle: React.FunctionComponent<
-  PropsWithChildren<{ extraClassNames?: string }>
-> = ({ extraClassNames, children }) => {
-  return (
-    <h1
-      className={twMerge(
-        "white mx-auto max-w-[600px] pb-[24px] pt-[32px] text-center text-[18px] md:text-[18px]",
-        extraClassNames
-      )}
-    >
-      {children}
-    </h1>
-  );
 };
 
 const MAX_TILT_SMALL = 5;
@@ -248,68 +231,74 @@ export const SplashPage: React.FunctionComponent<{
                 }}
               />
               {!loginRelatedControllerContext.showingModal && (
-                <div className="mx-auto max-w-[min(calc(100%-48px),1200px)]">
+                <div className="mx-auto flex max-w-[min(calc(100%-48px),1200px)] flex-col gap-2 pt-[24vh] text-shadow-drop">
                   <div
-                    className="relative mx-auto flex min-h-[96svh]  flex-col items-stretch justify-center"
-                    style={{
-                      textShadow:
-                        "0 2px 0 rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,.2)",
-                    }}
+                    className="white mx-auto max-w-[640px] pb-[6vmin] text-center text-[18px] md:text-[24px]"
+                    style={{ lineHeight: "150%" }}
                   >
-                    <div
-                      className="relative mt-[72px] flex aspect-video overflow-hidden"
-                      style={{ border: "4px solid white" }}
-                    >
-                      <ReactPlayer
-                        style={{ background: "black" }}
-                        width={"100%"}
-                        height={"100%"}
-                        playing={playYoutubeTrailer}
-                        onPlay={() => setPlayYoutubeTrailer(true)}
-                        url={`https://www.youtube.com/embed/${youtubeVideoId}`}
-                        config={{
-                          youtube: {
-                            playerVars: {
-                              controls: 1,
-                              rel: 0,
-                              modestbranding: 1,
-                            },
-                          },
-                        }}
-                      />
-                      {!playYoutubeTrailer && (
-                        <>
-                          <img
-                            src={trailerPoster.src}
-                            onClick={() => {
-                              setPlayYoutubeTrailer(true);
-                            }}
-                            className="absolute left-0 top-0 aspect-video w-full cursor-pointer"
-                          />
-
-                          <div
-                            className="absolute-center flex aspect-square cursor-pointer items-center rounded-full p-[8px] text-[16px] font-semibold"
-                            style={{
-                              border: "3px solid white",
-                              boxShadow:
-                                "inset 0 0 0 3px rgba(0,0,0,0.5), 0 0 0 3px rgba(0,0,0,.5)",
-                            }}
-                            onClick={() => {
-                              setPlayYoutubeTrailer(true);
-                            }}
-                          >
-                            <img
-                              src={playButton.src}
-                              className="w-[24px] filter-image-stroke"
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <Subtitle extraClassNames="font-bold opacity-50">
-                      Biomes Early Access is now closed.
-                    </Subtitle>
+                    Biomes is an{" "}
+                    <a className="font-normal underline" href="#">
+                      open source
+                    </a>{" "}
+                    sandbox MMORPG built for the web. Build, forage, play
+                    minigames and more, all right from your browser. View the
+                    trailer and snapshots from our Early Access release below.{" "}
                   </div>
+                  <div
+                    className="relative flex aspect-video overflow-hidden"
+                    style={{ border: "4px solid white" }}
+                  >
+                    <ReactPlayer
+                      style={{ background: "black" }}
+                      width={"100%"}
+                      height={"100%"}
+                      playing={playYoutubeTrailer}
+                      onPlay={() => setPlayYoutubeTrailer(true)}
+                      url={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                      config={{
+                        youtube: {
+                          playerVars: {
+                            controls: 1,
+                            rel: 0,
+                            modestbranding: 1,
+                          },
+                        },
+                      }}
+                    />
+                    {!playYoutubeTrailer && (
+                      <>
+                        <img
+                          src={trailerPoster.src}
+                          onClick={() => {
+                            setPlayYoutubeTrailer(true);
+                          }}
+                          className="absolute left-0 top-0 aspect-video w-full cursor-pointer"
+                        />
+
+                        <div className="absolute bottom-[8px] left-[12px] select-none font-vt text-[18px] text-white text-shadow-bordered">
+                          Biomes Trailer 2:10
+                        </div>
+
+                        <div
+                          className="absolute-center flex aspect-square cursor-pointer items-center rounded-full p-[8px] text-[16px] font-semibold"
+                          style={{
+                            border: "3px solid white",
+                            boxShadow:
+                              "inset 0 0 0 3px rgba(0,0,0,0.5), 0 0 0 3px rgba(0,0,0,.5)",
+                          }}
+                          onClick={() => {
+                            setPlayYoutubeTrailer(true);
+                          }}
+                        >
+                          <img
+                            src={playButton.src}
+                            className="w-[24px] filter-image-stroke"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+
                   <div className="relative">
                     <FeaturedImageSpread
                       // Mod to make sure the count is divisible by 2 and 3.
