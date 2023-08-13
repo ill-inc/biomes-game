@@ -27,7 +27,7 @@ export const allCloudBuckets = valueLiteral<CloudBucket>()({
 });
 
 export function useLocalDisk() {
-  return process.env.GCS_LOCAL_DISK === "1";
+  return process.env.LOCAL_GCS === "1";
 }
 
 export function bucketURL(bucket: string, path: string, useCDN = true) {
