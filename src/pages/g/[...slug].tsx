@@ -109,7 +109,8 @@ export const EnvironmentGroupPage: React.FunctionComponent<
       title={`Biomes | ${environmentGroup.name}`}
       openGraphMetadata={{
         ...ogMetadataForImage(environmentGroup.imageUrls ?? {}),
-        description: "",
+        description:
+          "Biomes is an open source sandbox MMORPG built for the web using web technologies",
         title: `Biomes | ${environmentGroup.name}`,
         url: absoluteWebServerURL(
           environmentGroupPublicPermalink(environmentGroup.id)
