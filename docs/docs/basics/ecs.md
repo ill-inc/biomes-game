@@ -6,7 +6,7 @@ sidebar_position: 4
 
 [ECS](https://github.com/{{ site.ghrepo }}/tree/main/src/shared/ecs), or [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system), is the system Biomes uses to store **dynamic** data in game. ([Bikkie](./bikkie.md) is the system for static data).
 
-# ECS Schemas
+## ECS schemas
 
 ECS schemas are defined in Python, in [`src/ecs/defs.py`](https://github.com/{{ site.ghrepo }}/tree/main/ecs/defs.py).
 
@@ -19,6 +19,6 @@ In addition to data definitions, we also define:
 - ECS events that players (and privileged services) may send as events to the [logic server](./serverOverview.md)
 - Selectors to select groups of components at once
 
-# Updating schemas
+## Updating schemas
 
 Run `./b gen:ecs` to update ECS definitions after updating a schema.

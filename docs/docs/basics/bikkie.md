@@ -12,7 +12,7 @@ Each content item is a "Biscuit", and has a unique ID with a collection of `attr
 
 Important to note is that Bikkie only controls static content, such as item definitions. Anything dynamic, such as player inventory, terrain, or muckling position, can be based on biscuit definitions, but instead live in `ECS`.
 
-# Biscuit Editor
+## Biscuit editor
 
 ![admin page](/img/admin-page.png)
 
@@ -34,7 +34,7 @@ Modifying these attributes will allow you to save their updates. Changes made lo
 
 In addition to the general Biscuit editor, which is sufficient for simpler biscuits, such as blocks and items, we have the quests, item check, and particle editors, available in the navigation bar.
 
-# Biscuit Schemas
+## Biscuit schemas
 
 Biscuit schemas are defined in [shared/bikkie/schema/biomes.ts](https://github.com/{{ site.ghrepo }}/blob/main/src/shared/bikkie/schema/biomes.ts), with attributes defined in [shared/bikkie/schema/attributes.ts](https://github.com/{{ site.ghrepo }}/blob/main/src/shared/bikkie/schema/attributes.ts)
 
