@@ -18,6 +18,7 @@ const config = {
   // GitHub pages deployment config.
   organizationName: "ill-inc", // GitHub org name.
   projectName: "biomes-game", // Repository name.
+  trailingSlash: false,
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
