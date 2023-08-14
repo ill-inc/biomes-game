@@ -30,7 +30,7 @@ export const StaticPage: React.FunctionComponent<
       <Head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={themeColor ?? "#42A0C3"}></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title ?? "Biomes"} </title>
         <meta
           property="og:title"
