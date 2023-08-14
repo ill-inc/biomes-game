@@ -15,7 +15,7 @@ export const BiomesHeadTag: React.FunctionComponent<BiomesHeadTagProps> = (
 ) => {
   const desc =
     props.description ??
-    "A massively-multiplayer world where you can collect, craft, build, and trade with others.";
+    "Biomes is an open source sandbox MMORPG built for the web using web technologies.";
 
   const title = props.refinedTitle
     ? `${props.refinedTitle} | Biomes`
@@ -51,7 +51,7 @@ export const BiomesHeadTag: React.FunctionComponent<BiomesHeadTagProps> = (
   );
 };
 
-export default function Index({}: {}) {
+export default function Index() {
   return (
     <RootErrorBoundary>
       <BiomesHeadTag />
