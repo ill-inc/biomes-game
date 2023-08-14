@@ -27,6 +27,16 @@ export const SplashHeader: React.FunctionComponent<{
       </div>
       <div className="flex gap-[16px]">
         <a
+          target="_blank"
+          href="https://github.com/ill-inc/biomes-game"
+          rel="noreferrer"
+        >
+          GitHub
+        </a>
+        <a target="_blank" href="https://www.x.com/illdotinc" rel="noreferrer">
+          X
+        </a>
+        <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
