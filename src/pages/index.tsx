@@ -54,7 +54,7 @@ export const BiomesHeadTag: React.FunctionComponent<BiomesHeadTagProps> = (
 export default function Index({}: {}) {
   return (
     <RootErrorBoundary>
-      <BiomesHeadTag />
+      <BiomesHeadTag description="Biomes is an open source sandbox MMORPG built for the web using web technologies" />
       <SplashPage
         onLogin={() => {
           window.location.href = "/at";
