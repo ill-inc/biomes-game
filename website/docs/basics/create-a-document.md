@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 8
 ---
 
 # Create a Document
@@ -30,7 +30,7 @@ Add metadata to customize the sidebar label and position:
 
 ```md title="docs/hello.md" {1-4}
 ---
-sidebar_label: 'Hi!'
+sidebar_label: "Hi!"
 sidebar_position: 3
 ---
 
@@ -44,13 +44,13 @@ It is also possible to create your sidebar explicitly in `sidebars.js`:
 ```js title="sidebars.js"
 module.exports = {
   tutorialSidebar: [
-    'intro',
+    "intro",
     // highlight-next-line
-    'hello',
+    "hello",
     {
-      type: 'category',
-      label: 'Tutorial',
-      items: ['tutorial-basics/create-a-document'],
+      type: "category",
+      label: "Tutorial",
+      items: ["tutorial-basics/create-a-document"],
     },
   ],
 };
