@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Bikkie
 
-[Bikkie](https://github.com/{{ site.ghrepo }}/blob/main/src/shared/bikkie) is a unified system for static content definition, computation, and editing.
+[Bikkie](https://github.com/ill-inc/biomes-game/blob/main/src/shared/bikkie) is a unified system for static content definition, computation, and editing.
 
 When running locally, our admin interface can be found at [`localhost:3000/admin`](http://localhost:3000/admin) and has many functions that assist in modifying Bikkie.
 
@@ -36,9 +36,9 @@ In addition to the general Biscuit editor, which is sufficient for simpler biscu
 
 ## Biscuit schemas
 
-Biscuit schemas are defined in [shared/bikkie/schema/biomes.ts](https://github.com/{{ site.ghrepo }}/blob/main/src/shared/bikkie/schema/biomes.ts), with attributes defined in [shared/bikkie/schema/attributes.ts](https://github.com/{{ site.ghrepo }}/blob/main/src/shared/bikkie/schema/attributes.ts)
+Biscuit schemas are defined in [shared/bikkie/schema/biomes.ts](https://github.com/ill-inc/biomes-game/blob/main/src/shared/bikkie/schema/biomes.ts), with attributes defined in [shared/bikkie/schema/attributes.ts](https://github.com/ill-inc/biomes-game/blob/main/src/shared/bikkie/schema/attributes.ts)
 
-Admin UIs are defined in [client/components/admin/bikkie/attributes/AttributeValueEditor.tsx](https://github.com/{{ site.ghrepo }}/blob/main/src/client/components/admin/bikkie/attributes/AttributeValueEditor.tsx)
+Admin UIs are defined in [client/components/admin/bikkie/attributes/AttributeValueEditor.tsx](https://github.com/ill-inc/biomes-game/blob/main/src/client/components/admin/bikkie/attributes/AttributeValueEditor.tsx)
 
 The most common usage of a Biscuit is to look up attribute values. This can be accomplished a number of ways, but a common method is to use the Biscuit as an item:
 
