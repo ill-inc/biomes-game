@@ -85,8 +85,7 @@ Note that you will not be able to do this without a Global Illumination employee
 
 ## Developing inside a container
 
-If you want to jump right in with a ready-to-go dev environment, you can take advantage of VS Code's "Developing inside a Container" feature. See [.devcontainer/README.md](https://github.com/ill-inc/biomes-game/blob/main/.devcontainer/README.md) for instructions on how to set that up.
-If you want to jump right in with a ready-to-go dev environment (enabling you to skip all of the "Environment setup" steps above), you can take advantage of VS Code's "Developing inside a Container" feature. See [.devcontainer/README.md](../.devcontainer/README.md) for instructions on how to set that up.
+If you want to jump right in with a ready-to-go dev environment (enabling you to skip all of the "Environment setup" steps above), you can take advantage of VS Code's "Developing inside a Container" feature. See [.devcontainer/README.md](https://github.com/ill-inc/biomes-game/blob/main/.devcontainer/README.md) for instructions on how to set that up.
 
 ### GitHub Codespaces
 
