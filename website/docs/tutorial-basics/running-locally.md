@@ -38,12 +38,7 @@ sidebar_position: 1
   ```bash
   git clone git@github.com:{{ site.ghrepo }}.git
   ```
-
-## Running Biomes from a data snapshot
-
-### Environment setup
-
-- Install Redis 7.0.8
+- Install [Redis 7.0.8](https://redis.io/) (optional: only required if running from a data snapshot)
   ```bash
   curl -s https://download.redis.io/releases/redis-7.0.8.tar.gz | tar xvz -C ${HOME} \
     && make -j`nproc` -C ${HOME}/redis-7.0.8 \
@@ -51,12 +46,15 @@ sidebar_position: 1
     && rm -rf ${HOME}/redis-7.0.8
   ```
 
-### Running
+## Running Biomes from a data snapshot
 
-- Run Biomes
+Note that this required Redis to be installed.
+
+- In the Biomes repository directory,
   ```bash
   ./b data-snapshot run
   ```
+- Visit `http://localhost:3000`
 
 ## Running Biomes from prod
 
