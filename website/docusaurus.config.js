@@ -75,9 +75,9 @@ const config = {
             type: "docSidebar",
             sidebarId: "tutorialSidebar",
             position: "left",
-            label: "Tutorial",
+            label: "Docs",
           },
-          { to: "/blog", label: "Blog", position: "left" },
+          // { to: "/blog", label: "Blog", position: "left" },
           {
             href: "https://github.com/ill-inc/biomes-game",
             label: "GitHub",
@@ -89,10 +89,10 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Docs",
+            title: "Resources",
             items: [
               {
-                label: "Tutorial",
+                label: "Docs",
                 to: "/docs/intro",
               },
             ],
@@ -108,15 +108,6 @@ const config = {
                 label: "X",
                 href: "https://www.x.com/illdotinc",
               },
-            ],
-          },
-          {
-            title: "More",
-            items: [
-              {
-                label: "Blog",
-                to: "/blog",
-              },
               {
                 label: "GitHub",
                 href: "https://github.com/ill-inc/biomes-game",
@@ -124,7 +115,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `© ${new Date().getFullYear()} Global Illumination, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
