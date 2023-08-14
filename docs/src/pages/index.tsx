@@ -17,7 +17,7 @@ function HomepageHeader() {
               width: "50vw",
               filter: "invert(0)",
             }}
-            src="/img/biomes-logo.png"
+            src={require("@site/static/img/biomes-logo.png").default}
           />
         </div>
         <h2>{siteConfig.tagline}</h2>
@@ -34,7 +34,7 @@ function HomepageHeader() {
             marginTop: "5px",
             borderRadius: "10px",
           }}
-          src="/img/hero-bg.png"
+          src={require("@site/static/img/hero-bg.png").default}
         />
       </div>
     </header>
