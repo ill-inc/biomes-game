@@ -1,0 +1,8 @@
+{
+  "label": "Introduction",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Biomes installation, architecture, and development tools overview."
+  }
+}
