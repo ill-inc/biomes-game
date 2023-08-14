@@ -10,7 +10,8 @@
 
 Biomes is an open source sandbox MMORPG built for the web using web technologies such as Next.js, Typescript, and WebAssembly. It uses React and reactive paradigms for gameplay.
 
-![Biomes Screenshot](docs/static/img/biomes-ss.png)
+<img width="1393" alt="Biomes screenshot" src="https://github.com/ill-inc/biomes-game/assets/45083086/176ff352-0ecb-4279-9a64-d691f65203b5">
+
 [Watch the trailer here!](https://www.youtube.com/watch?v=vPHEtewFm3M)
 
 ### Contributing
