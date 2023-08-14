@@ -1,20 +1,12 @@
-# Website
-
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
-
-### Installation
-
-```
-$ yarn
-```
+# Biomes Docs
 
 ### Local Development
 
-```
+```bash
 $ yarn start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This command starts a local development server at `http://localhost:8080` and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 ### Build
 
