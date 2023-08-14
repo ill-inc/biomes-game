@@ -50,6 +50,7 @@ const config = {
         logo: {
           alt: "Biomes Logo",
           src: "img/b-logo.png",
+          srcDark: "img/b-logo-dark.png",
         },
         items: [
           {

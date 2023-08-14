@@ -29,19 +29,23 @@ function HomepageHeader() {
             Jump into the docs!
           </Link>
         </div>
-        <img src="/img/biomes-ss.png">
-        </img>
+        <img
+          style={{
+            marginTop: "5px",
+            borderRadius: "10px",
+          }}
+          src="/img/hero-bg.png"
+        />
       </div>
     </header>
   );
 }
 
 export default function Home(): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title={`Docs`}
+      description="An open source sandbox MMORPG built for the web using web technologies"
     >
       <HomepageHeader />
       <main></main>
