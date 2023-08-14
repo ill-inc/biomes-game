@@ -233,7 +233,7 @@ export const SplashPage: React.FunctionComponent<{
                 }}
               />
               {!loginRelatedControllerContext.showingModal && (
-                <div className="mx-auto flex max-w-[min(calc(100%-48px),1200px)] flex-col gap-2 pt-[24vh] text-shadow-drop">
+                <div className="mx-auto flex max-w-[min(calc(100%-48px),1200px)] flex-col gap-2 pt-[10vh] text-shadow-drop">
                   <div
                     className="white mx-auto max-w-[640px] pb-[6vmin] text-center text-[18px] md:text-[24px]"
                     style={{ lineHeight: "150%" }}
