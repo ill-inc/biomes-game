@@ -1,15 +1,24 @@
 # Biomes
+
+[![](https://dcbadge.vercel.app/api/server/biomes)](https://discord.gg/biomes)
+
 ![ts-ci](https://github.com/ill-inc/biomes-game/actions/workflows/ts-ci.yml/badge.svg)
 ![cpp-ci](https://github.com/ill-inc/biomes-game/actions/workflows/cpp-ci.yml/badge.svg)
+[![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
-Biomes is an open source sandbox MMORPG built for the web using web technologies such as Next.js, Typescript, and WebAssembly. It uses React and reactive paradigms for gameplay. 
+### Overview
 
-[![Biomes Screenshot](docs/assets/images/biomes-ss.png) Watch the trailer!](https://www.youtube.com/watch?v=vPHEtewFm3M)
+Biomes is an open source sandbox MMORPG built for the web using web technologies such as Next.js, Typescript, and WebAssembly. It uses React and reactive paradigms for gameplay.
 
-See https://www.biomes.gg for more details
+![Biomes Screenshot](docs/static/img/biomes-ss.png)
+[Watch the trailer here!](https://www.youtube.com/watch?v=vPHEtewFm3M)
 
-Biomes uses a distributed architecture but can run locally. Get things started by [running the server locally](docs/runningLocally.md)
+### Contributing
 
-To contribute, see our [source code documentation](https://ill-inc.github.io/biomes-game)
+- Biomes uses a distributed architecture but can run locally. Get things started by [running the server locally](https://ill-inc.github.io/biomes-game/docs/basics/running-locally).
 
-Join the [developer community in Discord](https://www.discord.com/biomes)
+- If you want to contribute, consider joining our welcoming [developer community on Discord](https://discord.gg/biomes).
+
+### More
+
+- Visit https://www.biomes.gg or checkout [our official documentation](https://ill-inc.github.io/biomes-game/) for more details.
