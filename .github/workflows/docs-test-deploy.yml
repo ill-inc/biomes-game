@@ -1,0 +1,26 @@
+name: Test docs deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-deploy:
+    name: Test docs deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install project dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install docs dependencies
+        working-directory: ./docs
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        working-directory: ./docs
+        run: yarn build
