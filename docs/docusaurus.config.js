@@ -10,7 +10,7 @@ const config = {
   tagline:
     "An open source sandbox MMORPG built for the web using web technologies",
   favicon: "img/favicon.ico",
-  url: "https://biomes.gg",
+  url: "https://ill-inc.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
