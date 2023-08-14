@@ -33,11 +33,7 @@ export const SplashHeader: React.FunctionComponent<{
         >
           GitHub
         </a>
-        <a
-          target="_blank"
-          href="https://discord.gg/biomes"
-          rel="noreferrer"
-        >
+        <a target="_blank" href="https://discord.gg/biomes" rel="noreferrer">
           Discord
         </a>
         <a target="_blank" href="https://www.x.com/illdotinc" rel="noreferrer">
