@@ -38,7 +38,7 @@ sidebar_position: 1
   ```bash
   git clone git@github.com:{{ site.ghrepo }}.git
   ```
-- Install [Redis 7.0.8](https://redis.io/) (optional: only required if running from a data snapshot)
+- Install [Redis 7.0.8](https://redis.io/)
   ```bash
   curl -s https://download.redis.io/releases/redis-7.0.8.tar.gz | tar xvz -C ${HOME} \
     && make -j`nproc` -C ${HOME}/redis-7.0.8 \
@@ -46,38 +46,12 @@ sidebar_position: 1
     && rm -rf ${HOME}/redis-7.0.8
   ```
 
-## Running Biomes from a data snapshot
-
-Note that this required Redis to be installed.
-
+## Run Biomes
 - In the Biomes repository directory,
   ```bash
   ./b data-snapshot run
   ```
-- Visit `http://localhost:3000`
-
-## Running Biomes from prod
-
-Note that you will not be able to do this without a Global Illumination employee account.
-
-### Environment setup
-
-- Install Google Cloud SDK: https://cloud.google.com/sdk/docs/install-sdk
-- Authenticate your @ill.inc user account credentials so you can hit the prod database
-  ```bash
-  gcloud auth application-default login
-  gcloud auth login
-  ```
-- **FIREBASE REQUIREMENT:** If you will be testing push messaging locally, you need to use a custom `OAuth client id` for Firebase. To get those, follow the instructions here: https://firebase.google.com/docs/admin/setup#testing_with_gcloud_end_user_credentials
-
-### Running
-
-- In the Biomes repository directory,
-  ```bash
-  ./b web --production-secrets
-  ```
-- Visit `http://localhost:3000`
-- After editing client source files (including CSS) the site will auto-reload. Sometimes this messes up (black screen) and you'll need to force refresh the page
+- Visit `http://localhost:3000`.
 
 ## Coding Environment
 
