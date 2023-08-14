@@ -38,11 +38,6 @@ order: 10
   ```
   git clone git@github.com:{{ site.ghrepo }}.git
   ```
-
-## Running Biomes from a data snapshot
-
-### Environment setup
-
 - Install Redis 7.0.8
   ```
   curl -s https://download.redis.io/releases/redis-7.0.8.tar.gz | tar xvz -C ${HOME} \
@@ -58,33 +53,15 @@ order: 10
   ./b data-snapshot run
   ```
 
-## Running Biomes from prod
-
-Note that you will not be able to do this without a Global Illumination employee account.
-
-### Environment setup
-
-- Install Google Cloud SDK: https://cloud.google.com/sdk/docs/install-sdk
-- Authenticate your @ill.inc user account credentials so you can hit the prod database
-  ```
-  gcloud auth application-default login
-  gcloud auth login
-  ```
-- **FIREBASE REQUIREMENT:** If you will be testing push messaging locally, you need to use a custom `OAuth client id` for Firebase. To get those, follow the instructions here: https://firebase.google.com/docs/admin/setup#testing_with_gcloud_end_user_credentials
-
-### Running
-
-- In the Biomes repository directory,
-  ```
-  ./b web --production-secrets
-  ```
-- Visit `http://localhost:3000`
-- After editing client source files (including CSS) the site will auto-reload. Sometimes this messes up (black screen) and you'll need to force refresh the page
-
 ## Coding Environment
 
 - The recommended code editor is [VSCode](https://code.visualstudio.com/).
 
 ## Developing inside a container
 
-If you want to jump right in with a ready-to-go dev environment, you can take advantage of VS Code's "Developing inside a Container" feature. See [.devcontainer/README.md](../.devcontainer/README.md) for instructions on how to set that up.
+If you want to jump right in with a ready-to-go dev environment (enabling you to skip all of the "Environment setup" steps above), you can take advantage of VS Code's "Developing inside a Container" feature. See [.devcontainer/README.md](../.devcontainer/README.md) for instructions on how to set that up.
+
+### GitHub Codespaces
+
+Building off the "Developing inside a container" support, you can also start
+up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type".
