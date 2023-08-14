@@ -63,6 +63,16 @@ const config = {
             label: "GitHub",
             position: "right",
           },
+          {
+            href: "https://discord.gg/biomes",
+            label: "Discord",
+            position: "right",
+          },
+          {
+            label: "X",
+            href: "https://www.x.com/illdotinc",
+            position: "right",
+          },
         ],
       },
       footer: {
@@ -82,7 +92,7 @@ const config = {
             items: [
               {
                 label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
+                href: "https://discord.gg/biomes",
               },
               {
                 label: "X",
