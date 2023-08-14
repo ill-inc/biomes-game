@@ -16,10 +16,11 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - run: cd docs
       - name: Install dependencies
+        working-directory: ./docs
         run: yarn install --frozen-lockfile
       - name: Build website
+        working-directory: ./docs
         run: yarn build
 
       - name: Deploy to GitHub Pages
@@ -27,7 +28,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Contents of "build" are published to the `gh-pages` branch.
-          publish_dir: ./build
+          publish_dir: ./docs/build
           # Assign commit authorship to the official GH-Actions bot.
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com

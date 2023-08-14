@@ -16,8 +16,9 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - run: cd docs
       - name: Install dependencies
+        working-directory: ./docs
         run: yarn install --frozen-lockfile
       - name: Test build website
+        working-directory: ./docs
         run: yarn build
