@@ -49,8 +49,8 @@ const config = {
         title: "Biomes",
         logo: {
           alt: "Biomes Logo",
-          src: "img/b-logo.png",
-          srcDark: "img/b-logo-dark.png",
+          src: "img/b-logo-black.png",
+          srcDark: "img/b-logo.png",
         },
         items: [
           {
