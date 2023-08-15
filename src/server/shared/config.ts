@@ -102,7 +102,7 @@ const DEFAULT_CONFIG = deepFreeze({
   md5: "[none]",
 
   // Auth
-  instantAccessInviteCodes: [],
+  instantAccessInviteCodes: [] as string[],
   instantAccessBlocklist: ["bobthebuilder"],
   instantAccessAuthProviders: <Readonly<Array<ForeignAuthProviderName>>>[],
   primaryCTA: "login" as "discord" | "login",
