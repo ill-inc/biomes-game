@@ -6,7 +6,7 @@ export const SplashHeader: React.FunctionComponent<{
   onLoginClick: () => any;
 }> = ({ onLoginClick }) => {
   return (
-    <div className="fixed top-0 z-30 flex w-full items-center justify-between p-[24px] text-[16px]">
+    <div className="fixed top-0 z-30 flex w-full items-center justify-between bg-gradient-to-t from-[#1C0D28] to-black p-[24px]  text-[16px]">
       <div>
         <img
           onClick={() => {
