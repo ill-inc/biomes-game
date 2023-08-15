@@ -356,6 +356,30 @@ export const SplashPage: React.FunctionComponent<{
                       >
                         &copy; {year} Global Illumination, Inc.
                       </a>
+                      <a
+                        className="font-normal text-[inherit]"
+                        target="_blank"
+                        href="https://discord.gg/biomes"
+                        rel="noreferrer"
+                      >
+                        Discord
+                      </a>
+                      <a
+                        className="font-normal text-[inherit]"
+                        target="_blank"
+                        href="https://www.x.com/illdotinc"
+                        rel="noreferrer"
+                      >
+                        X
+                      </a>
+                      <a
+                        className="font-normal text-[inherit]"
+                        target="_blank"
+                        href="https://github.com/ill-inc/biomes-game"
+                        rel="noreferrer"
+                      >
+                        GitHub
+                      </a>
                     </div>
                   </div>
                 </div>
