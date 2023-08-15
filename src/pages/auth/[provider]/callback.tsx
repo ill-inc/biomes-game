@@ -130,15 +130,7 @@ export async function getServerSideProps(
       // No user ID, validate they're permitted to create a new user.
       if (
         !CONFIG.instantAccessAuthProviders.includes(provider) &&
-        !(await validateInviteCode(db, foreignAccountProfile.inviteCode)) &&
-        !(
-          provider === "discord" &&
-          (await checkDiscordMembership(
-            discordBot,
-            foreignAccountProfile.id,
-            req
-          ))
-        )
+        !(await validateInviteCode(db, foreignAccountProfile.inviteCode))
       ) {
         // No legacy user, no invite code - not permitted.
         log.warn(
