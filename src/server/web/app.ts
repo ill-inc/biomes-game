@@ -239,7 +239,7 @@ export class ApiApp {
                 );
                 maybeReportStatic(url.pathname);
               } else if (this.staticSet.has(url.pathname)) {
-                res.setHeader("Cache-Control", "public, max-age=86400");
+                res.setHeader("Cache-Control", "public, max-age=3600");
                 maybeReportStatic(url.pathname);
               }
             }
