@@ -17,9 +17,9 @@ import { inRange } from "lodash";
 import { SplashHeader } from "@/client/components/static_site/SplashHeader";
 import { useFeaturedPosts } from "@/client/util/social_manager_hooks";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import Masonry from "react-masonry-css";
 import Tilt from "react-parallax-tilt";
-import Head from "next/head";
 
 const youtubeVideoId = "vPHEtewFm3M";
 
@@ -205,7 +205,7 @@ export const SplashPage: React.FunctionComponent<{
   onLogin?: () => unknown;
 }> = ({ defaultUsernameOrId, onLogin }) => {
   const { posts } = useFeaturedPosts({
-    count: 100,
+    count: 24,
   });
   const year = new Date().getFullYear();
 
