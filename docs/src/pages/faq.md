@@ -7,7 +7,7 @@ sidebar_position: 1
 ### Q: How can I play Biomes?
 
 **A:** If you created an account when Biomes was in Early Access, you can still login at any time and play! If you don't have an account, you can play
-by running it locally. Checkout our [local setup guide](../basics/running-locally.md)!
+by running it locally. Checkout our [local setup guide](/docs/basics/running-locally)!
 
 ### Q: What platforms does Biomes support?
 
@@ -33,6 +33,6 @@ minigames, teams, and so much more!
 
 ### Q: How can I contribute?
 
-**A:** First consider joining our amazing developer community on [Discord](https://discord.gg/biomes)! The games source code can be found [here](https://github.com/ill-inc/biomes-game)
-and instructions for setting up the development environment can be found [here](../basics/running-locally.md). We follow the conventional pull-request workflow, so pull-requests submitted
+**A:** First consider joining our amazing developer community on [Discord](https://discord.gg/biomes)! The [game's source code](https://github.com/ill-inc/biomes-game)
+and the [instructions for setting up the development environment](/docs/basics/running-locally) are great places to start! We follow the conventional pull-request workflow, so pull-requests submitted
 to the repository will be reviewed by the team! We appreciate any contributions, big or small!
