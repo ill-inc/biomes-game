@@ -90,42 +90,6 @@ bobMentionMinDelayMs: 900000 # 15 minutes.
 # Mapping between Github and Discord
 bobGithubEmailToDiscord:
   - [
-      ["868700+mochimisu@users.noreply.github.com", "mochimisu"],
-      ["<@88427327289040896>", "@brandon"],
-    ]
-  - [["nick@not.fun", "nicknotfun"], ["<@944028492239110174>", "@nillinc"]]
-  - [
-      ["alexei@karpenko.ca", "akarpenko"],
-      ["<@258112508714287106>", "@akarpenko"],
-    ]
-  - [
-      ["tdimson@gmail.com", "turtlesoupy"],
-      ["<@670469561241305089>", "@turtlesoupy"],
-    ]
-  - [["wjfthree@me.com", "wjf3"], ["<@476226172938747916>", "@wjf3"]]
-  - [["aabtop@gmail.com", "aabtop"], ["<@235622012071051264>", "@Top"]]
-  - [["top@ill.inc", "aabtop"], ["<@235622012071051264>", "@Top"]]
-  - [
-      ["taylorgordon20@gmail.com", "taylorgordon20"],
-      ["<@469695561813983249>", "@tg"],
-    ]
-  - [
-      ["iansilber@gmail.com", "iansilber"],
-      ["<@476224623063597056>", "@silberdollarr"],
-    ]
-  - [
-      ["65512704+tansonlee@users.noreply.github.com", "tansonlee"],
-      ["<@546823155964968969>", "@tlee"],
-    ]
-  - [
-      ["33493903+matthew-haines@users.noreply.github.com", "matthew-haines"],
-      ["<@1062038187570114611>", "@matthewh"],
-    ]
-  - [
-      ["devinleamy@gmail.com", "DevinLeamy"],
-      ["<@622595129932382208>", "@Devin"],
-    ]
-  - [
       ["110620858+mossymucker@users.noreply.github.com", "mossymucker"],
       ["Mossy Mucker", "Mossy Mucker"],
     ]
