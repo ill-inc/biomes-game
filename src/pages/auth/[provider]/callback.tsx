@@ -17,7 +17,6 @@ import {
   validateProvider,
 } from "@/server/shared/auth/foreign";
 import type { ForeignAccountProfile } from "@/server/shared/auth/types";
-import type { DiscordBot } from "@/server/shared/discord";
 import type {
   WebServerContextSubset,
   WebServerRequest,
@@ -33,7 +32,6 @@ import type { BiomesId } from "@/shared/ids";
 import { log } from "@/shared/logging";
 import { fireAndForget } from "@/shared/util/async";
 import { ok } from "assert";
-import type { IncomingMessage } from "http";
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import nookies from "nookies";
 import { useEffect } from "react";
@@ -41,21 +39,6 @@ import { useEffect } from "react";
 type Props = {
   redirect: true | false | "force";
 };
-
-async function checkDiscordMembership(
-  discordBot: DiscordBot,
-  discordId: string,
-  req: IncomingMessage
-): Promise<boolean> {
-  if (await discordBot.checkForServerPresence(discordId)) {
-    reportFunnelStage("inDiscord", {
-      bdid: getDeviceIdCookie(req),
-    });
-    return true;
-  }
-
-  return false;
-}
 
 async function ensureLogicHasPlayer(
   deps: WebServerContextSubset<"worldApi">,
