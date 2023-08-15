@@ -16,10 +16,10 @@ import { inRange } from "lodash";
 // import ReactPlayer from "react-player";
 import { SplashHeader } from "@/client/components/static_site/SplashHeader";
 import { useFeaturedPosts } from "@/client/util/social_manager_hooks";
-import StaticPage from "@/pages/static-page";
 import dynamic from "next/dynamic";
 import Masonry from "react-masonry-css";
 import Tilt from "react-parallax-tilt";
+import Head from "next/head";
 
 const youtubeVideoId = "vPHEtewFm3M";
 
@@ -211,14 +211,12 @@ export const SplashPage: React.FunctionComponent<{
 
   const [playYoutubeTrailer, setPlayYoutubeTrailer] = useState(false);
   return (
-    <StaticPage
-      title="Biomes — Join the community shaping a new world"
-      themeColor="#1C0D28"
-      openGraphMetadata={{
-        description:
-          "Biomes is an open source sandbox MMORPG built for the web using web technologies",
-      }}
-    >
+    <>
+      <Head>
+        <meta name="theme-color" content="#1C0D28" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Biomes — Join the community shaping a new world</title>
+      </Head>
       <LoginRelatedController
         defaultUsernameOrId={defaultUsernameOrId}
         onLogin={onLogin}
@@ -371,7 +369,7 @@ export const SplashPage: React.FunctionComponent<{
           )}
         </LoginRelatedControllerContext.Consumer>
       </LoginRelatedController>
-    </StaticPage>
+    </>
   );
 };
 
