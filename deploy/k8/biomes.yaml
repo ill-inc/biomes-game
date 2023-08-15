@@ -103,7 +103,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -276,7 +276,7 @@ spec:
                   --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null
                   || exit 1
           containers:
-            - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+            - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
               name: biomes
               args:
                 - '-r'
@@ -402,7 +402,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -550,7 +550,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -730,7 +730,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -910,7 +910,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1058,7 +1058,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1240,7 +1240,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1422,7 +1422,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1589,7 +1589,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1766,7 +1766,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -1940,7 +1940,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2114,7 +2114,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2289,7 +2289,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2445,7 +2445,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2593,7 +2593,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2743,7 +2743,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -2907,7 +2907,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -3098,7 +3098,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -3281,7 +3281,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -3495,7 +3495,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -3682,7 +3682,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
@@ -3871,7 +3871,7 @@ spec:
               --retry 30 --retry-connrefused --retry-max-time 30 > /dev/null ||
               exit 1
       containers:
-        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:bob-354da53d0a
+        - image: us-central1-docker.pkg.dev/zones-cloud/b/biomes:nmvc-manual-3
           name: biomes
           args:
             - '-r'
