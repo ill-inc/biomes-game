@@ -102,7 +102,7 @@ const DEFAULT_CONFIG = deepFreeze({
   md5: "[none]",
 
   // Auth
-  instantAccessInviteCodes: ["buildthebobber"],
+  instantAccessInviteCodes: [] as string[],
   instantAccessBlocklist: ["bobthebuilder"],
   instantAccessAuthProviders: <Readonly<Array<ForeignAuthProviderName>>>[],
   primaryCTA: "login" as "discord" | "login",
@@ -370,12 +370,7 @@ const DEFAULT_CONFIG = deepFreeze({
   bobDeployPaths: ["deploy/"],
   bobIgnoreChangeEmails: ["cloud-build@ill.inc"],
   bobIgnoreChangeSubject: /^Deploy \d+ change/,
-  bobGithubEmailToDiscord: [
-    [
-      ["nick@not.fun", "nicknotfun"],
-      ["<@944028492239110174>", "@nillinc"],
-    ],
-  ] as [string[], [string, string]][],
+  bobGithubEmailToDiscord: [] as [string[], [string, string]][],
 
   manualUserIdToDiscord: [] as [BiomesId, string][],
 
