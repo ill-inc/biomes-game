@@ -240,8 +240,7 @@ export const SplashPage: React.FunctionComponent<{
                       open source
                     </a>{" "}
                     sandbox MMORPG built for the web. Build, forage, play
-                    minigames and more, all right from your browser. View the
-                    trailer and snapshots from our Early Access release below.{" "}
+                    minigames and more, all right from your browser.
                   </div>
                   <div
                     className="relative flex aspect-video overflow-hidden"
