@@ -6,16 +6,15 @@ import trailerPoster from "/public/splash/trailer-poster.png";
 import { WakeupMuckParticles } from "@/client/components/Particles";
 import { LoginRelatedController } from "@/client/components/static_site/LoginRelatedController";
 import { LoginRelatedControllerContext } from "@/client/components/static_site/LoginRelatedControllerContext";
+import { SplashHeader } from "@/client/components/static_site/SplashHeader";
 import { cleanListener } from "@/client/util/helpers";
+import { useFeaturedPosts } from "@/client/util/social_manager_hooks";
 import { safeDetermineEmployeeUserId } from "@/server/shared/bootstrap/sync";
-import { INVALID_BIOMES_ID } from "@/shared/ids";
+import { BiomesId, INVALID_BIOMES_ID } from "@/shared/ids";
 import type { FeedPostBundle } from "@/shared/types";
 import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
 import { inRange } from "lodash";
-// import ReactPlayer from "react-player";
-import { SplashHeader } from "@/client/components/static_site/SplashHeader";
-import { useFeaturedPosts } from "@/client/util/social_manager_hooks";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Masonry from "react-masonry-css";
@@ -42,12 +41,18 @@ const MAX_TILT_BIG = 20;
 const FeaturedImage: React.FC<{
   post: FeedPostBundle;
   margin: string;
-  selected: boolean;
+  selectedPostId: BiomesId;
   onClick: () => void;
-}> = ({ post, margin, selected, onClick }) => {
+}> = ({ post, margin, selectedPostId, onClick }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const showBig = selected;
-  const [zIndex, setZIndex] = useState(0);
+  const [isSelected, setIsSelected] = useState(post.id === selectedPostId);
+  const [wasSelected, setWasSelected] = useState(false);
+
+  useEffect(() => {
+    const selected = post.id === selectedPostId;
+    setWasSelected(isSelected);
+    setIsSelected(selected);
+  }, [selectedPostId]);
 
   function getDivPositionRelativeToViewport(div: HTMLDivElement) {
     const rect = div.getBoundingClientRect();
@@ -81,12 +86,6 @@ const FeaturedImage: React.FC<{
     }
   }, []);
 
-  useEffect(() => {
-    if (showBig) {
-      setZIndex(40);
-    }
-  }, [showBig]);
-
   const variants: Variants = {
     rest: {
       scale: 1,
@@ -104,22 +103,17 @@ const FeaturedImage: React.FC<{
       ref={ref}
       onClick={onClick}
       onMouseLeave={() => {
-        if (selected) {
+        if (isSelected) {
           onClick();
         }
       }}
       className="relative"
       variants={variants}
-      whileTap={showBig ? "big" : "tap"}
-      animate={showBig ? "big" : "rest"}
+      whileTap={isSelected ? "big" : "tap"}
+      animate={isSelected ? "big" : "rest"}
       transition={{ type: "spring", bounce: 0.2 }}
-      onAnimationComplete={(definition) => {
-        if (definition === "rest" && !showBig) {
-          setZIndex(0);
-        }
-      }}
       style={{
-        zIndex: zIndex,
+        zIndex: isSelected ? 40 : wasSelected ? 10 : 0,
         marginBottom: margin,
         transformOrigin: "center right",
       }}
@@ -130,12 +124,12 @@ const FeaturedImage: React.FC<{
         glarePosition="all"
         glareColor="rgba(255,255,255,0.5)"
         transitionSpeed={800}
-        tiltMaxAngleX={showBig ? MAX_TILT_BIG : MAX_TILT_SMALL}
-        tiltMaxAngleY={showBig ? MAX_TILT_BIG : MAX_TILT_SMALL}
+        tiltMaxAngleX={isSelected ? MAX_TILT_BIG : MAX_TILT_SMALL}
+        tiltMaxAngleY={isSelected ? MAX_TILT_BIG : MAX_TILT_SMALL}
         className="relative overflow-hidden"
         style={{
           marginBottom: margin,
-          boxShadow: showBig ? "0 10px 40px rgba(0,0,0,0.75)" : "none",
+          boxShadow: isSelected ? "0 10px 40px rgba(0,0,0,0.75)" : "none",
         }}
       >
         <motion.div
@@ -170,7 +164,8 @@ const FeaturedImageSpread: React.FC<{
   const margin = "2vmin";
   const gridMargin = `ml-[-2vmin]`;
   const columnPadding = `pl-[2vmin]`;
-  const [selectedImage, setSelectedImage] = useState<number>(INVALID_BIOMES_ID);
+  const [selectedImage, setSelectedImage] =
+    useState<BiomesId>(INVALID_BIOMES_ID);
   return (
     <Masonry
       className={`${gridMargin} flex`}
@@ -190,7 +185,7 @@ const FeaturedImageSpread: React.FC<{
                 setSelectedImage(image.id);
               }
             }}
-            selected={selectedImage === image.id}
+            selectedPostId={selectedImage}
           />
         );
       })}
