@@ -36,7 +36,7 @@ sidebar_position: 1
   ```
 - Clone repo
   ```bash
-  git clone git@github.com:{{ site.ghrepo }}.git
+  git clone https://github.com/ill-inc/biomes-game.git
   ```
 - Install [Redis 7.0.8](https://redis.io/)
   ```bash
