@@ -30,6 +30,7 @@ sidebar_position: 1
     ```bash
     brew install git-lfs
     ```
+- Install [Python version >=3.8,<=3.10](https://www.python.org/)
 - Install [Bazel](https://bazel.build/install)
   ```bash
   npm install -g @bazel/bazelisk
@@ -37,6 +38,11 @@ sidebar_position: 1
 - Clone repo
   ```bash
   git clone https://github.com/ill-inc/biomes-game.git
+  ```
+- Setup Python Virtual Environment (optional, but recommended)
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate
   ```
 - Install [Redis 7.0.8](https://redis.io/)
   ```bash
