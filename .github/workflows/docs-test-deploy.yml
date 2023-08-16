@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
 
       - name: Install project dependencies
@@ -23,4 +23,4 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Test build website
         working-directory: ./docs
-        run: yarn build
+        run: yarn run -- docusaurus build
