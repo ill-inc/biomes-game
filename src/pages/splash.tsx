@@ -243,13 +243,13 @@ export const SplashPage: React.FunctionComponent<{
                     minigames and more, all right from your browser.
                   </div>
                   <div
-                    className="relative flex aspect-video overflow-hidden"
+                    className="relative flex aspect-video overflow-hidden bg-white"
                     style={{ border: "4px solid white" }}
                   >
                     <ReactPlayer
-                      style={{ background: "black" }}
+                      style={{ background: "white" }}
                       width={"100%"}
-                      height={"100%"}
+                      height={"fill"}
                       playing={playYoutubeTrailer}
                       onPlay={() => setPlayYoutubeTrailer(true)}
                       url={`https://www.youtube.com/embed/${youtubeVideoId}`}
