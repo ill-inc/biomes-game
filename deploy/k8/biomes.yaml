@@ -133,7 +133,7 @@ spec:
             - name: CPU_COUNT
               value: '1.5'
             - name: NODE_OPTIONS
-              value: '--openssl-legacy-provider --max-old-space-size=1024'
+              value: '--openssl-legacy-provider --max-old-space-size=4096'
             - name: GOOGLE_CLOUD_PROJECT
               value: zones-cloud
             - name: IS_SERVER
@@ -184,7 +184,7 @@ spec:
             timeoutSeconds: 1
           resources:
             requests:
-              memory: 1024Mi
+              memory: 4096Mi
               cpu: '1.5'
         - name: nginx
           image: nginx:stable

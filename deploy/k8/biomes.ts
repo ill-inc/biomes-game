@@ -69,7 +69,7 @@ function createBiomes() {
       http: true,
       args: [...BASE_CONFIG_ARGS, "-a", "local"],
       cpu: 1.5,
-      memory: 1 * 1024,
+      memory: 4 * 1024,
     }),
     // Periodic backup job.
     biomesCron("0 * * * *", {
