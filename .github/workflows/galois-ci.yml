@@ -22,8 +22,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: gcloud auth
-        uses: ./.github/actions/gcloud-auth
       - name: git lfs pull
         uses: ./.github/actions/cached-lfs-pull
       - name: yarn install
@@ -43,8 +41,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: gcloud auth
-        uses: ./.github/actions/gcloud-auth
       - name: git lfs pull
         uses: ./.github/actions/cached-lfs-pull
       - name: yarn install
@@ -64,8 +60,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: gcloud auth
-        uses: ./.github/actions/gcloud-auth
       - name: git lfs pull
         uses: ./.github/actions/cached-lfs-pull
       - name: yarn install

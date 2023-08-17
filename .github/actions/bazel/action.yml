@@ -13,9 +13,11 @@ runs:
   using: "composite"
   steps:
     # Store our Google Cloud credentials into a home directory .bazelrc.
-    # Requires that we have previously authenticated with Google Cloud.
+    # Requires that we have previously authenticated with Google Cloud,
+    # so only run the command if GOOGLE_GHA_CREDS_PATH is set, otherwise we
+    # don't use remote caching.
     - name: "Configure local .bazelrc with auth credentials."
-      run: "echo \"build --config=with-remote-cache --google_credentials=\\\"${GOOGLE_GHA_CREDS_PATH}\\\"\" >> ${HOME}/.bazelrc"
+      run: "[[ -z $GOOGLE_GHA_CREDS_PATH ]] || echo \"build --config=with-remote-cache --google_credentials=\\\"${GOOGLE_GHA_CREDS_PATH}\\\"\" >> ${HOME}/.bazelrc"
       shell: bash
     # We cache the output_user_root since it contains *all* of the downloaded
     # files. We can `bazel build` with the `--nofetch` flag after this.
