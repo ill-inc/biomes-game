@@ -8,7 +8,7 @@ import sys
 
 def check_version():
     version = sys.version_info
-    if version.major != 3 or version.minor < 8:
+    if version.major != 3 or version.minor < 9:
         raise Exception("This script requires Python 3.8 or higher.")
 
 
@@ -29,7 +29,7 @@ def ensure_deps_are_available(deps):
             )
 
 
-def check_git_fls_is_installed():
+def check_git_lfs_is_installed():
     """Check that your local repository used git-lfs correctly."""
     try:
         subprocess.run(
@@ -86,7 +86,7 @@ def main():
             "watchfiles",
         ]
     )
-    check_git_fls_is_installed()
+    check_git_lfs_is_installed()
     check_bazel_installed()
     check_rsync_installed()
 

@@ -6,6 +6,8 @@ sidebar_position: 1
 
 ## Environment Setup
 
+Note that this repo supports dev containers so a quick way to setup your environment is to skip this section and [start a codespace](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Read on for manual instructions.
+
 - Install the Node version manager (https://github.com/nvm-sh/nvm).
 
   ```bash
@@ -30,6 +32,7 @@ sidebar_position: 1
     ```bash
     brew install git-lfs
     ```
+- Install [Python version >=3.9,<=3.10](https://www.python.org/)
 - Install [Bazel](https://bazel.build/install)
   ```bash
   npm install -g @bazel/bazelisk
@@ -37,6 +40,11 @@ sidebar_position: 1
 - Clone repo
   ```bash
   git clone https://github.com/ill-inc/biomes-game.git
+  ```
+- Setup Python Virtual Environment (optional, but recommended)
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate
   ```
 - Install [Redis 7.0.8](https://redis.io/)
   ```bash
@@ -47,6 +55,7 @@ sidebar_position: 1
   ```
 
 ## Run Biomes
+
 - In the Biomes repository directory,
   ```bash
   ./b data-snapshot run
