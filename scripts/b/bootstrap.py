@@ -6,6 +6,8 @@ import subprocess
 import sys
 
 
+# test
+
 def check_version():
     version = sys.version_info
     if version.major != 3 or version.minor < 8:
