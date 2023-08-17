@@ -4,7 +4,7 @@ from functools import update_wrapper
 from pathlib import Path
 import b
 import click
-from pip_install_voxeloo import run_pip_install_voxeloo
+from pip_install_voxeloo import run_pip_install_voxeloo, run_pip_install_requirements
 import time
 import shutil
 import tempfile
@@ -273,14 +273,15 @@ def ensure_redis_populated(ctx):
 
 @data_snapshot.command()
 @click.option(
-    "--pip-install-voxeloo/--no-pip-install-voxeloo",
+    "--pip-install/--no-pip-install",
     help="Whether or not `pip install ./voxeloo` will get called before commands that need it.",
     default=True,
 )
 @click.pass_context
-def run(ctx, pip_install_voxeloo: bool):
+def run(ctx, pip_install: bool):
     """Run with from data snapshot."""
-    if pip_install_voxeloo:
+    if pip_install:
+        run_pip_install_requirements()
         run_pip_install_voxeloo()
 
     # Make sure our data snapshot exists and is up-to-date.

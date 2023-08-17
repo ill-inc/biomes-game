@@ -39,3 +39,15 @@ def run_pip_install_voxeloo():
     )
     if result.returncode != 0:
         sys.exit(result.returncode)
+
+
+def run_pip_install_requirements():
+    click.secho("Running `pip install -r requirements`...")
+    click.secho()
+    # We call `python` directly here instead of sys.executable because that's
+    # how Galois is going to subsequently access Python.
+    result = subprocess.run(
+        ["python", "-m", "pip", "install", "-r", "requirements.txt"], cwd=REPO_DIR
+    )
+    if result.returncode != 0:
+        sys.exit(result.returncode)
