@@ -66,6 +66,11 @@ const config = {
             label: "F.A.Q.",
           },
           {
+            href: "/gameplay",
+            position: "left",
+            label: "Gameplay",
+          },
+          {
             href: "https://github.com/ill-inc/biomes-game",
             label: "GitHub",
             position: "right",
@@ -95,6 +100,10 @@ const config = {
               {
                 label: "F.A.Q.",
                 to: "/faq",
+              },
+              {
+                label: "Gameplay",
+                to: "/gameplay",
               },
             ],
           },
