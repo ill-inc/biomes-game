@@ -9,6 +9,10 @@ sidebar_position: 1
 **A:** If you created an account when Biomes was in Early Access, you can still login at any time and play! If you don't have an account, you can play
 by running it locally. Checkout our [local setup guide](/docs/basics/running-locally)!
 
+### Q: How can I get an invite code?
+
+**A:** unfortunately, we can no longer give out invite codes on a continuous basis. Invite codes, if released, would be found on the [Biomes Discord](https://discord.gg/biomes).
+
 ### Q: What platforms does Biomes support?
 
 **A:** Biomes can be enjoyed on MacOS, Windows, or Linux. Biomes is run in the browser and has been developed to run smoothly on Chrome. Biomes can run
