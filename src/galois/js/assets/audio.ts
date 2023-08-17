@@ -134,7 +134,7 @@ export const audioAssets = {
   dialog_open: ["audio/dialog-open"],
   inventory_close: ["audio/block-break-2"],
   inventory_open: ["audio/block-break-1"],
-  wearable_equip: ["block-break-1"],
+  wearable_equip: ["audio/block-break-1"],
 
   campfire: ["audio/campfire"],
   disco: ["audio/disco"],
