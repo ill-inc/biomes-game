@@ -6,7 +6,9 @@ sidebar_position: 1
 
 ## Environment Setup
 
-Note that this repo supports dev containers so a quick way to setup your environment is to skip this section and [start a codespace](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Read on for manual instructions.
+To run Biomes locally, you'll need to have 64GB of memory.
+
+Note that this repo supports dev containers so a quick way to setup your environment is to skip this section and [start a codespace](#github-codespaces). Read on for manual instructions.
 
 - Install the Node version manager (https://github.com/nvm-sh/nvm).
 
@@ -33,6 +35,7 @@ Note that this repo supports dev containers so a quick way to setup your environ
     brew install git-lfs
     ```
 - Install [Python version >=3.9,<=3.10](https://www.python.org/)
+- Install [clang version >= 14](https://clang.llvm.org/)
 - Install [Bazel](https://bazel.build/install)
   ```bash
   npm install -g @bazel/bazelisk
@@ -41,11 +44,13 @@ Note that this repo supports dev containers so a quick way to setup your environ
   ```bash
   git clone https://github.com/ill-inc/biomes-game.git
   ```
+- Run `git lfs pull` to ensure that the LFS files are up-to-date.
 - Setup Python Virtual Environment (optional, but recommended)
   ```bash
   python -m venv .venv
   source .venv/bin/activate
   ```
+- Run `pip install -r requirements.txt` to download python requirements.
 - Install [Redis 7.0.8](https://redis.io/)
   ```bash
   curl -s https://download.redis.io/releases/redis-7.0.8.tar.gz | tar xvz -C ${HOME} \
@@ -73,4 +78,4 @@ If you want to jump right in with a ready-to-go dev environment (enabling you to
 ### GitHub Codespaces
 
 Building off the "Developing inside a container" support, you can also start
-up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type".
+up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type" (which should come with the required 64GB of memory). If you create a codespace, you should always open it in VS Code, _not_ a browser, so that you can access the dev server at `localhost:3000`, which a lot of the system is expecting.
