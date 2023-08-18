@@ -6,6 +6,8 @@ sidebar_position: 1
 
 ## Environment Setup
 
+To run Biomes locally, you'll need to have 64GB of memory.
+
 Note that this repo supports dev containers so a quick way to setup your environment is to skip this section and [start a codespace](#github-codespaces). Read on for manual instructions.
 
 - Install the Node version manager (https://github.com/nvm-sh/nvm).
@@ -76,4 +78,4 @@ If you want to jump right in with a ready-to-go dev environment (enabling you to
 ### GitHub Codespaces
 
 Building off the "Developing inside a container" support, you can also start
-up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type".
+up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type" (which should come with the required 64GB of memory). If you create a codespace, you should always open it in VS Code, _not_ a browser, so that you can access the dev server at `localhost:3000`, which a lot of the system is expecting.
