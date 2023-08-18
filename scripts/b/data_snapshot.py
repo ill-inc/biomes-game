@@ -284,6 +284,8 @@ def run(ctx, pip_install: bool):
         run_pip_install_requirements()
         run_pip_install_voxeloo()
 
+    subprocess.run(["git", "lfs", "pull"], cwd=REPO_DIR, check=True)
+
     # Make sure our data snapshot exists and is up-to-date.
     ctx.invoke(pull)
 
