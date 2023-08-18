@@ -11,7 +11,7 @@ by running it locally. Checkout our [local setup guide](/docs/basics/running-loc
 
 ### Q: How can I get an invite code?
 
-**A:** Unfortunately, we can no longer give out invite codes on a continuous basis. If you would like an invite code, please send a message in the `invite-requests` channel on the [Biomes Discord server](https://discord.gg/biomes). We are currently receiving a large number of invites, so expect some delay.
+**A:** Unfortunately, we can no longer give out invite codes on a continuous basis. If you would like an invite code, please send a message in the `invite-requests` channel on the [Biomes Discord server](https://discord.gg/biomes). We are currently receiving a large number of requests, so expect some delay.
 
 ### Q: What platforms does Biomes support?
 
