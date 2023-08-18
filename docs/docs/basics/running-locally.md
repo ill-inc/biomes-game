@@ -79,3 +79,25 @@ If you want to jump right in with a ready-to-go dev environment (enabling you to
 
 Building off the "Developing inside a container" support, you can also start
 up a [GitHub Codespace](https://github.com/features/codespaces) in this repository by [clicking here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=677467268&skip_quickstart=true). Make sure to choose "16-core" or better for "Machine type" (which should come with the required 64GB of memory). If you create a codespace, you should always open it in VS Code, _not_ a browser, so that you can access the dev server at `localhost:3000`, which a lot of the system is expecting.
+
+## Common problems and solutions
+
+### Discord error on startup
+
+Disable Discord web hooks by adding:
+
+```
+discordHooksEnabled: false
+```
+
+to [biomes.config.dev.yaml](https://github.com/ill-inc/biomes-game/blob/main/biomes.config.dev.yaml).
+
+### Error when using social logins (Twitch/Discord/Google)
+
+Social logins will not work if you don't have access to the required API keys. Hence, they will not work for the local build, and should not be used.
+
+### Invalid asset paths
+
+Not found (404) errors of the form "Could not find `<asset-path>/<name>-<hash>.<extension>`" are often caused by having out of date assets, from a previous `./b data-snapshot run`.
+
+To fix this, delete the contents of `/public/buckets` and re-run `./b data-snapshot run`, to fetch the most up to date assets.
