@@ -40,3 +40,7 @@ minigames, teams, and so much more!
 **A:** First consider joining our amazing developer community on [Discord](https://discord.gg/biomes)! The [game's source code](https://github.com/ill-inc/biomes-game)
 and the [instructions for setting up the development environment](/docs/basics/running-locally) are great places to start! We follow the conventional pull-request workflow, so pull-requests submitted
 to the repository will be reviewed by the team! We appreciate any contributions, big or small!
+
+### Q: How can I host Biomes?
+
+**A:** See [hosting Biomes](/docs/basics/hosting). TL;DR: It's an involved process but should be feasible for those familiar with [Google Cloud Platform](https://cloud.google.com/) and [Kubernetes](https://kubernetes.io/), or similar.
