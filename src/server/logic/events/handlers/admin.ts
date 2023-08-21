@@ -11,6 +11,7 @@ import { QuestExecutor } from "@/server/shared/triggers/roots/quest";
 import { getBiscuit } from "@/shared/bikkie/active";
 import { secondsSinceEpoch } from "@/shared/ecs/config";
 import { RecipeBook } from "@/shared/ecs/gen/components";
+import { Delta } from "@/shared/ecs/gen/delta";
 import { anItem } from "@/shared/game/item";
 import { removeFromSet } from "@/shared/game/items";
 import { log } from "@/shared/logging";
@@ -243,5 +244,68 @@ export const adminUpdateInspectionTweaksHandler = makeEventHandler(
         entity.clearInspectionTweaks();
       }
     },
+  }
+);
+
+type EntityField = keyof Delta;
+
+function snakeCaseToUpperCamalCase(field: string): string {
+  return field
+    .split("_")
+    .map((name) => name[0].toUpperCase() + name.slice(1))
+    .join("");
+}
+
+function snakeCaseToCamalCase(field: string): string {
+  const words = field.split("_");
+  return (
+    words[0] +
+    words
+      .slice(1)
+      .map((name) => name[0].toUpperCase() + name.slice(1))
+      .join("")
+  );
+}
+
+function callMethod(entity: Delta, method: string, ...args: any[]): any {
+  return (entity[method as EntityField] as any)(...args);
+}
+
+// Attempts to delete a field from an entity.
+//
+// If the field is not present on the entity, nothing happens.
+export const adminECSDeleteFieldEventHandler = makeEventHandler(
+  "adminECSDeleteFieldEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.includeIced(event.id),
+    }),
+    apply({ entity }, { field }, _context) {
+      const clearFieldMethod = `clear${snakeCaseToUpperCamalCase(field)}`;
+      const accessorMethod = snakeCaseToCamalCase(field);
+
+      if (entity[accessorMethod as EntityField] === undefined) {
+        // Entity does not have the required field.
+        throw new Error("field not found");
+      }
+
+      callMethod(entity, clearFieldMethod);
+    },
+  }
+);
+
+// Attempts to add the default value of a field to an entity.
+//
+// If the field already exists, nothing happens.
+// If the field does not exist or does not have a default value, nothing happens.
+export const adminECSAddFieldEventHandler = makeEventHandler(
+  "adminECSAddFieldEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.id(event.id),
+    }),
+    apply({ entity }, { field }, _context) {},
   }
 );

@@ -2,6 +2,11 @@ import { AdminPage } from "@/client/components/admin/AdminPage";
 import { AdminReactJSON } from "@/client/components/admin/AdminReactJSON";
 import { useEntityAdmin } from "@/client/components/hooks/client_hooks";
 import { MaybeError } from "@/client/components/system/MaybeError";
+import {
+  AdminECSEditRequest,
+  AdminECSEditResponse,
+} from "@/pages/api/admin/ecs/edit";
+import { zAdminEntityGetResponse } from "@/pages/api/admin/ecs/get";
 import { usernameOrIdToUser } from "@/server/web/util/admin";
 import { biomesGetServerSideProps } from "@/server/web/util/ssp_middleware";
 import type { Entity } from "@/shared/ecs/gen/entities";
@@ -12,8 +17,10 @@ import {
   legacyIdOrBiomesId,
   zUsernameOrAnyId,
 } from "@/shared/ids";
+import { jsonPost, zjsonPost } from "@/shared/util/fetch_helpers";
 import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import { useState } from "react";
 import { InteractionProps, OnSelectProps } from "react-json-view";
 import { z } from "zod";
 
@@ -104,15 +111,75 @@ const AdminEntityPage: React.FunctionComponent<
 
 const CANCEL = false;
 
-const ECSEditor: React.FC<{ entity: Entity }> = ({ entity }) => {
-  const onDelete = (field: InteractionProps) => {
-    console.log(onDelete);
+// Perform and ECS edit and return whether it was successful.
+async function doECSEdit(edit: AdminECSEditRequest): Promise<boolean> {
+  const response = await jsonPost<AdminECSEditResponse, AdminECSEditRequest>(
+    "/api/admin/ecs/edit",
+    edit
+  );
+  return response.success;
+}
 
-    return CANCEL;
+const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
+  const [entity, setEntity] = useState(initialEntity);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  const refetchEntity = async (): Promise<Entity | undefined> => {
+    const response = await zjsonPost(
+      "/api/admin/ecs/get",
+      [entity.id],
+      zAdminEntityGetResponse
+    );
+    const wrappedEntity = response[0];
+    return wrappedEntity?.entity;
+  };
+
+  const updateEntity = () => {
+    void refetchEntity().then((entity) => {
+      if (entity) {
+        setEntity(entity);
+      } else {
+        setError("Failed to fetch after update.");
+      }
+    });
+  };
+
+  const onDelete = async (field: InteractionProps) => {
+    if (field.name === null) {
+      return;
+    }
+
+    if (field.name === "root") {
+      setError("Can't delete root.");
+      return;
+    }
+    if (field.name === "id") {
+      setError("Can't delete id.");
+      return;
+    }
+    if (entity[field.name as keyof Entity] === undefined) {
+      setError("Can only delete top-level fields.");
+      return;
+    }
+
+    setError("");
+    if (!confirm(`Are you sure you want to delete ${field.name}?`)) {
+      return;
+    }
+
+    const successful = await doECSEdit({
+      id: entity.id,
+      edit: {
+        kind: "delete",
+        field: field.name,
+      },
+    });
+    if (successful) {
+      updateEntity();
+    }
   };
 
   const onSelection = (select: OnSelectProps) => {
-    
     return CANCEL;
   };
 
@@ -121,16 +188,21 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity }) => {
   };
 
   return (
-    <>
+    <div className="ecs-json-editor">
+      {error && <div className="text-red">{`Error: ${error}`}</div>}
       <AdminReactJSON
         onEdit={onEdit}
+        validationMessage={undefined}
         src={entity}
         collapsed={1}
         onSelect={onSelection}
-        onDelete={onDelete}
+        onDelete={(field) => {
+          onDelete(field);
+          return false; // Don't perform the delete.
+        }}
         sortKeys
       />
-    </>
+    </div>
   );
 };
 

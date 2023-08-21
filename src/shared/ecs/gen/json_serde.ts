@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
-// Content Hash: fc42476112110b6097a0d1c04b0b9aca
+// Content Hash: d6c613c814e365dbcf2820abc591f53f
 
 import * as c from "@/shared/ecs/gen/components";
 import * as e from "@/shared/ecs/gen/entities";
@@ -10343,6 +10343,38 @@ class AdminUpdateInspectionTweaksEventSerde {
     });
   }
 }
+class AdminECSDeleteFieldEventSerde {
+  static serialize(event: ev.AdminECSDeleteFieldEvent) {
+    return {
+      kind: "adminECSDeleteFieldEvent",
+      id: t.serializeBiomesId(event.id),
+      field: event.field,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSDeleteFieldEvent({
+      id: t.deserializeBiomesId(data.id),
+      field: t.deserializeString(data.field),
+    });
+  }
+}
+class AdminECSAddFieldEventSerde {
+  static serialize(event: ev.AdminECSAddFieldEvent) {
+    return {
+      kind: "adminECSAddFieldEvent",
+      id: t.serializeBiomesId(event.id),
+      field: event.field,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSAddFieldEvent({
+      id: t.deserializeBiomesId(data.id),
+      field: t.deserializeString(data.field),
+    });
+  }
+}
 class CreateTeamEventSerde {
   static serialize(event: ev.CreateTeamEvent) {
     return {
@@ -10727,7 +10759,6 @@ class AddToOutfitEventSerde {
       kind: "addToOutfitEvent",
       id: t.serializeBiomesId(event.id),
       player_id: t.serializeBiomesId(event.player_id),
-      src_id: t.serializeBiomesId(event.src_id),
       src: t.serializeOwnedItemReference(event.src),
     };
   }
@@ -10736,7 +10767,6 @@ class AddToOutfitEventSerde {
     return new ev.AddToOutfitEvent({
       id: t.deserializeBiomesId(data.id),
       player_id: t.deserializeBiomesId(data.player_id),
-      src_id: t.deserializeBiomesId(data.src_id),
       src: t.deserializeOwnedItemReference(data.src),
     });
   }
@@ -11175,6 +11205,14 @@ export class EventSerde {
         return AdminUpdateInspectionTweaksEventSerde.serialize(
           event as ev.AdminUpdateInspectionTweaksEvent
         );
+      case "adminECSDeleteFieldEvent":
+        return AdminECSDeleteFieldEventSerde.serialize(
+          event as ev.AdminECSDeleteFieldEvent
+        );
+      case "adminECSAddFieldEvent":
+        return AdminECSAddFieldEventSerde.serialize(
+          event as ev.AdminECSAddFieldEvent
+        );
       case "createTeamEvent":
         return CreateTeamEventSerde.serialize(event as ev.CreateTeamEvent);
       case "updateTeamMetadataEvent":
@@ -11505,6 +11543,10 @@ export class EventSerde {
         return SetNPCPositionEventSerde.deserialize(data);
       case "adminUpdateInspectionTweaksEvent":
         return AdminUpdateInspectionTweaksEventSerde.deserialize(data);
+      case "adminECSDeleteFieldEvent":
+        return AdminECSDeleteFieldEventSerde.deserialize(data);
+      case "adminECSAddFieldEvent":
+        return AdminECSAddFieldEventSerde.deserialize(data);
       case "createTeamEvent":
         return CreateTeamEventSerde.deserialize(data);
       case "updateTeamMetadataEvent":

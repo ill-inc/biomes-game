@@ -3303,6 +3303,22 @@ def define_events(g: Generator):
     )
 
     g.add_event(
+        "AdminECSDeleteField",
+        OrderedDict(
+            id=s.BiomesId,
+            field=s.String
+        )
+    )
+
+    g.add_event(
+        "AdminECSAddField",
+        OrderedDict(
+            id=s.BiomesId,
+            field=s.String
+        )
+    )
+
+    g.add_event(
         "CreateTeam",
         OrderedDict(
             id=s.BiomesId,
