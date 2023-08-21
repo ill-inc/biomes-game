@@ -16,6 +16,7 @@ import { Delta } from "@/shared/ecs/gen/delta";
 import { anItem } from "@/shared/game/item";
 import { removeFromSet } from "@/shared/game/items";
 import { log } from "@/shared/logging";
+import { ok } from "assert";
 
 export const adminDeleteEventHandler = makeEventHandler("adminDeleteEvent", {
   mergeKey: (event) => event.entity_id,
@@ -321,6 +322,42 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
   }
 );
 
+function fetchCurrentValue(component: any, path: string[]): any {
+  let current = component;
+  for (const key of path) {
+    if (current === undefined) {
+      return undefined;
+    }
+    current = current[key];
+  }
+
+  return current;
+}
+
+function updateCurrentValue(component: any, path: string[], value: any) {
+  let current = component;
+  for (let i = 0; i < path.length - 1; ++i) {
+    current = component[path[i]];
+    ok(current !== undefined);
+  }
+  current[path[path.length - 1]] = value;
+}
+
+function matchTypeWithExisting(current: any, newValue: string) {
+  try {
+    if (typeof current === "boolean") {
+      return newValue === "true";
+    }
+    if (typeof current === "string") {
+      return newValue;
+    }
+    if (typeof current === "number") {
+      return Number(newValue);
+    }
+  } catch (_e) {}
+  return undefined;
+}
+
 // Edits a field within a component.
 //
 // Throws if the component does not exist or the edit path is invalid.
@@ -336,7 +373,42 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
         throw new Error("invalid edit path");
       }
 
-      // TODO
+      const componentField = path[0];
+      const componentName = snakeCaseToUpperCamalCase(componentField);
+      const accessorMethod = snakeCaseToCamalCase(componentField);
+      const component = entity[accessorMethod as EntityField];
+      const componentLocalPath = path.slice(1);
+
+      if (component === undefined) {
+        // Entity does not have the required component.
+        throw new Error("component not found");
+      }
+
+      try {
+        const newComponent = callMethod(entity, `mutable${componentName}`);
+        const currentValue = fetchCurrentValue(
+          newComponent,
+          componentLocalPath
+        );
+
+        if (
+          currentValue === undefined ||
+          currentValue === null ||
+          typeof currentValue === "object"
+        ) {
+          throw new Error("can't update null, undefined, or object");
+        }
+        const newValue = matchTypeWithExisting(currentValue, value);
+        if (newValue === undefined) {
+          throw new Error("invalid new value");
+        }
+
+        updateCurrentValue(newComponent, componentLocalPath, newValue);
+        // Apply the change to the entity.
+        callMethod(entity, `set${componentName}`, newComponent);
+      } catch (e) {
+        throw new Error(`Failed to update component: ${e}`);
+      }
     },
   }
 );

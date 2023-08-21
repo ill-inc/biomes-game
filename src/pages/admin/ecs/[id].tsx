@@ -210,10 +210,8 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
       setError("Can't set to null, undefined, or object.");
       return;
     }
-    if (typeof newValue !== typeof currentValue) {
-      setError("Type of new value must match type of old value.");
-      return;
-    }
+
+    setError("");
     const serialized = (newValue as number | string | boolean).toString();
     const successful = await doECSEdit({
       id: entity.id,
@@ -235,6 +233,7 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
       return;
     }
 
+    setError("");
     const successful = await doECSEdit({
       id: entity.id,
       edit: {
