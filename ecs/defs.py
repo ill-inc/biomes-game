@@ -3319,6 +3319,15 @@ def define_events(g: Generator):
     )
 
     g.add_event(
+        "AdminECSUpdateComponent",
+        OrderedDict(
+            id=s.BiomesId,
+            path=s.Strings,
+            value=s.String
+        )
+    )
+
+    g.add_event(
         "CreateTeam",
         OrderedDict(
             id=s.BiomesId,

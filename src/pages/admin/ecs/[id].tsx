@@ -115,7 +115,12 @@ const AdminEntityPage: React.FunctionComponent<
 // Perform and ECS edit and return whether it was successful.
 async function doECSEdit(request: AdminECSEditRequest): Promise<boolean> {
   const { edit } = request;
-  if (!confirm(`Are you sure you want to ${edit.kind} ${edit.field}?`)) {
+  const fieldName = edit.kind === "update" ? edit.path[0] : edit.field;
+  const editKind = edit.kind.toUpperCase();
+  if (fieldName === undefined) {
+    return false;
+  }
+  if (!confirm(`Are you sure you want to ${editKind} ${fieldName}?`)) {
     return false;
   }
   const response = await jsonPost<AdminECSEditResponse, AdminECSEditRequest>(
@@ -181,7 +186,48 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     }
   };
 
-  const onEdit = (field: InteractionProps) => {};
+  const onEdit = async (field: InteractionProps) => {
+    if (!field.name || field.namespace.find((x) => x === null) !== undefined) {
+      return;
+    }
+    const path = [...(field.namespace as string[]), field.name as string];
+    const currentValue = field.existing_value;
+    const newValue = field.new_value;
+
+    if (
+      currentValue === undefined ||
+      currentValue === null ||
+      typeof currentValue === "object"
+    ) {
+      setError("Can't update null, undefined, or object.");
+      return;
+    }
+    if (
+      newValue === undefined ||
+      newValue === null ||
+      typeof currentValue === "object"
+    ) {
+      setError("Can't set to null, undefined, or object.");
+      return;
+    }
+    if (typeof newValue !== typeof currentValue) {
+      setError("Type of new value must match type of old value.");
+      return;
+    }
+    const serialized = (newValue as number | string | boolean).toString();
+    const successful = await doECSEdit({
+      id: entity.id,
+      edit: {
+        kind: "update",
+        path,
+        value: serialized,
+      },
+    });
+
+    if (successful) {
+      updateEntity();
+    }
+  };
 
   const onAdd = async () => {
     if (entity[componentName as keyof Entity] !== undefined) {
@@ -200,10 +246,11 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     if (successful) {
       updateEntity();
     }
-
     setComponentName("");
   };
 
+  // Note: We return false from onEdit and onDelete, not updating the JSON, because the updates
+  //       are done implicitly, by updating the entity and refetching.
   return (
     <div className="ecs-json-editor">
       {error && <div className="text-red">{`Error: ${error}`}</div>}
@@ -221,8 +268,10 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
           </DialogBoxContents>
         </div>
         <AdminReactJSON
-          onEdit={onEdit}
-          validationMessage={undefined}
+          onEdit={(field) => {
+            onEdit(field);
+            return false;
+          }}
           src={entity}
           collapsed={1}
           onDelete={(field) => {

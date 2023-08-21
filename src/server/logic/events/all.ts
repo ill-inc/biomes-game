@@ -4,6 +4,7 @@ import {
   adminDestroyPlantEventHandler,
   adminECSAddComponentEventHandler,
   adminECSDeleteComponentEventHandler,
+  adminECSUpdateComponentEventHandler,
   adminEditPresetEventHandler,
   adminGiveItemEventHandler,
   adminIceEventHandler,
@@ -111,7 +112,7 @@ import { updateProjectedRestorationEventHandler } from "@/server/logic/events/ha
 import { allRobotHandlers } from "@/server/logic/events/handlers/robot";
 import { allTeamEventHandlers } from "@/server/logic/events/handlers/teams";
 import { allTradeEventHandlers } from "@/server/logic/events/handlers/trade";
-import type { EventSet } from "@/shared/ecs/gen/events";
+import { type EventSet } from "@/shared/ecs/gen/events";
 import type { RegistryLoader } from "@/shared/registry";
 import { ok } from "assert";
 export type EventHandlerMap = Map<keyof EventSet, AnyEventHandler>;
@@ -148,6 +149,7 @@ export function eventHandlerMapFor(serverMods: ServerMods) {
     adminUpdateInspectionTweaksHandler,
     adminECSDeleteComponentEventHandler,
     adminECSAddComponentEventHandler,
+    adminECSUpdateComponentEventHandler,
 
     // Challenge events
     acceptChallengeEventHandler,

@@ -3,6 +3,7 @@ import { biomesApiHandler } from "@/server/web/util/api_middleware";
 import {
   AdminECSAddComponentEvent,
   AdminECSDeleteComponentEvent,
+  AdminECSUpdateComponentEvent,
 } from "@/shared/ecs/gen/events";
 import { zBiomesId } from "@/shared/ids";
 import { z } from "zod";
@@ -19,9 +20,9 @@ export const zAdminECSEditRequest = z.object({
       field: z.string(),
     }),
     z.object({
-      kind: z.literal("edit"),
-      field: z.string().array(),
-      value: z.any(),
+      kind: z.literal("update"),
+      path: z.string().array(),
+      value: z.string(),
     }),
   ]),
 });
@@ -41,14 +42,12 @@ export default biomesApiHandler(
   async ({ auth: { userId }, body: { id, edit }, context }) => {
     try {
       if (edit.kind === "delete") {
-        // Delete the field.
         await context.logicApi.publish(
           new GameEvent(
             userId,
             new AdminECSDeleteComponentEvent({ id, field: edit.field })
           )
         );
-        return { success: true };
       } else if (edit.kind === "add") {
         await context.logicApi.publish(
           new GameEvent(
@@ -56,10 +55,19 @@ export default biomesApiHandler(
             new AdminECSAddComponentEvent({ id, field: edit.field })
           )
         );
-        return { success: true };
-      } else if (edit.kind === "edit") {
-        // TODO
+      } else if (edit.kind === "update") {
+        await context.logicApi.publish(
+          new GameEvent(
+            userId,
+            new AdminECSUpdateComponentEvent({
+              id,
+              path: edit.path,
+              value: edit.value,
+            })
+          )
+        );
       }
+      return { success: true };
     } catch (_e) {}
 
     return { success: false };

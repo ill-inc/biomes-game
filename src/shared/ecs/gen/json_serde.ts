@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
-// Content Hash: f65afb62330b6b177cd3491214fcf78d
+// Content Hash: ecbe8bb6b662225f526e939b2f7af9ee
 
 import * as c from "@/shared/ecs/gen/components";
 import * as e from "@/shared/ecs/gen/entities";
@@ -10375,6 +10375,24 @@ class AdminECSAddComponentEventSerde {
     });
   }
 }
+class AdminECSUpdateComponentEventSerde {
+  static serialize(event: ev.AdminECSUpdateComponentEvent) {
+    return {
+      kind: "adminECSUpdateComponentEvent",
+      id: t.serializeBiomesId(event.id),
+      path: event.path,
+      value: event.value,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSUpdateComponentEvent({
+      id: t.deserializeBiomesId(data.id),
+      path: t.deserializeStrings(data.path),
+      value: t.deserializeString(data.value),
+    });
+  }
+}
 class CreateTeamEventSerde {
   static serialize(event: ev.CreateTeamEvent) {
     return {
@@ -11213,6 +11231,10 @@ export class EventSerde {
         return AdminECSAddComponentEventSerde.serialize(
           event as ev.AdminECSAddComponentEvent
         );
+      case "adminECSUpdateComponentEvent":
+        return AdminECSUpdateComponentEventSerde.serialize(
+          event as ev.AdminECSUpdateComponentEvent
+        );
       case "createTeamEvent":
         return CreateTeamEventSerde.serialize(event as ev.CreateTeamEvent);
       case "updateTeamMetadataEvent":
@@ -11547,6 +11569,8 @@ export class EventSerde {
         return AdminECSDeleteComponentEventSerde.deserialize(data);
       case "adminECSAddComponentEvent":
         return AdminECSAddComponentEventSerde.deserialize(data);
+      case "adminECSUpdateComponentEvent":
+        return AdminECSUpdateComponentEventSerde.deserialize(data);
       case "createTeamEvent":
         return CreateTeamEventSerde.deserialize(data);
       case "updateTeamMetadataEvent":

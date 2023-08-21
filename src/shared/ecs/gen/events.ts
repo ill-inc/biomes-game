@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from events.ts.j2. Do not modify directly.
-// Content Hash: 3ab642717a28de3f6b692bf73a8098fa
+// Content Hash: 0d61c8d86668c78dc44d4bdd0661bd96
 
 import * as t from "@/shared/ecs/gen/types";
 import type { BiomesId } from "@/shared/ids";
@@ -133,6 +133,7 @@ export interface EventSet {
   readonly adminUpdateInspectionTweaksEvent?: AdminUpdateInspectionTweaksEvent[];
   readonly adminECSDeleteComponentEvent?: AdminECSDeleteComponentEvent[];
   readonly adminECSAddComponentEvent?: AdminECSAddComponentEvent[];
+  readonly adminECSUpdateComponentEvent?: AdminECSUpdateComponentEvent[];
   readonly createTeamEvent?: CreateTeamEvent[];
   readonly updateTeamMetadataEvent?: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent?: InvitePlayerToTeamEvent[];
@@ -287,6 +288,7 @@ interface SuperEventSet {
   readonly adminUpdateInspectionTweaksEvent: AdminUpdateInspectionTweaksEvent[];
   readonly adminECSDeleteComponentEvent: AdminECSDeleteComponentEvent[];
   readonly adminECSAddComponentEvent: AdminECSAddComponentEvent[];
+  readonly adminECSUpdateComponentEvent: AdminECSUpdateComponentEvent[];
   readonly createTeamEvent: CreateTeamEvent[];
   readonly updateTeamMetadataEvent: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent: InvitePlayerToTeamEvent[];
@@ -4164,6 +4166,34 @@ export class AdminECSAddComponentEvent implements Event {
   }
 }
 
+export interface HandlerAdminECSUpdateComponentEvent {
+  readonly kind: "adminECSUpdateComponentEvent";
+  readonly id: BiomesId;
+  path: t.Strings;
+  value: t.String;
+}
+
+export class AdminECSUpdateComponentEvent implements Event {
+  readonly kind = "adminECSUpdateComponentEvent";
+  readonly id: BiomesId;
+  path: t.ReadonlyStrings;
+  value: t.ReadonlyString;
+
+  constructor({
+    id = t.defaultBiomesId,
+    path = t.defaultStrings(),
+    value = t.defaultString,
+  }: {
+    id?: BiomesId;
+    path?: t.ReadonlyStrings;
+    value?: t.ReadonlyString;
+  }) {
+    this.id = id;
+    this.path = path;
+    this.value = value;
+  }
+}
+
 export interface HandlerCreateTeamEvent {
   readonly kind: "createTeamEvent";
   readonly id: BiomesId;
@@ -4924,6 +4954,7 @@ export type AnyHandlerEvent =
   | HandlerAdminUpdateInspectionTweaksEvent
   | HandlerAdminECSDeleteComponentEvent
   | HandlerAdminECSAddComponentEvent
+  | HandlerAdminECSUpdateComponentEvent
   | HandlerCreateTeamEvent
   | HandlerUpdateTeamMetadataEvent
   | HandlerInvitePlayerToTeamEvent
@@ -5077,6 +5108,7 @@ export type AnyEvent =
   | AdminUpdateInspectionTweaksEvent
   | AdminECSDeleteComponentEvent
   | AdminECSAddComponentEvent
+  | AdminECSUpdateComponentEvent
   | CreateTeamEvent
   | UpdateTeamMetadataEvent
   | InvitePlayerToTeamEvent

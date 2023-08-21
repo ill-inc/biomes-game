@@ -272,7 +272,7 @@ function callMethod(entity: Delta, method: string, ...args: any[]): any {
   return (entity[method as EntityField] as any)(...args);
 }
 
-// Attempts to delete a field from an entity.
+// Delete a component from an entity.
 //
 // Throws if the component does not exist.
 export const adminECSDeleteComponentEventHandler = makeEventHandler(
@@ -296,7 +296,7 @@ export const adminECSDeleteComponentEventHandler = makeEventHandler(
   }
 );
 
-// Attempts to add the default value of a component to an entity.
+// Add the default value of a component to an entity.
 //
 // Throws if the component does not exist.
 export const adminECSAddComponentEventHandler = makeEventHandler(
@@ -304,7 +304,7 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
   {
     mergeKey: (event) => event.id,
     involves: (event) => ({
-      entity: q.id(event.id),
+      entity: q.includeIced(event.id),
     }),
     apply({ entity }, { field }, _context) {
       const componentName = snakeCaseToUpperCamalCase(field);
@@ -317,6 +317,26 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
       // @ts-ignore (ignore cannot index Component with componentName error)
       const newComponent = Component[componentName].create();
       callMethod(entity, setComponentMethod, newComponent);
+    },
+  }
+);
+
+// Edits a field within a component.
+//
+// Throws if the component does not exist or the edit path is invalid.
+export const adminECSUpdateComponentEventHandler = makeEventHandler(
+  "adminECSUpdateComponentEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.includeIced(event.id),
+    }),
+    apply({ entity }, { path, value }, _context) {
+      if (path.length === 0) {
+        throw new Error("invalid edit path");
+      }
+
+      // TODO
     },
   }
 );
