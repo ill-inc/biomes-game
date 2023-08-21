@@ -2,10 +2,16 @@ import { AdminPage } from "@/client/components/admin/AdminPage";
 import { AdminReactJSON } from "@/client/components/admin/AdminReactJSON";
 import { useEntityAdmin } from "@/client/components/hooks/client_hooks";
 import { MaybeError } from "@/client/components/system/MaybeError";
+import { usernameOrIdToUser } from "@/server/web/util/admin";
 import { biomesGetServerSideProps } from "@/server/web/util/ssp_middleware";
 import type { Entity } from "@/shared/ecs/gen/entities";
 import { Npc, Player } from "@/shared/ecs/gen/entities";
-import { zLegacyIdOrBiomesId } from "@/shared/ids";
+import {
+  INVALID_BIOMES_ID,
+  LegacyIdOrBiomesId,
+  legacyIdOrBiomesId,
+  zUsernameOrAnyId,
+} from "@/shared/ids";
 import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { z } from "zod";
@@ -14,10 +20,17 @@ export const getServerSideProps = biomesGetServerSideProps(
   {
     auth: "admin",
     query: z.object({
-      id: zLegacyIdOrBiomesId,
+      id: zUsernameOrAnyId,
     }),
   },
-  async ({ query: { id } }) => ({ props: { id } })
+  async ({ context: { db }, query: { id: usernameOrId } }) => {
+    if (legacyIdOrBiomesId(usernameOrId)) {
+      return { props: { id: usernameOrId } };
+    } else {
+      const user = await usernameOrIdToUser(db, usernameOrId);
+      return { props: { id: user?.id ?? INVALID_BIOMES_ID } };
+    }
+  }
 );
 
 const EntityTypeDetails: React.FunctionComponent<{
@@ -53,7 +66,7 @@ const EntityTypeDetails: React.FunctionComponent<{
 const AdminEntityPage: React.FunctionComponent<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ id }) => {
-  const entityOrError = useEntityAdmin(id);
+  const entityOrError = useEntityAdmin(id as LegacyIdOrBiomesId);
 
   if (entityOrError.kind === "error") {
     return (
