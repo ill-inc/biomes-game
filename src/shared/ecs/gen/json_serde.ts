@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
-// Content Hash: d6c613c814e365dbcf2820abc591f53f
+// Content Hash: f65afb62330b6b177cd3491214fcf78d
 
 import * as c from "@/shared/ecs/gen/components";
 import * as e from "@/shared/ecs/gen/entities";
@@ -10343,33 +10343,33 @@ class AdminUpdateInspectionTweaksEventSerde {
     });
   }
 }
-class AdminECSDeleteFieldEventSerde {
-  static serialize(event: ev.AdminECSDeleteFieldEvent) {
+class AdminECSDeleteComponentEventSerde {
+  static serialize(event: ev.AdminECSDeleteComponentEvent) {
     return {
-      kind: "adminECSDeleteFieldEvent",
+      kind: "adminECSDeleteComponentEvent",
       id: t.serializeBiomesId(event.id),
       field: event.field,
     };
   }
 
   static deserialize(data: any) {
-    return new ev.AdminECSDeleteFieldEvent({
+    return new ev.AdminECSDeleteComponentEvent({
       id: t.deserializeBiomesId(data.id),
       field: t.deserializeString(data.field),
     });
   }
 }
-class AdminECSAddFieldEventSerde {
-  static serialize(event: ev.AdminECSAddFieldEvent) {
+class AdminECSAddComponentEventSerde {
+  static serialize(event: ev.AdminECSAddComponentEvent) {
     return {
-      kind: "adminECSAddFieldEvent",
+      kind: "adminECSAddComponentEvent",
       id: t.serializeBiomesId(event.id),
       field: event.field,
     };
   }
 
   static deserialize(data: any) {
-    return new ev.AdminECSAddFieldEvent({
+    return new ev.AdminECSAddComponentEvent({
       id: t.deserializeBiomesId(data.id),
       field: t.deserializeString(data.field),
     });
@@ -11205,13 +11205,13 @@ export class EventSerde {
         return AdminUpdateInspectionTweaksEventSerde.serialize(
           event as ev.AdminUpdateInspectionTweaksEvent
         );
-      case "adminECSDeleteFieldEvent":
-        return AdminECSDeleteFieldEventSerde.serialize(
-          event as ev.AdminECSDeleteFieldEvent
+      case "adminECSDeleteComponentEvent":
+        return AdminECSDeleteComponentEventSerde.serialize(
+          event as ev.AdminECSDeleteComponentEvent
         );
-      case "adminECSAddFieldEvent":
-        return AdminECSAddFieldEventSerde.serialize(
-          event as ev.AdminECSAddFieldEvent
+      case "adminECSAddComponentEvent":
+        return AdminECSAddComponentEventSerde.serialize(
+          event as ev.AdminECSAddComponentEvent
         );
       case "createTeamEvent":
         return CreateTeamEventSerde.serialize(event as ev.CreateTeamEvent);
@@ -11543,10 +11543,10 @@ export class EventSerde {
         return SetNPCPositionEventSerde.deserialize(data);
       case "adminUpdateInspectionTweaksEvent":
         return AdminUpdateInspectionTweaksEventSerde.deserialize(data);
-      case "adminECSDeleteFieldEvent":
-        return AdminECSDeleteFieldEventSerde.deserialize(data);
-      case "adminECSAddFieldEvent":
-        return AdminECSAddFieldEventSerde.deserialize(data);
+      case "adminECSDeleteComponentEvent":
+        return AdminECSDeleteComponentEventSerde.deserialize(data);
+      case "adminECSAddComponentEvent":
+        return AdminECSAddComponentEventSerde.deserialize(data);
       case "createTeamEvent":
         return CreateTeamEventSerde.deserialize(data);
       case "updateTeamMetadataEvent":

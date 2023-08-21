@@ -1,6 +1,9 @@
 import { GameEvent } from "@/server/shared/api/game_event";
 import { biomesApiHandler } from "@/server/web/util/api_middleware";
-import { AdminECSAddFieldEvent, AdminECSDeleteFieldEvent } from "@/shared/ecs/gen/events";
+import {
+  AdminECSAddComponentEvent,
+  AdminECSDeleteComponentEvent,
+} from "@/shared/ecs/gen/events";
 import { zBiomesId } from "@/shared/ids";
 import { z } from "zod";
 
@@ -42,7 +45,7 @@ export default biomesApiHandler(
         await context.logicApi.publish(
           new GameEvent(
             userId,
-            new AdminECSDeleteFieldEvent({ id, field: edit.field })
+            new AdminECSDeleteComponentEvent({ id, field: edit.field })
           )
         );
         return { success: true };
@@ -50,7 +53,7 @@ export default biomesApiHandler(
         await context.logicApi.publish(
           new GameEvent(
             userId,
-            new AdminECSAddFieldEvent({ id, field: edit.field })
+            new AdminECSAddComponentEvent({ id, field: edit.field })
           )
         );
         return { success: true };

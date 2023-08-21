@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from events.ts.j2. Do not modify directly.
-// Content Hash: bd63396e755b5ec5777541856fd9ab29
+// Content Hash: 3ab642717a28de3f6b692bf73a8098fa
 
 import * as t from "@/shared/ecs/gen/types";
 import type { BiomesId } from "@/shared/ids";
@@ -131,8 +131,8 @@ export interface EventSet {
   readonly sellToEntityEvent?: SellToEntityEvent[];
   readonly setNPCPositionEvent?: SetNPCPositionEvent[];
   readonly adminUpdateInspectionTweaksEvent?: AdminUpdateInspectionTweaksEvent[];
-  readonly adminECSDeleteFieldEvent?: AdminECSDeleteFieldEvent[];
-  readonly adminECSAddFieldEvent?: AdminECSAddFieldEvent[];
+  readonly adminECSDeleteComponentEvent?: AdminECSDeleteComponentEvent[];
+  readonly adminECSAddComponentEvent?: AdminECSAddComponentEvent[];
   readonly createTeamEvent?: CreateTeamEvent[];
   readonly updateTeamMetadataEvent?: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent?: InvitePlayerToTeamEvent[];
@@ -285,8 +285,8 @@ interface SuperEventSet {
   readonly sellToEntityEvent: SellToEntityEvent[];
   readonly setNPCPositionEvent: SetNPCPositionEvent[];
   readonly adminUpdateInspectionTweaksEvent: AdminUpdateInspectionTweaksEvent[];
-  readonly adminECSDeleteFieldEvent: AdminECSDeleteFieldEvent[];
-  readonly adminECSAddFieldEvent: AdminECSAddFieldEvent[];
+  readonly adminECSDeleteComponentEvent: AdminECSDeleteComponentEvent[];
+  readonly adminECSAddComponentEvent: AdminECSAddComponentEvent[];
   readonly createTeamEvent: CreateTeamEvent[];
   readonly updateTeamMetadataEvent: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent: InvitePlayerToTeamEvent[];
@@ -4118,14 +4118,14 @@ export class AdminUpdateInspectionTweaksEvent implements Event {
   }
 }
 
-export interface HandlerAdminECSDeleteFieldEvent {
-  readonly kind: "adminECSDeleteFieldEvent";
+export interface HandlerAdminECSDeleteComponentEvent {
+  readonly kind: "adminECSDeleteComponentEvent";
   readonly id: BiomesId;
   field: t.String;
 }
 
-export class AdminECSDeleteFieldEvent implements Event {
-  readonly kind = "adminECSDeleteFieldEvent";
+export class AdminECSDeleteComponentEvent implements Event {
+  readonly kind = "adminECSDeleteComponentEvent";
   readonly id: BiomesId;
   field: t.ReadonlyString;
 
@@ -4141,14 +4141,14 @@ export class AdminECSDeleteFieldEvent implements Event {
   }
 }
 
-export interface HandlerAdminECSAddFieldEvent {
-  readonly kind: "adminECSAddFieldEvent";
+export interface HandlerAdminECSAddComponentEvent {
+  readonly kind: "adminECSAddComponentEvent";
   readonly id: BiomesId;
   field: t.String;
 }
 
-export class AdminECSAddFieldEvent implements Event {
-  readonly kind = "adminECSAddFieldEvent";
+export class AdminECSAddComponentEvent implements Event {
+  readonly kind = "adminECSAddComponentEvent";
   readonly id: BiomesId;
   field: t.ReadonlyString;
 
@@ -4922,8 +4922,8 @@ export type AnyHandlerEvent =
   | HandlerSellToEntityEvent
   | HandlerSetNPCPositionEvent
   | HandlerAdminUpdateInspectionTweaksEvent
-  | HandlerAdminECSDeleteFieldEvent
-  | HandlerAdminECSAddFieldEvent
+  | HandlerAdminECSDeleteComponentEvent
+  | HandlerAdminECSAddComponentEvent
   | HandlerCreateTeamEvent
   | HandlerUpdateTeamMetadataEvent
   | HandlerInvitePlayerToTeamEvent
@@ -5075,8 +5075,8 @@ export type AnyEvent =
   | SellToEntityEvent
   | SetNPCPositionEvent
   | AdminUpdateInspectionTweaksEvent
-  | AdminECSDeleteFieldEvent
-  | AdminECSAddFieldEvent
+  | AdminECSDeleteComponentEvent
+  | AdminECSAddComponentEvent
   | CreateTeamEvent
   | UpdateTeamMetadataEvent
   | InvitePlayerToTeamEvent

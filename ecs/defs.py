@@ -3303,7 +3303,7 @@ def define_events(g: Generator):
     )
 
     g.add_event(
-        "AdminECSDeleteField",
+        "AdminECSDeleteComponent",
         OrderedDict(
             id=s.BiomesId,
             field=s.String
@@ -3311,7 +3311,7 @@ def define_events(g: Generator):
     )
 
     g.add_event(
-        "AdminECSAddField",
+        "AdminECSAddComponent",
         OrderedDict(
             id=s.BiomesId,
             field=s.String

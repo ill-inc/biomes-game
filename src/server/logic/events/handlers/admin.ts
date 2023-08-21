@@ -275,8 +275,8 @@ function callMethod(entity: Delta, method: string, ...args: any[]): any {
 // Attempts to delete a field from an entity.
 //
 // Throws if the component does not exist.
-export const adminECSDeleteFieldEventHandler = makeEventHandler(
-  "adminECSDeleteFieldEvent",
+export const adminECSDeleteComponentEventHandler = makeEventHandler(
+  "adminECSDeleteComponentEvent",
   {
     mergeKey: (event) => event.id,
     involves: (event) => ({
@@ -299,8 +299,8 @@ export const adminECSDeleteFieldEventHandler = makeEventHandler(
 // Attempts to add the default value of a component to an entity.
 //
 // Throws if the component does not exist.
-export const adminECSAddFieldEventHandler = makeEventHandler(
-  "adminECSAddFieldEvent",
+export const adminECSAddComponentEventHandler = makeEventHandler(
+  "adminECSAddComponentEvent",
   {
     mergeKey: (event) => event.id,
     involves: (event) => ({
