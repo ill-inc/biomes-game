@@ -753,6 +753,7 @@ export const AdminUserPage: React.FunctionComponent<
           </li>
           <li>
             <h2> Game data </h2>
+            <Link href={`/admin/ecs/${user.id}`}>Edit game data (ECS)</Link>
             <AdminReactJSON src={entity ?? {}} collapsed />
           </li>
         </ul>

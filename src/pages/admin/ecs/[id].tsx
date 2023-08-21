@@ -85,7 +85,7 @@ const AdminEntityPage: React.FunctionComponent<
           {version !== undefined && <p>Version: {version}</p>}
           <EntityTypeDetails entity={entity}></EntityTypeDetails>
           <br></br>
-          <AdminReactJSON src={entity} collapsed />
+          <AdminReactJSON src={entity} collapsed={1} />
         </>
       ) : (
         <>
