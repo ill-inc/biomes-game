@@ -1,6 +1,9 @@
 import { AdminPage } from "@/client/components/admin/AdminPage";
 import { AdminReactJSON } from "@/client/components/admin/AdminReactJSON";
 import { useEntityAdmin } from "@/client/components/hooks/client_hooks";
+import { DialogBoxContents } from "@/client/components/system/DialogBox";
+import { DialogButton } from "@/client/components/system/DialogButton";
+import { DialogTextInput } from "@/client/components/system/DialogTextInput";
 import { MaybeError } from "@/client/components/system/MaybeError";
 import {
   AdminECSEditRequest,
@@ -21,7 +24,7 @@ import { jsonPost, zjsonPost } from "@/shared/util/fetch_helpers";
 import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { useState } from "react";
-import { InteractionProps, OnSelectProps } from "react-json-view";
+import { InteractionProps } from "react-json-view";
 import { z } from "zod";
 
 export const getServerSideProps = biomesGetServerSideProps(
@@ -109,13 +112,15 @@ const AdminEntityPage: React.FunctionComponent<
   );
 };
 
-const CANCEL = false;
-
 // Perform and ECS edit and return whether it was successful.
-async function doECSEdit(edit: AdminECSEditRequest): Promise<boolean> {
+async function doECSEdit(request: AdminECSEditRequest): Promise<boolean> {
+  const { edit } = request;
+  if (!confirm(`Are you sure you want to ${edit.kind} ${edit.field}?`)) {
+    return false;
+  }
   const response = await jsonPost<AdminECSEditResponse, AdminECSEditRequest>(
     "/api/admin/ecs/edit",
-    edit
+    request
   );
   return response.success;
 }
@@ -123,6 +128,7 @@ async function doECSEdit(edit: AdminECSEditRequest): Promise<boolean> {
 const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
   const [entity, setEntity] = useState(initialEntity);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [componentName, setComponentName] = useState<string>("");
 
   const refetchEntity = async (): Promise<Entity | undefined> => {
     const response = await zjsonPost(
@@ -163,10 +169,6 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     }
 
     setError("");
-    if (!confirm(`Are you sure you want to delete ${field.name}?`)) {
-      return;
-    }
-
     const successful = await doECSEdit({
       id: entity.id,
       edit: {
@@ -179,29 +181,57 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     }
   };
 
-  const onSelection = (select: OnSelectProps) => {
-    return CANCEL;
-  };
+  const onEdit = (field: InteractionProps) => {};
 
-  const onEdit = (field: InteractionProps) => {
-    return CANCEL;
+  const onAdd = async () => {
+    if (entity[componentName as keyof Entity] !== undefined) {
+      setError("Key already exists on entity.");
+      return;
+    }
+
+    const successful = await doECSEdit({
+      id: entity.id,
+      edit: {
+        kind: "add",
+        field: componentName,
+      },
+    });
+
+    if (successful) {
+      updateEntity();
+    }
+
+    setComponentName("");
   };
 
   return (
     <div className="ecs-json-editor">
       {error && <div className="text-red">{`Error: ${error}`}</div>}
-      <AdminReactJSON
-        onEdit={onEdit}
-        validationMessage={undefined}
-        src={entity}
-        collapsed={1}
-        onSelect={onSelection}
-        onDelete={(field) => {
-          onDelete(field);
-          return false; // Don't perform the delete.
-        }}
-        sortKeys
-      />
+      <div className="relative flex w-full flex-col">
+        <div className="mb-1 flex w-[300px] flex-col gap-1 rounded-md bg-dark-grey p-1">
+          <DialogBoxContents>
+            <DialogTextInput
+              placeholder="Component"
+              value={componentName}
+              onChange={(e) => {
+                setComponentName(e.target.value);
+              }}
+            />
+            <DialogButton name="Add Default" type="primary" onClick={onAdd} />
+          </DialogBoxContents>
+        </div>
+        <AdminReactJSON
+          onEdit={onEdit}
+          validationMessage={undefined}
+          src={entity}
+          collapsed={1}
+          onDelete={(field) => {
+            onDelete(field);
+            return false;
+          }}
+          sortKeys
+        />
+      </div>
     </div>
   );
 };
