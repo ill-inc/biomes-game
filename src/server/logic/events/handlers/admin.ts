@@ -12,7 +12,7 @@ import { getBiscuit } from "@/shared/bikkie/active";
 import { secondsSinceEpoch } from "@/shared/ecs/config";
 import * as Component from "@/shared/ecs/gen/components";
 import { RecipeBook } from "@/shared/ecs/gen/components";
-import { Delta } from "@/shared/ecs/gen/delta";
+import type { Delta } from "@/shared/ecs/gen/delta";
 import { anItem } from "@/shared/game/item";
 import { removeFromSet } from "@/shared/game/items";
 import { log } from "@/shared/logging";

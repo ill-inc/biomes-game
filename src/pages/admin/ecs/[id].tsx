@@ -5,7 +5,7 @@ import { DialogBoxContents } from "@/client/components/system/DialogBox";
 import { DialogButton } from "@/client/components/system/DialogButton";
 import { DialogTextInput } from "@/client/components/system/DialogTextInput";
 import { MaybeError } from "@/client/components/system/MaybeError";
-import {
+import type {
   AdminECSEditRequest,
   AdminECSEditResponse,
 } from "@/pages/api/admin/ecs/edit";
@@ -14,9 +14,9 @@ import { usernameOrIdToUser } from "@/server/web/util/admin";
 import { biomesGetServerSideProps } from "@/server/web/util/ssp_middleware";
 import type { Entity } from "@/shared/ecs/gen/entities";
 import { Npc, Player } from "@/shared/ecs/gen/entities";
+import type { LegacyIdOrBiomesId } from "@/shared/ids";
 import {
   INVALID_BIOMES_ID,
-  LegacyIdOrBiomesId,
   legacyIdOrBiomesId,
   zUsernameOrAnyId,
 } from "@/shared/ids";
@@ -24,7 +24,7 @@ import { jsonPost, zjsonPost } from "@/shared/util/fetch_helpers";
 import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { useState } from "react";
-import { InteractionProps } from "react-json-view";
+import type { InteractionProps } from "react-json-view";
 import { z } from "zod";
 
 export const getServerSideProps = biomesGetServerSideProps(
@@ -190,7 +190,7 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     if (!field.name || field.namespace.find((x) => x === null) !== undefined) {
       return;
     }
-    const path = [...(field.namespace as string[]), field.name as string];
+    const path = [...(field.namespace as string[]), field.name];
     const currentValue = field.existing_value;
     const newValue = field.new_value;
 
@@ -268,13 +268,13 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
         </div>
         <AdminReactJSON
           onEdit={(field) => {
-            onEdit(field);
+            void onEdit(field);
             return false;
           }}
           src={entity}
           collapsed={1}
           onDelete={(field) => {
-            onDelete(field);
+            void onDelete(field);
             return false;
           }}
           sortKeys
