@@ -14,6 +14,7 @@ import {
 } from "@/shared/ids";
 import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import { InteractionProps, OnSelectProps } from "react-json-view";
 import { z } from "zod";
 
 export const getServerSideProps = biomesGetServerSideProps(
@@ -101,10 +102,34 @@ const AdminEntityPage: React.FunctionComponent<
   );
 };
 
+const CANCEL = false;
+
 const ECSEditor: React.FC<{ entity: Entity }> = ({ entity }) => {
+  const onDelete = (field: InteractionProps) => {
+    console.log(onDelete);
+
+    return CANCEL;
+  };
+
+  const onSelection = (select: OnSelectProps) => {
+    
+    return CANCEL;
+  };
+
+  const onEdit = (field: InteractionProps) => {
+    return CANCEL;
+  };
+
   return (
     <>
-      <AdminReactJSON src={entity} collapsed={1} sortKeys />
+      <AdminReactJSON
+        onEdit={onEdit}
+        src={entity}
+        collapsed={1}
+        onSelect={onSelection}
+        onDelete={onDelete}
+        sortKeys
+      />
     </>
   );
 };
