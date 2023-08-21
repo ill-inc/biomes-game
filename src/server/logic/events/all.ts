@@ -2,6 +2,7 @@ import type { AnyEventHandler } from "@/server/logic/events/core";
 import {
   adminDeleteEventHandler,
   adminDestroyPlantEventHandler,
+  adminECSAddFieldEventHandler,
   adminECSDeleteFieldEventHandler,
   adminEditPresetEventHandler,
   adminGiveItemEventHandler,
@@ -146,6 +147,7 @@ export function eventHandlerMapFor(serverMods: ServerMods) {
     adminDestroyPlantEventHandler,
     adminUpdateInspectionTweaksHandler,
     adminECSDeleteFieldEventHandler,
+    adminECSAddFieldEventHandler,
 
     // Challenge events
     acceptChallengeEventHandler,

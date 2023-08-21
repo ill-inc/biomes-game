@@ -10,6 +10,7 @@ import {
 import { QuestExecutor } from "@/server/shared/triggers/roots/quest";
 import { getBiscuit } from "@/shared/bikkie/active";
 import { secondsSinceEpoch } from "@/shared/ecs/config";
+import * as Component from "@/shared/ecs/gen/components";
 import { RecipeBook } from "@/shared/ecs/gen/components";
 import { Delta } from "@/shared/ecs/gen/delta";
 import { anItem } from "@/shared/game/item";
@@ -273,7 +274,7 @@ function callMethod(entity: Delta, method: string, ...args: any[]): any {
 
 // Attempts to delete a field from an entity.
 //
-// If the field is not present on the entity, nothing happens.
+// Throws if the component does not exist.
 export const adminECSDeleteFieldEventHandler = makeEventHandler(
   "adminECSDeleteFieldEvent",
   {
@@ -295,10 +296,9 @@ export const adminECSDeleteFieldEventHandler = makeEventHandler(
   }
 );
 
-// Attempts to add the default value of a field to an entity.
+// Attempts to add the default value of a component to an entity.
 //
-// If the field already exists, nothing happens.
-// If the field does not exist or does not have a default value, nothing happens.
+// Throws if the component does not exist.
 export const adminECSAddFieldEventHandler = makeEventHandler(
   "adminECSAddFieldEvent",
   {
@@ -306,6 +306,17 @@ export const adminECSAddFieldEventHandler = makeEventHandler(
     involves: (event) => ({
       entity: q.id(event.id),
     }),
-    apply({ entity }, { field }, _context) {},
+    apply({ entity }, { field }, _context) {
+      const componentName = snakeCaseToUpperCamalCase(field);
+      const setComponentMethod = `set${componentName}`;
+
+      if (entity[setComponentMethod as EntityField] === undefined) {
+        throw new Error("attempted to add a component that does not exist");
+      }
+
+      // @ts-ignore (ignore cannot index Component with componentName error)
+      const newComponent = Component[componentName].create();
+      callMethod(entity, setComponentMethod, newComponent);
+    },
   }
 );
