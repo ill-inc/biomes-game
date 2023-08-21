@@ -77,23 +77,35 @@ const AdminEntityPage: React.FunctionComponent<
   }
 
   const { entity, version } = entityOrError.result;
-  return (
-    <AdminPage>
-      {entity ? (
-        <>
-          <h2>ECS {entity.id}</h2>
-          {version !== undefined && <p>Version: {version}</p>}
-          <EntityTypeDetails entity={entity}></EntityTypeDetails>
-          <br></br>
-          <AdminReactJSON src={entity} collapsed={1} />
-        </>
-      ) : (
+  if (!entity) {
+    return (
+      <AdminPage>
         <>
           <div className="error">Entity not found!</div>
           {version !== undefined && <p>Version: {version}</p>}
         </>
-      )}
+      </AdminPage>
+    );
+  }
+
+  return (
+    <AdminPage>
+      <>
+        <h2>ECS {entity.id}</h2>
+        {version !== undefined && <p>Version: {version}</p>}
+        <EntityTypeDetails entity={entity}></EntityTypeDetails>
+        <br></br>
+        <ECSEditor entity={entity} />
+      </>
     </AdminPage>
+  );
+};
+
+const ECSEditor: React.FC<{ entity: Entity }> = ({ entity }) => {
+  return (
+    <>
+      <AdminReactJSON src={entity} collapsed={1} sortKeys />
+    </>
   );
 };
 
