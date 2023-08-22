@@ -1,4 +1,4 @@
-import { Delta } from "@/shared/ecs/gen/delta";
+import type { Delta } from "@/shared/ecs/gen/delta";
 
 type EntityField = keyof Delta;
 type EntityMethod = "get" | "mutable" | "set" | "clear";
@@ -29,7 +29,11 @@ function entityFunc(field: string, method: EntityMethod): EntityField {
   return `${method}${componentName}` as EntityField;
 }
 
-export function entityGet(entity: Delta, field: string, method: EntityMethod): any {
+export function entityGet(
+  entity: Delta,
+  field: string,
+  method: EntityMethod
+): any {
   return entity[entityFunc(field, method)];
 }
 
