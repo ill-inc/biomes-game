@@ -13,7 +13,6 @@ import { getBiscuit } from "@/shared/bikkie/active";
 import { secondsSinceEpoch } from "@/shared/ecs/config";
 import * as Component from "@/shared/ecs/gen/components";
 import { RecipeBook } from "@/shared/ecs/gen/components";
-import type { Delta } from "@/shared/ecs/gen/delta";
 import { anItem } from "@/shared/game/item";
 import { removeFromSet } from "@/shared/game/items";
 import { log } from "@/shared/logging";
@@ -355,9 +354,10 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
       try {
         let newComponent = entityInvoke(entity, componentField, "mutable");
         if (newComponent === undefined) {
+          // The component can be directly mutated and therefore is not accessed through
+          // mutable accessor method.
           newComponent = entityInvoke(entity, componentField, "get");
         }
-        console.log("newComponent", newComponent);
         const currentValue = fetchCurrentValue(
           newComponent,
           componentLocalPath
