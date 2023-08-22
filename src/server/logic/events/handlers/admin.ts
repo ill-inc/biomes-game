@@ -269,17 +269,30 @@ function snakeCaseToCamalCase(field: string): string {
   );
 }
 
+
+type EntityMethod = "get" | "mutable" | "set" | "clear";
+function entityFunc(field: string, method: EntityMethod): EntityField {
+  if (method === "get") {
+    return snakeCaseToCamalCase(field) as EntityField
+  }
+  const componentName = snakeCaseToUpperCamalCase(field);
+  return `${method}${componentName}` as EntityField;
+}
+
+function entityGet(entity: Delta, field: string, method: EntityMethod): any {
+  return entity[entityFunc(field, method)];
+}
+
 function entityInvoke(
   entity: Delta,
   field: string,
   method: "get" | "mutable" | "set" | "clear",
   ...args: any[]
 ): any {
-  if (method === "get") {
-    return entity[snakeCaseToCamalCase(field) as EntityField];
+  if (entity[entityFunc(field, method)] === undefined) {
+    return undefined;
   }
-  const componentName = snakeCaseToUpperCamalCase(field);
-  return (entity[`${method}${componentName}` as EntityField] as any)(...args);
+  return (entity[entityFunc(field, method)] as any)(...args);
 }
 
 // Delete a component from an entity.
@@ -293,7 +306,7 @@ export const adminECSDeleteComponentEventHandler = makeEventHandler(
       entity: q.includeIced(event.id),
     }),
     apply({ entity }, { field }, _context) {
-      if (entityInvoke(entity, field, "get") === undefined) {
+      if (entityGet(entity, field, "get") === undefined) {
         // Entity does not have the required field.
         throw new Error("field not found");
       }
@@ -314,7 +327,7 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
       entity: q.includeIced(event.id),
     }),
     apply({ entity }, { field }, _context) {
-      if (entityInvoke(entity, field, "get") === undefined) {
+      if (entityGet(entity, field, "get") === undefined) {
         throw new Error("attempted to add a component that does not exist");
       }
 
@@ -379,13 +392,17 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
       const componentField = path[0];
       const componentLocalPath = path.slice(1);
 
-      if (entityInvoke(entity, componentField, "get") === undefined) {
+      if (entityGet(entity, componentField, "get") === undefined) {
         // Entity does not have the required component.
         throw new Error("component not found");
       }
 
       try {
-        const newComponent = entityInvoke(entity, componentField, "mutable");
+        let newComponent = entityInvoke(entity, componentField, "mutable");
+        if (newComponent === undefined) {
+          newComponent = entityInvoke(entity, componentField, "get");
+        }
+        console.log("newComponent", newComponent);
         const currentValue = fetchCurrentValue(
           newComponent,
           componentLocalPath
