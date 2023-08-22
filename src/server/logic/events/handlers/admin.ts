@@ -292,7 +292,7 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
   }
 );
 
-function fetchCurrentValue(component: any, path: string[]): any {
+function componentGet(component: any, path: string[]): any {
   let current = component;
   for (const key of path) {
     if (current === undefined) {
@@ -304,13 +304,13 @@ function fetchCurrentValue(component: any, path: string[]): any {
   return current;
 }
 
-function updateCurrentValue(component: any, path: string[], value: any) {
+function componentUpdate(component: any, path: string[], newValue: any) {
   let current = component;
   for (let i = 0; i < path.length - 1; ++i) {
     current = component[path[i]];
     ok(current !== undefined);
   }
-  current[path[path.length - 1]] = value;
+  current[path[path.length - 1]] = newValue;
 }
 
 function matchTypeWithExisting(current: any, newValue: string) {
@@ -358,7 +358,7 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
           // mutable accessor method.
           newComponent = entityInvoke(entity, componentField, "get");
         }
-        const currentValue = fetchCurrentValue(
+        const currentValue = componentGet(
           newComponent,
           componentLocalPath
         );
@@ -375,7 +375,7 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
           throw new Error("invalid new value");
         }
 
-        updateCurrentValue(newComponent, componentLocalPath, newValue);
+        componentUpdate(newComponent, componentLocalPath, newValue);
         // Apply the change to the entity.
         entityInvoke(entity, componentField, "set", newComponent);
       } catch (e) {
