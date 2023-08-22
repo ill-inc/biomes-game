@@ -194,6 +194,11 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     const currentValue = field.existing_value;
     const newValue = field.new_value;
 
+    if (field.name === "id") {
+      setError("Can't edit id.");
+      return;
+    }
+
     if (
       currentValue === undefined ||
       currentValue === null ||
