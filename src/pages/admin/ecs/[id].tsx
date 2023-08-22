@@ -149,6 +149,7 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
     void refetchEntity().then((entity) => {
       if (entity) {
         setEntity(entity);
+        setError("");
       } else {
         setError("Failed to fetch after update.");
       }
@@ -173,7 +174,6 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
       return;
     }
 
-    setError("");
     const successful = await doECSEdit({
       id: entity.id,
       edit: {
@@ -216,7 +216,6 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
       return;
     }
 
-    setError("");
     const serialized = (newValue as number | string | boolean).toString();
     const successful = await doECSEdit({
       id: entity.id,
@@ -238,7 +237,6 @@ const ECSEditor: React.FC<{ entity: Entity }> = ({ entity: initialEntity }) => {
       return;
     }
 
-    setError("");
     const successful = await doECSEdit({
       id: entity.id,
       edit: {
