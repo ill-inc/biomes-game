@@ -269,8 +269,17 @@ function snakeCaseToCamalCase(field: string): string {
   );
 }
 
-function callMethod(entity: Delta, method: string, ...args: any[]): any {
-  return (entity[method as EntityField] as any)(...args);
+function entityInvoke(
+  entity: Delta,
+  field: string,
+  method: "get" | "mutable" | "set" | "clear",
+  ...args: any[]
+): any {
+  if (method === "get") {
+    return entity[snakeCaseToCamalCase(field) as EntityField];
+  }
+  const componentName = snakeCaseToUpperCamalCase(field);
+  return (entity[`${method}${componentName}` as EntityField] as any)(...args);
 }
 
 // Delete a component from an entity.
@@ -284,15 +293,12 @@ export const adminECSDeleteComponentEventHandler = makeEventHandler(
       entity: q.includeIced(event.id),
     }),
     apply({ entity }, { field }, _context) {
-      const clearFieldMethod = `clear${snakeCaseToUpperCamalCase(field)}`;
-      const accessorMethod = snakeCaseToCamalCase(field);
-
-      if (entity[accessorMethod as EntityField] === undefined) {
+      if (entityInvoke(entity, field, "get") === undefined) {
         // Entity does not have the required field.
         throw new Error("field not found");
       }
 
-      callMethod(entity, clearFieldMethod);
+      entityInvoke(entity, field, "clear");
     },
   }
 );
@@ -308,16 +314,13 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
       entity: q.includeIced(event.id),
     }),
     apply({ entity }, { field }, _context) {
-      const componentName = snakeCaseToUpperCamalCase(field);
-      const setComponentMethod = `set${componentName}`;
-
-      if (entity[setComponentMethod as EntityField] === undefined) {
+      if (entityInvoke(entity, field, "get") === undefined) {
         throw new Error("attempted to add a component that does not exist");
       }
 
       // @ts-ignore (ignore cannot index Component with componentName error)
-      const newComponent = Component[componentName].create();
-      callMethod(entity, setComponentMethod, newComponent);
+      const newComponent = Component[snakeCaseToUpperCamalCase(field)].create();
+      entityInvoke(entity, field, "set", newComponent);
     },
   }
 );
@@ -374,18 +377,15 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
       }
 
       const componentField = path[0];
-      const componentName = snakeCaseToUpperCamalCase(componentField);
-      const accessorMethod = snakeCaseToCamalCase(componentField);
-      const component = entity[accessorMethod as EntityField];
       const componentLocalPath = path.slice(1);
 
-      if (component === undefined) {
+      if (entityInvoke(entity, componentField, "get") === undefined) {
         // Entity does not have the required component.
         throw new Error("component not found");
       }
 
       try {
-        const newComponent = callMethod(entity, `mutable${componentName}`);
+        const newComponent = entityInvoke(entity, componentField, "mutable");
         const currentValue = fetchCurrentValue(
           newComponent,
           componentLocalPath
@@ -405,7 +405,7 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
 
         updateCurrentValue(newComponent, componentLocalPath, newValue);
         // Apply the change to the entity.
-        callMethod(entity, `set${componentName}`, newComponent);
+        entityInvoke(entity, componentField, "set", newComponent);
       } catch (e) {
         throw new Error(`Failed to update component: ${e}`);
       }
