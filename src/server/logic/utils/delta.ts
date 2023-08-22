@@ -1,25 +1,8 @@
 import type { Delta } from "@/shared/ecs/gen/delta";
+import { snakeCaseToCamalCase, snakeCaseToUpperCamalCase } from "@/shared/util/text";
 
 type EntityField = keyof Delta;
 type EntityMethod = "get" | "mutable" | "set" | "clear";
-
-function snakeCaseToUpperCamalCase(field: string): string {
-  return field
-    .split("_")
-    .map((name) => name[0].toUpperCase() + name.slice(1))
-    .join("");
-}
-
-function snakeCaseToCamalCase(field: string): string {
-  const words = field.split("_");
-  return (
-    words[0] +
-    words
-      .slice(1)
-      .map((name) => name[0].toUpperCase() + name.slice(1))
-      .join("")
-  );
-}
 
 function entityFunc(field: string, method: EntityMethod): EntityField {
   if (method === "get") {

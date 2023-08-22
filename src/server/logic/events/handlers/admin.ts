@@ -1,5 +1,6 @@
 import { makeEventHandler } from "@/server/logic/events/core";
 import { q } from "@/server/logic/events/query";
+import { createComponentFromFieldName, componentGet, componentUpdate } from "@/server/logic/utils/components";
 import { entityGet, entityInvoke } from "@/server/logic/utils/delta";
 import {
   copyPlayer,
@@ -11,12 +12,10 @@ import {
 import { QuestExecutor } from "@/server/shared/triggers/roots/quest";
 import { getBiscuit } from "@/shared/bikkie/active";
 import { secondsSinceEpoch } from "@/shared/ecs/config";
-import * as Component from "@/shared/ecs/gen/components";
 import { RecipeBook } from "@/shared/ecs/gen/components";
 import { anItem } from "@/shared/game/item";
 import { removeFromSet } from "@/shared/game/items";
 import { log } from "@/shared/logging";
-import { ok } from "assert";
 
 export const adminDeleteEventHandler = makeEventHandler("adminDeleteEvent", {
   mergeKey: (event) => event.entity_id,
@@ -285,33 +284,10 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
         throw new Error("attempted to add a component that does not exist");
       }
 
-      // @ts-ignore (ignore cannot index Component with componentName error)
-      const newComponent = Component[snakeCaseToUpperCamalCase(field)].create();
-      entityInvoke(entity, field, "set", newComponent);
+      entityInvoke(entity, field, "set", createComponentFromFieldName(field));
     },
   }
 );
-
-function componentGet(component: any, path: string[]): any {
-  let current = component;
-  for (const key of path) {
-    if (current === undefined) {
-      return undefined;
-    }
-    current = current[key];
-  }
-
-  return current;
-}
-
-function componentUpdate(component: any, path: string[], newValue: any) {
-  let current = component;
-  for (let i = 0; i < path.length - 1; ++i) {
-    current = component[path[i]];
-    ok(current !== undefined);
-  }
-  current[path[path.length - 1]] = newValue;
-}
 
 function matchTypeWithExisting(current: any, newValue: string) {
   try {
@@ -355,13 +331,10 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
         let newComponent = entityInvoke(entity, componentField, "mutable");
         if (newComponent === undefined) {
           // The component can be directly mutated and therefore is not accessed through
-          // mutable accessor method.
+          // a mutable accessor method.
           newComponent = entityInvoke(entity, componentField, "get");
         }
-        const currentValue = componentGet(
-          newComponent,
-          componentLocalPath
-        );
+        const currentValue = componentGet(newComponent, componentLocalPath);
 
         if (
           currentValue === undefined ||
