@@ -1,5 +1,6 @@
 import { makeEventHandler } from "@/server/logic/events/core";
 import { q } from "@/server/logic/events/query";
+import { entityGet, entityInvoke } from "@/server/logic/utils/delta";
 import {
   copyPlayer,
   ensurePlayerHasReasonablePosition,
@@ -248,52 +249,6 @@ export const adminUpdateInspectionTweaksHandler = makeEventHandler(
     },
   }
 );
-
-type EntityField = keyof Delta;
-
-function snakeCaseToUpperCamalCase(field: string): string {
-  return field
-    .split("_")
-    .map((name) => name[0].toUpperCase() + name.slice(1))
-    .join("");
-}
-
-function snakeCaseToCamalCase(field: string): string {
-  const words = field.split("_");
-  return (
-    words[0] +
-    words
-      .slice(1)
-      .map((name) => name[0].toUpperCase() + name.slice(1))
-      .join("")
-  );
-}
-
-
-type EntityMethod = "get" | "mutable" | "set" | "clear";
-function entityFunc(field: string, method: EntityMethod): EntityField {
-  if (method === "get") {
-    return snakeCaseToCamalCase(field) as EntityField
-  }
-  const componentName = snakeCaseToUpperCamalCase(field);
-  return `${method}${componentName}` as EntityField;
-}
-
-function entityGet(entity: Delta, field: string, method: EntityMethod): any {
-  return entity[entityFunc(field, method)];
-}
-
-function entityInvoke(
-  entity: Delta,
-  field: string,
-  method: "get" | "mutable" | "set" | "clear",
-  ...args: any[]
-): any {
-  if (entity[entityFunc(field, method)] === undefined) {
-    return undefined;
-  }
-  return (entity[entityFunc(field, method)] as any)(...args);
-}
 
 // Delete a component from an entity.
 //
