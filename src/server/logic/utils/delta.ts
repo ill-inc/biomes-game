@@ -1,5 +1,8 @@
 import type { Delta } from "@/shared/ecs/gen/delta";
-import { snakeCaseToCamalCase, snakeCaseToUpperCamalCase } from "@/shared/util/text";
+import {
+  snakeCaseToCamalCase,
+  snakeCaseToUpperCamalCase,
+} from "@/shared/util/text";
 
 type EntityField = keyof Delta;
 type EntityMethod = "get" | "mutable" | "set" | "clear";

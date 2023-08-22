@@ -1,6 +1,10 @@
 import { makeEventHandler } from "@/server/logic/events/core";
 import { q } from "@/server/logic/events/query";
-import { createComponentFromFieldName, componentGet, componentUpdate } from "@/server/logic/utils/components";
+import {
+  createComponentFromFieldName,
+  componentGet,
+  componentUpdate,
+} from "@/server/logic/utils/components";
 import { entityGet, entityInvoke } from "@/server/logic/utils/delta";
 import {
   copyPlayer,
