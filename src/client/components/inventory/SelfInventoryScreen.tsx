@@ -6,7 +6,6 @@ import type { DisableSlotPredicate } from "@/client/components/inventory/types";
 import { AvatarWearables } from "@/client/components/social/AvatarWearables";
 import { MiniPhoneFollowList } from "@/client/components/social/MiniPhoneFollowList";
 import { PostsGrid } from "@/client/components/social/PostsGrid";
-import { DialogButton } from "@/client/components/system/DialogButton";
 import { useError } from "@/client/components/system/MaybeError";
 import { MaybeGridSpinner } from "@/client/components/system/MaybeGridSpinner";
 import { MaybeLoadMoreRow } from "@/client/components/system/MaybeLoadMoreRow";
@@ -30,7 +29,6 @@ import {
 } from "@/client/components/hooks/client_hooks";
 import { InventoryAndHotbarDisplay } from "@/client/components/inventory/InventoryAndHotbarDisplay";
 import { InventoryOverflowButton } from "@/client/components/inventory/InventoryOverflowButton";
-import { InviteSheet } from "@/client/components/inventory/InviteSheet";
 import { InventoryOverflowSlideover } from "@/client/components/InventoryOverflowSlideover";
 import type { InventoryLeftSlideoverStackPayload } from "@/client/components/overflow/types";
 import { TeamBadge } from "@/client/components/social/TeamLabel";
@@ -509,8 +507,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
     }
   );
 
-  const [showInvites, setShowInvites] = useState(false);
-
   return (
     <SplitPaneScreen
       extraClassName="profile"
@@ -521,16 +517,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
       <ScreenTitleBar divider={false}>
         <BarTitle></BarTitle>
         <RightBarItem>
-          <DialogButton
-            size="small"
-            extraClassNames="btn-inline"
-            onClick={() => {
-              setShowInvites(true);
-            }}
-          >
-            Invite Friends
-          </DialogButton>
-
           <MiniPhoneMoreItem
             onClick={() => {
               setShowMore(!showMore);
@@ -546,11 +532,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
       <RawLeftPane>
         <SelfInventoryLeftPaneContent
           showingTeamViewForId={showingTeamViewForId}
-        />
-
-        <InviteSheet
-          showing={showInvites}
-          setShowing={() => setShowInvites(false)}
         />
       </RawLeftPane>
       <RawRightPane>
