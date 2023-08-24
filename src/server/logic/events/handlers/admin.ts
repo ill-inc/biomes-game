@@ -29,9 +29,17 @@ export const adminIceEventHandler = makeEventHandler("adminIceEvent", {
   mergeKey: (event) => event.entity_id,
   involves: (event) => ({
     entity: q.id(event.entity_id).includeIced(),
+    player: q.player(event.id),
   }),
-  apply: ({ entity }) => {
-    entity.setIced();
+  apply: ({ entity, player }) => {
+    const roles = player.roles() ?? new Set();
+    if (roles.has("admin")) {
+      entity.setIced();
+    } else {
+      log.error(
+        `Player ${player.id} tried to ice entity ${entity.id} without the admin role`
+      );
+    }
   },
 });
 
