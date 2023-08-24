@@ -509,8 +509,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
     }
   );
 
-  const [showInvites, setShowInvites] = useState(false);
-
   return (
     <SplitPaneScreen
       extraClassName="profile"
@@ -521,16 +519,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
       <ScreenTitleBar divider={false}>
         <BarTitle></BarTitle>
         <RightBarItem>
-          <DialogButton
-            size="small"
-            extraClassNames="btn-inline"
-            onClick={() => {
-              setShowInvites(true);
-            }}
-          >
-            Invite Friends
-          </DialogButton>
-
           <MiniPhoneMoreItem
             onClick={() => {
               setShowMore(!showMore);
@@ -546,11 +534,6 @@ export const SelfInventoryScreen: React.FunctionComponent<
       <RawLeftPane>
         <SelfInventoryLeftPaneContent
           showingTeamViewForId={showingTeamViewForId}
-        />
-
-        <InviteSheet
-          showing={showInvites}
-          setShowing={() => setShowInvites(false)}
         />
       </RawLeftPane>
       <RawRightPane>
