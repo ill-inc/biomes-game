@@ -79,8 +79,9 @@ export const InviteCode: React.FunctionComponent<{
         <div className="dialog-contents">
           <p>Enter an invite code to create an account.</p>
           <p>
-            If you don&apos;t have an invite, join our Discord server for
-            automatic access
+            <a href="https://docs.biomes.gg/faq#q-how-can-i-get-an-invite-code">
+              Learn more here.
+            </a>
           </p>
           <MaybeError error={error} />
           <section className="email-sign-in">
