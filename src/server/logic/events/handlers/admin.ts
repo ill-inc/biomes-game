@@ -1,9 +1,9 @@
 import { makeEventHandler } from "@/server/logic/events/core";
 import { q } from "@/server/logic/events/query";
 import {
-  createComponentFromFieldName,
   componentGet,
   componentUpdate,
+  createComponentFromFieldName,
 } from "@/server/logic/utils/components";
 import { entityGet, entityInvoke } from "@/server/logic/utils/delta";
 import {
@@ -261,10 +261,10 @@ export const adminECSDeleteComponentEventHandler = makeEventHandler(
     mergeKey: (event) => event.id,
     involves: (event) => ({
       entity: q.includeIced(event.id),
-      player: q.player(event.userId)
+      player: q.player(event.userId),
     }),
     apply({ entity, player }, { field }, _context) {
-      if (!player.hasRoles('admin')) {
+      if (!player.hasRoles("admin")) {
         throw new Error("not authorized to delete ECS component");
       }
       if (entityGet(entity, field, "get") === undefined) {
@@ -286,11 +286,11 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
     mergeKey: (event) => event.id,
     involves: (event) => ({
       entity: q.includeIced(event.id),
-      player: q.player(event.userId)
+      player: q.player(event.userId),
     }),
     apply({ entity, player }, { field }, _context) {
-      if (!player.hasRoles('admin')) {
-        throw new Error("not authorized to delete ECS component");
+      if (!player.hasRoles("admin")) {
+        throw new Error("not authorized to add ECS component");
       }
       if (entityGet(entity, field, "get") === undefined) {
         throw new Error("attempted to add a component that does not exist");
@@ -325,8 +325,12 @@ export const adminECSUpdateComponentEventHandler = makeEventHandler(
     mergeKey: (event) => event.id,
     involves: (event) => ({
       entity: q.includeIced(event.id),
+      player: q.player(event.userId),
     }),
-    apply({ entity }, { path, value }, _context) {
+    apply({ entity, player }, { path, value }, _context) {
+      if (!player.hasRoles("admin")) {
+        throw new Error("not authorized to update ECS component");
+      }
       if (path.length === 0) {
         throw new Error("invalid edit path");
       }
