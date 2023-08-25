@@ -12,39 +12,23 @@ import time
 import urllib.request
 from curses import ERR
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import update_wrapper
 from pathlib import Path
 from queue import SimpleQueue
 from threading import Thread
-from typing import (
-    IO,
-    Any,
-    Callable,
-    Dict,
-    Iterable,
-    List,
-    Literal,
-    Optional,
-    Protocol,
-    Set,
-    Union,
-)
+from typing import (IO, Any, Callable, Dict, Iterable, List, Literal, Optional,
+                    Protocol, Set, Union)
 
 import click
 import psutil
 import requests
 from click_default_group import DefaultGroup
-from dotenv import load_dotenv
-from ts_deps import (
-    TsDep,
-    ensure_ts_deps_up_to_date,
-    run_bazel,
-    run_with_hidden_output,
-    watch_ts_deps,
-)
-
 from data_snapshot import data_snapshot as data_snapshot_commands
+from dotenv import load_dotenv
+from ts_deps import (TsDep, ensure_ts_deps_up_to_date, run_bazel,
+                     run_with_hidden_output, watch_ts_deps)
+
 from galois import galois as galois_commands
 
 ERROR_COLOR = "bright_red"
@@ -1789,14 +1773,25 @@ def backup():
     pass
 
 
-def latest_backup_path():
-    date = datetime.now()
-    path = f"gs://biomes-backup/world/{date.year}/{date.month}/{date.day}"
-    output = subprocess.check_output(
-        ["gcloud", "storage", "ls", path], text=True
-    )
-    return output.strip().split("\n")[-1]
+PREVIOUS_DAYS_TO_CHECK_FOR_BACKUP = 30
 
+def latest_backup_path():
+    for i in range(PREVIOUS_DAYS_TO_CHECK_FOR_BACKUP):
+        try:
+            date = datetime.now() - timedelta(days=i)
+            path = f"gs://biomes-backup/world/{date.year}/{date.month}/{date.day}"
+            output = subprocess.check_output(
+                ["gcloud", "storage", "ls", path],
+                text=True,
+                stderr=subprocess.DEVNULL # ignore errors
+            )
+            path = output.strip().split("\n")[-1]
+            click.secho(f"Latest backup path: {path}", fg=GOOD_COLOR)
+            return path
+        except:
+            pass
+
+    raise Exception(f"Could not find a valid backup path from the last {PREVIOUS_DAYS_TO_CHECK_FOR_BACKUP}.")
 
 @backup.command()
 def latest():

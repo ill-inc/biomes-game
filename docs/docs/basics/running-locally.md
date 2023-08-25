@@ -100,4 +100,30 @@ Social logins will not work if you don't have access to the required API keys. H
 
 Not found (404) errors of the form "Could not find `<asset-path>/<name>-<hash>.<extension>`" are often caused by having out of date assets, from a previous `./b data-snapshot run`.
 
-To fix this, delete the contents of `/public/buckets` and re-run `./b data-snapshot run`, to fetch the most up to date assets.
+To fix this, run:
+
+```bash
+./b data-snapshot uninstall
+./b data-snapshot pull
+```
+
+to fetch the most up to date assets.
+
+### Fails on login, or while creating an account
+
+Don't use social login. Rather, create a new account using the developer workflow shown below.
+
+- From `http://localhost:3000`, click "login".
+  <img width="800px" alt="Login" src="/img/create-account-1.png" />
+  <br/>
+- From the login dialog, select "Login with Dev".
+  <br/>
+  <img width="400px" alt="Developer Login" src="/img/create-account-2.png" />
+  <br/>
+- From the developer login, "Create [a] New Account".
+  <br/>
+  <img width="400px" alt="Create account" src="/img/create-account-3.png" />
+  <br/>
+- This will prompt the intro scene.
+  <br/>
+  <img width="600px" alt="Enter game" src="/img/create-account-4.png" />
