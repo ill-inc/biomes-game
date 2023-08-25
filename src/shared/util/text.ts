@@ -32,3 +32,13 @@ export function article(stuff: string) {
 export function capitalize<T extends string>(stuff: T) {
   return (stuff[0].toUpperCase() + stuff.slice(1)) as Capitalize<T>;
 }
+
+export function snakeCaseToUpperCamalCase(snakeCase: string): string {
+  const words = snakeCase.split("_");
+  return words.map((name) => capitalize(name)).join("");
+}
+
+export function snakeCaseToCamalCase(snakeCase: string): string {
+  const [first, ...rest] = snakeCase.split("_");
+  return first + rest.map((name) => capitalize(name)).join("");
+}

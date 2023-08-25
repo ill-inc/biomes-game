@@ -1,6 +1,12 @@
 import { makeEventHandler } from "@/server/logic/events/core";
 import { q } from "@/server/logic/events/query";
 import {
+  componentGet,
+  componentUpdate,
+  createComponentFromFieldName,
+} from "@/server/logic/utils/components";
+import { entityGet, entityInvoke } from "@/server/logic/utils/delta";
+import {
   copyPlayer,
   ensurePlayerHasReasonablePosition,
   forcePlayerWarp,
@@ -249,6 +255,128 @@ export const adminUpdateInspectionTweaksHandler = makeEventHandler(
       // If no tweaks remain, clear the component
       if (!entity.mutableInspectionTweaks().hidden) {
         entity.clearInspectionTweaks();
+      }
+    },
+  }
+);
+
+// Delete a component from an entity.
+//
+// Throws if the component does not exist.
+export const adminECSDeleteComponentEventHandler = makeEventHandler(
+  "adminECSDeleteComponentEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.includeIced(event.id),
+      player: q.player(event.userId),
+    }),
+    apply({ entity, player }, { field }, _context) {
+      if (!player.hasRoles("admin")) {
+        throw new Error("not authorized to delete ECS component");
+      }
+      if (entityGet(entity, field, "get") === undefined) {
+        // Entity does not have the required field.
+        throw new Error("field not found");
+      }
+
+      entityInvoke(entity, field, "clear");
+    },
+  }
+);
+
+// Add the default value of a component to an entity.
+//
+// Throws if the component does not exist.
+export const adminECSAddComponentEventHandler = makeEventHandler(
+  "adminECSAddComponentEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.includeIced(event.id),
+      player: q.player(event.userId),
+    }),
+    apply({ entity, player }, { field }, _context) {
+      if (!player.hasRoles("admin")) {
+        throw new Error("not authorized to add ECS component");
+      }
+      if (entityGet(entity, field, "get") === undefined) {
+        throw new Error("attempted to add a component that does not exist");
+      }
+
+      entityInvoke(entity, field, "set", createComponentFromFieldName(field));
+    },
+  }
+);
+
+function matchTypeWithExisting(current: any, newValue: string) {
+  try {
+    if (typeof current === "boolean") {
+      return newValue === "true";
+    }
+    if (typeof current === "string") {
+      return newValue;
+    }
+    if (typeof current === "number") {
+      return Number(newValue);
+    }
+  } catch (_e) {}
+  return undefined;
+}
+
+// Edits a field within a component.
+//
+// Throws if the component does not exist or the edit path is invalid.
+export const adminECSUpdateComponentEventHandler = makeEventHandler(
+  "adminECSUpdateComponentEvent",
+  {
+    mergeKey: (event) => event.id,
+    involves: (event) => ({
+      entity: q.includeIced(event.id),
+      player: q.player(event.userId),
+    }),
+    apply({ entity, player }, { path, value }, _context) {
+      if (!player.hasRoles("admin")) {
+        throw new Error("not authorized to update ECS component");
+      }
+      if (path.length === 0) {
+        throw new Error("invalid edit path");
+      }
+
+      const componentField = path[0];
+      const componentLocalPath = path.slice(1);
+
+      if (entityGet(entity, componentField, "get") === undefined) {
+        // Entity does not have the required component.
+        throw new Error("component not found");
+      }
+
+      try {
+        let newComponent = entityInvoke(entity, componentField, "mutable");
+        if (newComponent === undefined) {
+          // The component can be directly mutated and therefore is not accessed through
+          // a mutable accessor method.
+          newComponent = entityInvoke(entity, componentField, "get");
+        }
+        const currentValue = componentGet(newComponent, componentLocalPath);
+
+        if (
+          currentValue === undefined ||
+          currentValue === null ||
+          typeof currentValue === "object"
+        ) {
+          throw new Error("can't update null, undefined, or object");
+        }
+        const newValue = matchTypeWithExisting(currentValue, value);
+        if (newValue === undefined) {
+          throw new Error("invalid new value");
+        }
+
+        componentUpdate(newComponent, componentLocalPath, newValue);
+        // Apply the change to the entity.
+        entityInvoke(entity, componentField, "set", newComponent);
+      } catch (e) {
+        throw new Error(`Failed to update component: ${e}`);
       }
     },
   }

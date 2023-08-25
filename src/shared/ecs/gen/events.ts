@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from events.ts.j2. Do not modify directly.
-// Content Hash: cabd1bb9ec8963ae5794d3330bfcdf4e
+// Content Hash: 20d2d168938b16b056b754e62d7c71e8
 
 import * as t from "@/shared/ecs/gen/types";
 import type { BiomesId } from "@/shared/ids";
@@ -131,6 +131,9 @@ export interface EventSet {
   readonly sellToEntityEvent?: SellToEntityEvent[];
   readonly setNPCPositionEvent?: SetNPCPositionEvent[];
   readonly adminUpdateInspectionTweaksEvent?: AdminUpdateInspectionTweaksEvent[];
+  readonly adminECSDeleteComponentEvent?: AdminECSDeleteComponentEvent[];
+  readonly adminECSAddComponentEvent?: AdminECSAddComponentEvent[];
+  readonly adminECSUpdateComponentEvent?: AdminECSUpdateComponentEvent[];
   readonly createTeamEvent?: CreateTeamEvent[];
   readonly updateTeamMetadataEvent?: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent?: InvitePlayerToTeamEvent[];
@@ -283,6 +286,9 @@ interface SuperEventSet {
   readonly sellToEntityEvent: SellToEntityEvent[];
   readonly setNPCPositionEvent: SetNPCPositionEvent[];
   readonly adminUpdateInspectionTweaksEvent: AdminUpdateInspectionTweaksEvent[];
+  readonly adminECSDeleteComponentEvent: AdminECSDeleteComponentEvent[];
+  readonly adminECSAddComponentEvent: AdminECSAddComponentEvent[];
+  readonly adminECSUpdateComponentEvent: AdminECSUpdateComponentEvent[];
   readonly createTeamEvent: CreateTeamEvent[];
   readonly updateTeamMetadataEvent: UpdateTeamMetadataEvent[];
   readonly invitePlayerToTeamEvent: InvitePlayerToTeamEvent[];
@@ -4114,6 +4120,95 @@ export class AdminUpdateInspectionTweaksEvent implements Event {
   }
 }
 
+export interface HandlerAdminECSDeleteComponentEvent {
+  readonly kind: "adminECSDeleteComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  field: t.String;
+}
+
+export class AdminECSDeleteComponentEvent implements Event {
+  readonly kind = "adminECSDeleteComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  field: t.ReadonlyString;
+
+  constructor({
+    id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
+    field = t.defaultString,
+  }: {
+    id?: BiomesId;
+    userId?: BiomesId;
+    field?: t.ReadonlyString;
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.field = field;
+  }
+}
+
+export interface HandlerAdminECSAddComponentEvent {
+  readonly kind: "adminECSAddComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  field: t.String;
+}
+
+export class AdminECSAddComponentEvent implements Event {
+  readonly kind = "adminECSAddComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  field: t.ReadonlyString;
+
+  constructor({
+    id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
+    field = t.defaultString,
+  }: {
+    id?: BiomesId;
+    userId?: BiomesId;
+    field?: t.ReadonlyString;
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.field = field;
+  }
+}
+
+export interface HandlerAdminECSUpdateComponentEvent {
+  readonly kind: "adminECSUpdateComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  path: t.Strings;
+  value: t.String;
+}
+
+export class AdminECSUpdateComponentEvent implements Event {
+  readonly kind = "adminECSUpdateComponentEvent";
+  readonly id: BiomesId;
+  readonly userId: BiomesId;
+  path: t.ReadonlyStrings;
+  value: t.ReadonlyString;
+
+  constructor({
+    id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
+    path = t.defaultStrings(),
+    value = t.defaultString,
+  }: {
+    id?: BiomesId;
+    userId?: BiomesId;
+    path?: t.ReadonlyStrings;
+    value?: t.ReadonlyString;
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.path = path;
+    this.value = value;
+  }
+}
+
 export interface HandlerCreateTeamEvent {
   readonly kind: "createTeamEvent";
   readonly id: BiomesId;
@@ -4698,7 +4793,6 @@ export interface HandlerAddToOutfitEvent {
   readonly kind: "addToOutfitEvent";
   readonly id: BiomesId;
   readonly player_id: BiomesId;
-  readonly src_id: BiomesId;
   src: t.OwnedItemReference;
 }
 
@@ -4706,23 +4800,19 @@ export class AddToOutfitEvent implements Event {
   readonly kind = "addToOutfitEvent";
   readonly id: BiomesId;
   readonly player_id: BiomesId;
-  readonly src_id: BiomesId;
   src: t.ReadonlyOwnedItemReference;
 
   constructor({
     id = t.defaultBiomesId,
     player_id = t.defaultBiomesId,
-    src_id = t.defaultBiomesId,
     src = t.defaultOwnedItemReference(),
   }: {
     id?: BiomesId;
     player_id?: BiomesId;
-    src_id?: BiomesId;
     src?: t.ReadonlyOwnedItemReference;
   }) {
     this.id = id;
     this.player_id = player_id;
-    this.src_id = src_id;
     this.src = src;
   }
 }
@@ -4877,6 +4967,9 @@ export type AnyHandlerEvent =
   | HandlerSellToEntityEvent
   | HandlerSetNPCPositionEvent
   | HandlerAdminUpdateInspectionTweaksEvent
+  | HandlerAdminECSDeleteComponentEvent
+  | HandlerAdminECSAddComponentEvent
+  | HandlerAdminECSUpdateComponentEvent
   | HandlerCreateTeamEvent
   | HandlerUpdateTeamMetadataEvent
   | HandlerInvitePlayerToTeamEvent
@@ -5028,6 +5121,9 @@ export type AnyEvent =
   | SellToEntityEvent
   | SetNPCPositionEvent
   | AdminUpdateInspectionTweaksEvent
+  | AdminECSDeleteComponentEvent
+  | AdminECSAddComponentEvent
+  | AdminECSUpdateComponentEvent
   | CreateTeamEvent
   | UpdateTeamMetadataEvent
   | InvitePlayerToTeamEvent

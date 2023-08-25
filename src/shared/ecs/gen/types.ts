@@ -1,6 +1,32 @@
 // GENERATED: This file is generated from types.ts.j2. Do not modify directly.
-// Content Hash: aa9659702466800f0ad62ba9d57633dc
+// Content Hash: 1def4e7a68650a8bceb0668ab3147bf2
 
+export type { ItemAndCount, ReadonlyItemAndCount } from "@/shared/ecs/extern";
+export {
+  zItemAndCount,
+  defaultItemAndCount,
+  serializeItemAndCount,
+  deserializeItemAndCount,
+} from "@/shared/ecs/extern";
+import {
+  ItemAndCount,
+  ReadonlyItemAndCount,
+  zItemAndCount,
+  defaultItemAndCount,
+  serializeItemAndCount,
+  deserializeItemAndCount,
+} from "@/shared/ecs/extern";
+import { ReadonlyBiomesId, BiomesId, zBiomesId } from "@/shared/ids";
+import {
+  defaultBiomesId,
+  serializeBiomesId,
+  deserializeBiomesId,
+} from "@/shared/ecs/extern";
+export {
+  defaultBiomesId,
+  serializeBiomesId,
+  deserializeBiomesId,
+} from "@/shared/ecs/extern";
 export type { Item, ReadonlyItem } from "@/shared/ecs/extern";
 export {
   zItem,
@@ -30,32 +56,6 @@ import {
   defaultShardId,
   serializeShardId,
   deserializeShardId,
-} from "@/shared/ecs/extern";
-export type { ItemAndCount, ReadonlyItemAndCount } from "@/shared/ecs/extern";
-export {
-  zItemAndCount,
-  defaultItemAndCount,
-  serializeItemAndCount,
-  deserializeItemAndCount,
-} from "@/shared/ecs/extern";
-import {
-  ItemAndCount,
-  ReadonlyItemAndCount,
-  zItemAndCount,
-  defaultItemAndCount,
-  serializeItemAndCount,
-  deserializeItemAndCount,
-} from "@/shared/ecs/extern";
-import { ReadonlyBiomesId, BiomesId, zBiomesId } from "@/shared/ids";
-import {
-  defaultBiomesId,
-  serializeBiomesId,
-  deserializeBiomesId,
-} from "@/shared/ecs/extern";
-export {
-  defaultBiomesId,
-  serializeBiomesId,
-  deserializeBiomesId,
 } from "@/shared/ecs/extern";
 export type {
   TriggerStateMap,

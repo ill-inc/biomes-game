@@ -105,3 +105,6 @@ export const zLegacyIdOrBiomesId = z
   });
 
 export type LegacyIdOrBiomesId = z.infer<typeof zLegacyIdOrBiomesId>;
+
+export const zUsernameOrAnyId = z.union([zLegacyIdOrBiomesId, z.string()]);
+export type UsernameOrAnyId = z.infer<typeof zUsernameOrAnyId>;

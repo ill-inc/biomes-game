@@ -1,0 +1,3 @@
+.react-json-view > .validation-failure {
+  display: none !important;
+}
