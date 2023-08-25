@@ -45,14 +45,14 @@ export default biomesApiHandler(
         await context.logicApi.publish(
           new GameEvent(
             userId,
-            new AdminECSDeleteComponentEvent({ id, field: edit.field })
+            new AdminECSDeleteComponentEvent({ id, userId, field: edit.field })
           )
         );
       } else if (edit.kind === "add") {
         await context.logicApi.publish(
           new GameEvent(
             userId,
-            new AdminECSAddComponentEvent({ id, field: edit.field })
+            new AdminECSAddComponentEvent({ id, userId, field: edit.field })
           )
         );
       } else if (edit.kind === "update") {
@@ -61,6 +61,7 @@ export default biomesApiHandler(
             userId,
             new AdminECSUpdateComponentEvent({
               id,
+              userId,
               path: edit.path,
               value: edit.value,
             })

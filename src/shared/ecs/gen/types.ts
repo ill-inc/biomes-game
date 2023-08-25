@@ -1,21 +1,6 @@
 // GENERATED: This file is generated from types.ts.j2. Do not modify directly.
-// Content Hash: aed777d4bcdfbe670f7a484dbc08b7db
+// Content Hash: 1def4e7a68650a8bceb0668ab3147bf2
 
-export type { Item, ReadonlyItem } from "@/shared/ecs/extern";
-export {
-  zItem,
-  defaultItem,
-  serializeItem,
-  deserializeItem,
-} from "@/shared/ecs/extern";
-import {
-  Item,
-  ReadonlyItem,
-  zItem,
-  defaultItem,
-  serializeItem,
-  deserializeItem,
-} from "@/shared/ecs/extern";
 export type { ItemAndCount, ReadonlyItemAndCount } from "@/shared/ecs/extern";
 export {
   zItemAndCount,
@@ -41,6 +26,21 @@ export {
   defaultBiomesId,
   serializeBiomesId,
   deserializeBiomesId,
+} from "@/shared/ecs/extern";
+export type { Item, ReadonlyItem } from "@/shared/ecs/extern";
+export {
+  zItem,
+  defaultItem,
+  serializeItem,
+  deserializeItem,
+} from "@/shared/ecs/extern";
+import {
+  Item,
+  ReadonlyItem,
+  zItem,
+  defaultItem,
+  serializeItem,
+  deserializeItem,
 } from "@/shared/ecs/extern";
 export type { ShardId, ReadonlyShardId } from "@/shared/ecs/extern";
 export {

@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
-// Content Hash: ecbe8bb6b662225f526e939b2f7af9ee
+// Content Hash: 00457510e3f497fddb442970e29931a9
 
 import * as c from "@/shared/ecs/gen/components";
 import * as e from "@/shared/ecs/gen/entities";
@@ -10348,6 +10348,7 @@ class AdminECSDeleteComponentEventSerde {
     return {
       kind: "adminECSDeleteComponentEvent",
       id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
       field: event.field,
     };
   }
@@ -10355,6 +10356,7 @@ class AdminECSDeleteComponentEventSerde {
   static deserialize(data: any) {
     return new ev.AdminECSDeleteComponentEvent({
       id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
       field: t.deserializeString(data.field),
     });
   }
@@ -10364,6 +10366,7 @@ class AdminECSAddComponentEventSerde {
     return {
       kind: "adminECSAddComponentEvent",
       id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
       field: event.field,
     };
   }
@@ -10371,6 +10374,7 @@ class AdminECSAddComponentEventSerde {
   static deserialize(data: any) {
     return new ev.AdminECSAddComponentEvent({
       id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
       field: t.deserializeString(data.field),
     });
   }
@@ -10380,6 +10384,7 @@ class AdminECSUpdateComponentEventSerde {
     return {
       kind: "adminECSUpdateComponentEvent",
       id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
       path: event.path,
       value: event.value,
     };
@@ -10388,6 +10393,7 @@ class AdminECSUpdateComponentEventSerde {
   static deserialize(data: any) {
     return new ev.AdminECSUpdateComponentEvent({
       id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
       path: t.deserializeStrings(data.path),
       value: t.deserializeString(data.value),
     });

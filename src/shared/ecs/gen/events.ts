@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from events.ts.j2. Do not modify directly.
-// Content Hash: 0d61c8d86668c78dc44d4bdd0661bd96
+// Content Hash: 20d2d168938b16b056b754e62d7c71e8
 
 import * as t from "@/shared/ecs/gen/types";
 import type { BiomesId } from "@/shared/ids";
@@ -4123,22 +4123,27 @@ export class AdminUpdateInspectionTweaksEvent implements Event {
 export interface HandlerAdminECSDeleteComponentEvent {
   readonly kind: "adminECSDeleteComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   field: t.String;
 }
 
 export class AdminECSDeleteComponentEvent implements Event {
   readonly kind = "adminECSDeleteComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   field: t.ReadonlyString;
 
   constructor({
     id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
     field = t.defaultString,
   }: {
     id?: BiomesId;
+    userId?: BiomesId;
     field?: t.ReadonlyString;
   }) {
     this.id = id;
+    this.userId = userId;
     this.field = field;
   }
 }
@@ -4146,22 +4151,27 @@ export class AdminECSDeleteComponentEvent implements Event {
 export interface HandlerAdminECSAddComponentEvent {
   readonly kind: "adminECSAddComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   field: t.String;
 }
 
 export class AdminECSAddComponentEvent implements Event {
   readonly kind = "adminECSAddComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   field: t.ReadonlyString;
 
   constructor({
     id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
     field = t.defaultString,
   }: {
     id?: BiomesId;
+    userId?: BiomesId;
     field?: t.ReadonlyString;
   }) {
     this.id = id;
+    this.userId = userId;
     this.field = field;
   }
 }
@@ -4169,6 +4179,7 @@ export class AdminECSAddComponentEvent implements Event {
 export interface HandlerAdminECSUpdateComponentEvent {
   readonly kind: "adminECSUpdateComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   path: t.Strings;
   value: t.String;
 }
@@ -4176,19 +4187,23 @@ export interface HandlerAdminECSUpdateComponentEvent {
 export class AdminECSUpdateComponentEvent implements Event {
   readonly kind = "adminECSUpdateComponentEvent";
   readonly id: BiomesId;
+  readonly userId: BiomesId;
   path: t.ReadonlyStrings;
   value: t.ReadonlyString;
 
   constructor({
     id = t.defaultBiomesId,
+    userId = t.defaultBiomesId,
     path = t.defaultStrings(),
     value = t.defaultString,
   }: {
     id?: BiomesId;
+    userId?: BiomesId;
     path?: t.ReadonlyStrings;
     value?: t.ReadonlyString;
   }) {
     this.id = id;
+    this.userId = userId;
     this.path = path;
     this.value = value;
   }

@@ -3306,6 +3306,7 @@ def define_events(g: Generator):
         "AdminECSDeleteComponent",
         OrderedDict(
             id=s.BiomesId,
+            userId=s.BiomesId,
             field=s.String
         )
     )
@@ -3314,6 +3315,7 @@ def define_events(g: Generator):
         "AdminECSAddComponent",
         OrderedDict(
             id=s.BiomesId,
+            userId=s.BiomesId,
             field=s.String
         )
     )
@@ -3322,6 +3324,7 @@ def define_events(g: Generator):
         "AdminECSUpdateComponent",
         OrderedDict(
             id=s.BiomesId,
+            userId=s.BiomesId,
             path=s.Strings,
             value=s.String
         )

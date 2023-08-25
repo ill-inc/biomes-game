@@ -261,8 +261,12 @@ export const adminECSDeleteComponentEventHandler = makeEventHandler(
     mergeKey: (event) => event.id,
     involves: (event) => ({
       entity: q.includeIced(event.id),
+      player: q.player(event.userId)
     }),
-    apply({ entity }, { field }, _context) {
+    apply({ entity, player }, { field }, _context) {
+      if (!player.hasRoles('admin')) {
+        throw new Error("not authorized to delete ECS component");
+      }
       if (entityGet(entity, field, "get") === undefined) {
         // Entity does not have the required field.
         throw new Error("field not found");
@@ -282,8 +286,12 @@ export const adminECSAddComponentEventHandler = makeEventHandler(
     mergeKey: (event) => event.id,
     involves: (event) => ({
       entity: q.includeIced(event.id),
+      player: q.player(event.userId)
     }),
-    apply({ entity }, { field }, _context) {
+    apply({ entity, player }, { field }, _context) {
+      if (!player.hasRoles('admin')) {
+        throw new Error("not authorized to delete ECS component");
+      }
       if (entityGet(entity, field, "get") === undefined) {
         throw new Error("attempted to add a component that does not exist");
       }
