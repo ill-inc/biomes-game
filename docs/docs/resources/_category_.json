@@ -1,0 +1,8 @@
+{
+  "label": "Resource System",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Creating resources, resources types, manipulating resources, dependency injection."
+  }
+}
