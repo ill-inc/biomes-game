@@ -6,8 +6,8 @@ sidebar_position: 2
 
 ### Overview
 
-[Global Illumination](https://ill.inc/), the company behind Biomes, was recently [acquired by OpenAI](https://openai.com/blog/openai-acquires-global-illumination). As a result of the acquisition, the team has taken on
-other responsibilities and therefore cannot support Biomes development.
+[Global Illumination](https://ill.inc/), the company behind Biomes, was recently acquired.
+New responsibilities have meant that the team cannot continue Biomes development alone...
 
 Thanks to the tremendous community, support, and enthusiasm that has grown around Biomes, we would like to
 keep Biomes alive and continue development through open-source contributions.
@@ -26,6 +26,7 @@ Because the transition to open-source has happened so recently, we have not yet 
 - Creating open-source development workflows.
 - Guidelines for contributing.
 - Determining how Biomes can be hosted, independent of funding from Global Illumination.
+- Allowing self-hosted deployments to have persistent storage.
 
 ### How can I help?
 
