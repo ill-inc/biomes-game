@@ -1,0 +1,8 @@
+{
+  "label": "Terrain",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Terrain data model, generation, and manipulation."
+  }
+}
