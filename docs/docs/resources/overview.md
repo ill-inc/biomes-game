@@ -7,27 +7,27 @@ sidebar_position: 1
 ## Problem
 
 Biomes is a [Next.js](https://nextjs.org/) app with a [Three.js](https://threejs.org/) renderer.
-React uses react state to manage resources, and Three.js doesn't have an out-of-the box solution for state management,
+React uses react state to manage resources, and Three.js doesn't have an out-of-the-box solution for state management;
 typically refreshing a Three.js app will reset the scene.
 
-There a few problems here:
+There are a few problems here:
 
 1. How to persist Three.js game state.
-2. How to update React state when the Three.js game state changes, triggering a rerender.
+2. How to update React state when the Three.js game state changes, triggering a re-render.
 3. How to update the Three.js game state when the React state changes.
 
 Moreover, there is the problem of defining dependencies between resources. For instance, we may want to change
 the player's appearance if their health is below a certain point. In this example, the player's appearance
-depends on the player's health - updating the player health _may_ cause the player's appearance to change.
+depends on the player's health - updating the player's health _may_ cause the player's appearance to change.
 
 ## Resource System
 
-The resource system was created to solves these problems, and is composed of a few components, the main ones being:
+The resource system was created to solve these problems and is composed of a few components, the main ones being:
 
-1. `BiomesResourcesBuilder`: Use to define resources.
+1. `BiomesResourcesBuilder`: Used to define resources.
 2. `TypedResourceDeps`: Used to define dependencies between resources.
-3. `TypedResources`: Use to access resources.
-4. `ReactResources`: Use to access resources from within React components.
+3. `TypedResources`: Used to access resources.
+4. `ReactResources`: Used to access resources from within React components.
 5. `ResourcePaths`: Typed resource keys with paths that define arguments for lookups.
 
 ## Example Usage
@@ -80,7 +80,7 @@ function genPlayerResource(deps: ExampleResourceDeps, id: BiomesId) {
   };
 }
 
-function addNpcResources(builder: ExampleResourcesBuilder) {
+function addExampleResources(builder: ExampleResourcesBuilder) {
   // Define a global resource.
   builder.addGlobal("/clock", { time: secondsSinceEpoch() });
   builder.add("/player", genPlayerResource);
@@ -92,6 +92,8 @@ function addNpcResources(builder: ExampleResourcesBuilder) {
 ### Accessing resources
 
 > _Note: The same can be done using `ExampleReactResources`_.
+
+Resources are accessed using the `get()` method.
 
 ```ts
 function healthBarColor(resources: ExampleResources, id: BiomesId): string {
@@ -113,6 +115,8 @@ function healthBarColor(resources: ExampleResources, id: BiomesId): string {
 
 > _Note: The same can be done using `ExampleReactResources`_.
 
+Resources are updated using the `set()` method.
+
 ```ts
 const JUMP_POWER = 10;
 
@@ -123,4 +127,23 @@ function jump(resources: ExampleResources, id: BiomesId) {
     position: [position[0], position[1] + JUMP_POWER, position[2]],
   });
 }
+```
+
+### Using resources within React
+
+If you want a resource update to trigger a react component to re-render, use the `use()` method on
+`ReactResources`. `ReactResources` can be accessed from within all game components, through the `ClientContext`.
+
+```tsx
+const PlayerHealth: React.FC<{ playerId: BiomesId }> = ({ playerId }) => {
+  const { reactResources, userId } = useClientContext();
+  // Updates to this player's "/player/health" will cause a re-render.
+  const { health, maxHealth } = reactResources.use("/player/health", playerId);
+
+  return (
+    <div>
+      <h1>{`${health}/${maxHealth}`}</h1>
+    </div>
+  );
+};
 ```
