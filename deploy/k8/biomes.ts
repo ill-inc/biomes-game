@@ -10,7 +10,7 @@ const LAST_BOB_IMAGE = "bob-354da53d0a";
 // ===== Buffer to avoid git conflicts =====
 
 // Fix deploy.
-const PROD_IMAGE_OVERRIDE = "thomas-manual";
+const PROD_IMAGE_OVERRIDE = "devin-deploy-2";
 
 const PROD_IMAGE_TAG = PROD_IMAGE_OVERRIDE || LAST_BOB_IMAGE || LAST_BOB_BUILD;
 const PROD_IMAGE_NAME = "us-central1-docker.pkg.dev/zones-cloud/b/biomes";
