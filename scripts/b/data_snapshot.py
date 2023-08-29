@@ -295,6 +295,8 @@ def run(ctx, pip_install: bool):
 
     # Make sure our data snapshot exists and is up-to-date.
     ctx.invoke(pull)
+    # Ensure all assets have been downloaded.
+    ctx.invoke(check_for_missing_assets, error_on_missing=True)
 
     with RedisServer():
         # Make sure our Redis server is populated with the data snapshot.
@@ -365,20 +367,27 @@ def fetch_asset_versions():
     return [(name, asset_versions[name]) for name in asset_versions]
 
 # Verify that the assets references in asset_versions.json have been downloaded.
+# Returns True if there are missing assets.
 @data_snapshot.command()
-def check_for_missing_assets():
+@click.option(
+    "--error-on-missing/--no-error-on-missing",
+    help="Whether or not to throw an error when an asset is missing.",
+    default=True,
+)
+@click.pass_context
+def check_for_missing_assets(ctx, error_on_missing=True) -> bool:
     asset_versions = fetch_asset_versions()
     assets_missing = False;
     for (name, asset_path) in asset_versions:
         relative_asset_path = f"{STATIC_BUCKET_PATH}/{asset_path}"
         if not os.path.isfile(relative_asset_path):
-            click.secho(f"Asset not found: {name}", fg=ERROR_COLOR)
+            click.secho(f"Asset not found: {name}", fg=WARNING_COLOR)
             assets_missing = True
 
-    if assets_missing:
-        click.secho(
-            "[Warning] Missing assets \nConsider running:\n./b data-snapshot uninstall\n./b data-snapshot install\nto fetch the most up-to-date assets.",
-            fg=WARNING_COLOR
-        )
+    if assets_missing and error_on_missing:
+        raise Exception("Missing assets\nConsider running:\n$ git pull\n$ ./b data-snapshot uninstall\n$ ./b data-snapshot install\nto fetch the most up-to-date assets.")
+    elif not assets_missing:
+        click.secho("Assets are up-to-date", fg=GOOD_COLOR)
+    return assets_missing
 
 
