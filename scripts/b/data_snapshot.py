@@ -366,7 +366,7 @@ def fetch_asset_versions():
 
     return [(name, asset_versions[name]) for name in asset_versions]
 
-# Verify that the assets references in asset_versions.json have been downloaded.
+# Verify that the assets referenced in asset_versions.json have been downloaded.
 # Returns True if there are missing assets.
 @data_snapshot.command()
 @click.option(
