@@ -1,19 +1,26 @@
+import hashlib
+import json
 import os
+import shutil
 import subprocess
+import tempfile
+import time
 from functools import update_wrapper
 from pathlib import Path
+
 import b
 import click
-from pip_install_voxeloo import run_pip_install_voxeloo, run_pip_install_requirements
-import time
-import shutil
-import tempfile
-import hashlib
-
+from pip_install_voxeloo import (run_pip_install_requirements,
+                                 run_pip_install_voxeloo)
 
 SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
 REPO_DIR = SCRIPT_DIR / ".." / ".."
 
+ERROR_COLOR = "bright_red"
+WARNING_COLOR = "bright_yellow"
+GOOD_COLOR = "bright_green"
+
+ASSET_VERSIONS_PATH = REPO_DIR / "src" / "galois" / "js" / "interface" / "gen" / "asset_versions.json"
 SNAPSHOT_BUCKETS_DIR_NAME = "buckets"
 SNAPSHOT_BUCKETS_PATH = REPO_DIR / "public" / SNAPSHOT_BUCKETS_DIR_NAME
 SNAPSHOT_BUCKETS_URL_PREFIX = f"/{SNAPSHOT_BUCKETS_DIR_NAME}/"
@@ -288,6 +295,8 @@ def run(ctx, pip_install: bool):
 
     # Make sure our data snapshot exists and is up-to-date.
     ctx.invoke(pull)
+    # Ensure all assets have been downloaded.
+    ctx.invoke(check_for_missing_assets, error_on_missing=True)
 
     with RedisServer():
         # Make sure our Redis server is populated with the data snapshot.
@@ -350,3 +359,35 @@ class RedisServer(object):
             self.process.terminate()
 
         click.secho("redis-server shutdown.")
+
+def fetch_asset_versions():
+    with open(ASSET_VERSIONS_PATH, 'r') as file:
+        asset_versions = json.load(file)["paths"]
+
+    return [(name, asset_versions[name]) for name in asset_versions]
+
+# Verify that the assets referenced in asset_versions.json have been downloaded.
+# Returns True if there are missing assets.
+@data_snapshot.command()
+@click.option(
+    "--error-on-missing/--no-error-on-missing",
+    help="Whether or not to throw an error when an asset is missing.",
+    default=True,
+)
+@click.pass_context
+def check_for_missing_assets(ctx, error_on_missing=True) -> bool:
+    asset_versions = fetch_asset_versions()
+    assets_missing = False;
+    for (name, asset_path) in asset_versions:
+        relative_asset_path = f"{STATIC_BUCKET_PATH}/{asset_path}"
+        if not os.path.isfile(relative_asset_path):
+            click.secho(f"Asset not found: {name}", fg=WARNING_COLOR)
+            assets_missing = True
+
+    if assets_missing and error_on_missing:
+        raise Exception("Missing assets\nConsider running:\n$ git pull\n$ ./b data-snapshot uninstall\n$ ./b data-snapshot install\nto fetch the most up-to-date assets.")
+    elif not assets_missing:
+        click.secho("Assets are up-to-date", fg=GOOD_COLOR)
+    return assets_missing
+
+
