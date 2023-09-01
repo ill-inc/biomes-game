@@ -327,23 +327,29 @@ def redis_server_started():
     return ping.communicate()[0] == b"PONG\n"
 
 
+MAX_REDIS_STARTUP_TIME = 120
 class RedisServer(object):
     def __init__(self):
         pass
 
     def __enter__(self):
-        click.secho("Starting redis-server...")
+        click.secho("Starting redis-server...", fg=WARNING_COLOR)
         self.process = subprocess.Popen("redis-server")
         # Wait for server to start.
         start_time = time.time()
+        last_message_time = start_time
         while True:
             if redis_server_started():
                 break
             time.sleep(1)
-            if time.time() - start_time > 15:
+            now = time.time()
+            if now - last_message_time > 5:
+                last_message_time = now
+                click.secho("Starting redis-server...", fg=WARNING_COLOR)
+            if now - start_time > MAX_REDIS_STARTUP_TIME:
                 self.process.terminate()
                 raise RuntimeError("redis-server failed to start.")
-        click.secho("redis-server started...")
+        click.secho("redis-server started", fg=GOOD_COLOR)
 
         return self.process
 
