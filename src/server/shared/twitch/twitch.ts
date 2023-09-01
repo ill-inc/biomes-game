@@ -14,6 +14,12 @@ export interface TwitchBot {
   getChannel: (channel: string) => Promise<TwitchChannel | undefined>;
 }
 
+export class DisabledTwitchBot implements TwitchBot {
+  async getChannel(_channel: string): Promise<TwitchChannel | undefined> {
+    return undefined;
+  }
+}
+
 export class TwitchBotImpl implements TwitchBot {
   private accessToken: string | undefined;
   private expiresAt: number | undefined;
@@ -99,6 +105,9 @@ export class TwitchBotImpl implements TwitchBot {
 export async function registerTwitchBot<C>(
   _loader: RegistryLoader<C>
 ): Promise<TwitchBot> {
+  if (process.env.NOVE_ENV !== "production" && !process.env.ALLOW_DEV_TWITCH) {
+    return new DisabledTwitchBot();
+  }
   const bot = new TwitchBotImpl();
   await bot.login();
   return bot;
