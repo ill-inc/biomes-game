@@ -327,7 +327,7 @@ def redis_server_started():
     return ping.communicate()[0] == b"PONG\n"
 
 
-MAX_REDIS_STARTUP_TIME = 90
+MAX_REDIS_STARTUP_TIME = 120
 class RedisServer(object):
     def __init__(self):
         pass
