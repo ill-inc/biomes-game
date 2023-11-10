@@ -1,4 +1,5 @@
 import "@/client/styles/admin.css";
+import "@/client/styles/admin.ecs.css";
 import "@/client/styles/biomes.css";
 import "@/client/styles/challenges.css";
 import "@/client/styles/collections.css";

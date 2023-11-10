@@ -1,5 +1,5 @@
 // GENERATED: This file is generated from json_serde.ts.j2. Do not modify directly.
-// Content Hash: fc42476112110b6097a0d1c04b0b9aca
+// Content Hash: 00457510e3f497fddb442970e29931a9
 
 import * as c from "@/shared/ecs/gen/components";
 import * as e from "@/shared/ecs/gen/entities";
@@ -10343,6 +10343,62 @@ class AdminUpdateInspectionTweaksEventSerde {
     });
   }
 }
+class AdminECSDeleteComponentEventSerde {
+  static serialize(event: ev.AdminECSDeleteComponentEvent) {
+    return {
+      kind: "adminECSDeleteComponentEvent",
+      id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
+      field: event.field,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSDeleteComponentEvent({
+      id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
+      field: t.deserializeString(data.field),
+    });
+  }
+}
+class AdminECSAddComponentEventSerde {
+  static serialize(event: ev.AdminECSAddComponentEvent) {
+    return {
+      kind: "adminECSAddComponentEvent",
+      id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
+      field: event.field,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSAddComponentEvent({
+      id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
+      field: t.deserializeString(data.field),
+    });
+  }
+}
+class AdminECSUpdateComponentEventSerde {
+  static serialize(event: ev.AdminECSUpdateComponentEvent) {
+    return {
+      kind: "adminECSUpdateComponentEvent",
+      id: t.serializeBiomesId(event.id),
+      userId: t.serializeBiomesId(event.userId),
+      path: event.path,
+      value: event.value,
+    };
+  }
+
+  static deserialize(data: any) {
+    return new ev.AdminECSUpdateComponentEvent({
+      id: t.deserializeBiomesId(data.id),
+      userId: t.deserializeBiomesId(data.userId),
+      path: t.deserializeStrings(data.path),
+      value: t.deserializeString(data.value),
+    });
+  }
+}
 class CreateTeamEventSerde {
   static serialize(event: ev.CreateTeamEvent) {
     return {
@@ -10727,7 +10783,6 @@ class AddToOutfitEventSerde {
       kind: "addToOutfitEvent",
       id: t.serializeBiomesId(event.id),
       player_id: t.serializeBiomesId(event.player_id),
-      src_id: t.serializeBiomesId(event.src_id),
       src: t.serializeOwnedItemReference(event.src),
     };
   }
@@ -10736,7 +10791,6 @@ class AddToOutfitEventSerde {
     return new ev.AddToOutfitEvent({
       id: t.deserializeBiomesId(data.id),
       player_id: t.deserializeBiomesId(data.player_id),
-      src_id: t.deserializeBiomesId(data.src_id),
       src: t.deserializeOwnedItemReference(data.src),
     });
   }
@@ -11175,6 +11229,18 @@ export class EventSerde {
         return AdminUpdateInspectionTweaksEventSerde.serialize(
           event as ev.AdminUpdateInspectionTweaksEvent
         );
+      case "adminECSDeleteComponentEvent":
+        return AdminECSDeleteComponentEventSerde.serialize(
+          event as ev.AdminECSDeleteComponentEvent
+        );
+      case "adminECSAddComponentEvent":
+        return AdminECSAddComponentEventSerde.serialize(
+          event as ev.AdminECSAddComponentEvent
+        );
+      case "adminECSUpdateComponentEvent":
+        return AdminECSUpdateComponentEventSerde.serialize(
+          event as ev.AdminECSUpdateComponentEvent
+        );
       case "createTeamEvent":
         return CreateTeamEventSerde.serialize(event as ev.CreateTeamEvent);
       case "updateTeamMetadataEvent":
@@ -11505,6 +11571,12 @@ export class EventSerde {
         return SetNPCPositionEventSerde.deserialize(data);
       case "adminUpdateInspectionTweaksEvent":
         return AdminUpdateInspectionTweaksEventSerde.deserialize(data);
+      case "adminECSDeleteComponentEvent":
+        return AdminECSDeleteComponentEventSerde.deserialize(data);
+      case "adminECSAddComponentEvent":
+        return AdminECSAddComponentEventSerde.deserialize(data);
+      case "adminECSUpdateComponentEvent":
+        return AdminECSUpdateComponentEventSerde.deserialize(data);
       case "createTeamEvent":
         return CreateTeamEventSerde.deserialize(data);
       case "updateTeamMetadataEvent":

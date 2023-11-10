@@ -7,11 +7,11 @@ sidebar_position: 1
 ### Q: How can I play Biomes?
 
 **A:** If you created an account when Biomes was in Early Access, you can still login at any time and play! If you don't have an account, you can play
-by running it locally. Checkout our [local setup guide](/docs/basics/running-locally)!
+by running it locally. Check out our [local setup guide](/docs/basics/running-locally)!
 
 ### Q: How can I get an invite code?
 
-**A:** Unfortunately, we can no longer give out invite codes on a continuous basis. If you would like an invite code, please send a message in the `invite-requests` channel on the [Biomes Discord server](https://discord.gg/biomes). We are currently receiving a large number of requests, so expect some delay.
+**A:** Unfortunately, we can no longer give out invite codes on a continuous basis. If you would like an invite code, the most up-to-date information on our invite code policy can be found on the official [Biomes Discord server](https://discord.gg/biomes).
 
 ### Q: What platforms does Biomes support?
 

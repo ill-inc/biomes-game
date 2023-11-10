@@ -71,6 +71,11 @@ const config = {
             label: "Gameplay",
           },
           {
+            href: "/roadmap",
+            position: "left",
+            label: "Roadmap",
+          },
+          {
             href: "https://github.com/ill-inc/biomes-game",
             label: "GitHub",
             position: "right",
@@ -104,6 +109,10 @@ const config = {
               {
                 label: "Gameplay",
                 to: "/gameplay",
+              },
+              {
+                label: "Roadmap",
+                to: "/roadmap",
               },
             ],
           },
