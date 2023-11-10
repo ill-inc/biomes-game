@@ -141,7 +141,7 @@ def define_funcs(g: FuncGenerator):
         type="Pose",
         desc=[
             "Applies an affine transform to a pose to get a new pose. This is useful for ",
-            "rotating a skeleton around to accomodate for differences in expectations ",
+            "rotating a skeleton around to accommodate for differences in expectations ",
             "between the art assets and how their used in-game.",
         ],
     )
