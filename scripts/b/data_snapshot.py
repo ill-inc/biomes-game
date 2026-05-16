@@ -342,7 +342,7 @@ def run(ctx, pip_install: bool):
         # Actually run a local Biomes server.
         ctx.invoke(
             b.run,
-            target=["web"],
+            target=["web", "trigger"],
             redis=True,
             storage="memory",
             assets="local",
