@@ -1,8 +1,6 @@
 # Biomes
 
 [![](https://dcbadge.vercel.app/api/server/biomes)](https://discord.gg/biomes)
-
-![cpp-ci](https://github.com/ill-inc/biomes-game/actions/workflows/cpp-ci.yml/badge.svg)
 [![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 ### Overview
