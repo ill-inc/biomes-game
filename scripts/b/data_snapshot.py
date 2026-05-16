@@ -30,11 +30,19 @@ BIKKIE_STATIC_PREFIX = f"{SNAPSHOT_BUCKETS_URL_PREFIX}biomes-bikkie/"
 GALOIS_STATIC_PREFIX = f"{SNAPSHOT_BUCKETS_URL_PREFIX}biomes-static/"
 
 GS_URL_BASE = "gs://biomes-static"
-DOWNLOAD_URL_BASE = "https://static.biomes.gg"
 
 DATA_SNAPSHOT_FILENAME = "biomes_data_snapshot.tar.gz"
 DATA_SNAPSHOT_GS_URL = f"{GS_URL_BASE}/{DATA_SNAPSHOT_FILENAME}"
-DATA_SNAPSHOT_DOWNLOAD_URL = f"{DOWNLOAD_URL_BASE}/{DATA_SNAPSHOT_FILENAME}"
+DEFAULT_DATA_SNAPSHOT_DOWNLOAD_URL = (
+    f"https://github.com/ill-inc/biomes-game/releases/download/data-snapshot-2026-05-16/{DATA_SNAPSHOT_FILENAME}"
+)
+DATA_SNAPSHOT_DOWNLOAD_URL = os.environ.get(
+    "BIOMES_DATA_SNAPSHOT_URL", DEFAULT_DATA_SNAPSHOT_DOWNLOAD_URL
+)
+DATA_SNAPSHOT_SHA256 = os.environ.get(
+    "BIOMES_DATA_SNAPSHOT_SHA256",
+    "1ece134f0b140199ba6e029611ee2f5dc7e42fad143a2897f139ad512605153d",
+)
 
 SNAPSHOT_BACKUP_PATH = REPO_DIR / "snapshot_backup.json"
 
@@ -107,6 +115,15 @@ def hash_file(path: str):
     """Returns the MD5 hash of the file at path."""
     with open(path, "rb") as f:
         return hashlib.md5(f.read()).hexdigest()
+
+
+def sha256_file(path: str):
+    """Returns the SHA-256 hash of the file at path."""
+    hasher = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 
 @data_snapshot.command()
@@ -184,7 +201,7 @@ def is_installed():
     type=str,
 )
 def download_to_file(path: str):
-    """Install a data snapshot from a file."""
+    """Download the latest data snapshot to a file."""
     click.secho(
         f"Downloading latest data snapshot from '{DATA_SNAPSHOT_DOWNLOAD_URL}' to '{path}'..."
     )
@@ -194,7 +211,27 @@ def download_to_file(path: str):
         raise RuntimeError(f"File '{path}' already exists.")
 
     # Download the file. Use curl to get a progress bar.
-    subprocess.run(["curl", DATA_SNAPSHOT_DOWNLOAD_URL, "--output", path])
+    subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--location",
+            "--show-error",
+            "--progress-bar",
+            DATA_SNAPSHOT_DOWNLOAD_URL,
+            "--output",
+            path,
+        ],
+        check=True,
+    )
+
+    if DATA_SNAPSHOT_SHA256:
+        actual_sha256 = sha256_file(path)
+        if actual_sha256 != DATA_SNAPSHOT_SHA256:
+            raise RuntimeError(
+                "Downloaded data snapshot failed SHA-256 verification: "
+                f"expected {DATA_SNAPSHOT_SHA256}, got {actual_sha256}."
+            )
 
     click.secho(f"Data snapshot downloaded to {path}.")
 
@@ -395,5 +432,3 @@ def check_for_missing_assets(ctx, error_on_missing=True) -> bool:
     elif not assets_missing:
         click.secho("Assets are up-to-date", fg=GOOD_COLOR)
     return assets_missing
-
-

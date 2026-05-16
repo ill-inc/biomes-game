@@ -67,6 +67,11 @@ Note that this repo supports dev containers so a quick way to setup your environ
   ```
 - Visit `http://localhost:3000`.
 
+The data snapshot is downloaded from the `data-snapshot-2026-05-16` GitHub
+release. To test a snapshot from another location, set
+`BIOMES_DATA_SNAPSHOT_URL` before running the command. If the alternate snapshot
+has a different checksum, also set `BIOMES_DATA_SNAPSHOT_SHA256`.
+
 ## Coding Environment
 
 - The recommended code editor is [VSCode](https://code.visualstudio.com/).
