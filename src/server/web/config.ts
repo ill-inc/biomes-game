@@ -6,6 +6,7 @@ export type AssetServerMode = "none" | "lazy" | "local" | "proxy";
 
 export interface WebServerConfig extends BaseServerConfig {
   assetServerMode: AssetServerMode;
+  assetServerWorkersPerCpu: number;
 }
 
 export async function registerWebServerConfig(): Promise<WebServerConfig> {
@@ -15,6 +16,11 @@ export async function registerWebServerConfig(): Promise<WebServerConfig> {
       type: stringLiteralCtor("none", "lazy", "local", "proxy"),
       defaultValue: process.env.NODE_ENV === "production" ? "none" : "proxy",
       alias: "a",
+    },
+    assetServerWorkersPerCpu: {
+      type: Number,
+      defaultValue: 4,
+      alias: "w",
     },
   });
 }

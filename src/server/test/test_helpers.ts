@@ -152,6 +152,7 @@ export async function newTestDB(): Promise<BDB> {
 export async function newTestWebserverConfig(): Promise<WebServerConfig> {
   return {
     assetServerMode: "local",
+    assetServerWorkersPerCpu: 1,
     bikkieCacheMode: "none",
     biscuitMode: "memory",
     chatApiMode: "shim",

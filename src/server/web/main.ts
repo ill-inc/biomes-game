@@ -39,10 +39,11 @@ async function registerAssetServer<C extends WebServerContext>(
   const createAssetServer = async () => {
     // In production we're running the asset server as its own service
     // so we want to use all the CPUs available to it.
-    const workerPoolSize =
+    const availableCpus =
       process.env.NODE_ENV === "production"
         ? numCpus()
         : Math.max(1, numCpus() - 1);
+    const workerPoolSize = availableCpus * config.assetServerWorkersPerCpu;
     log.info(`Initializing asset server with ${workerPoolSize} workers.`);
     const bakery = await loader.get("bakery");
     return new AssetExportsServerImpl(bakery.binaries, workerPoolSize);
