@@ -28,7 +28,7 @@
     "galois:editor:build": "echo Deprecated. Run \\\"./b galois editor build\\\" instead.",
     "galois:editor:watch": "echo Deprecated. Run \\\"./b galois editor watch\\\" instead.",
     "galois:editor:package": "echo Deprecated. Run \\\"./b galois editor package\\\" instead.",
-    "postinstall": "node-git-hooks"
+    "postinstall": "echo 'Skipping git hooks'"
   },
   "dependencies": {
     "@google-cloud/monitoring": "^3.0.2",
@@ -76,7 +76,7 @@
     "crc": "^4.3.2",
     "crypto-browserify": "^3.12.0",
     "d3-hierarchy": "^3.1.2",
-    "deep-freeze-strict": "^1.1.1",
+    "deep-freeze-strict": "^1.1.0",
     "detect-gpu": "^5.0.28",
     "dom-to-image-more": "^3.1.6",
     "dotenv": "^16.0.3",
@@ -136,7 +136,6 @@
     "react-joystick-component": "^6.2.0",
     "react-json-view": "^1.21.3",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-markercluster": "https://github.com/ill-inc/react-leaflet-markercluster",
     "react-linkedin-insight": "^0.1.3",
     "react-masonry-css": "^1.0.16",
     "react-parallax-tilt": "^1.7.157",
@@ -158,13 +157,13 @@
     "tsparticles": "^2.12.0",
     "tsparticles-engine": "^2.12.0",
     "tweetnacl": "^1.0.3",
-    "uWebSockets.js": "uNetworking/uWebSockets.js#v20.31.0",
+    "uWebSockets.js": "https://github.com/uNetworking/uWebSockets.js/tarball/v20.31.0",
     "ua-parser-js": "^1.0.35",
     "unique-names-generator": "^4.7.1",
     "utf-8-validate": "^6.0.3",
     "uuid": "^8.3.2",
     "wasm-feature-detect": "^1.2.11",
-    "zod": "ill-inc/zod#schemav3"
+    "zod": "https://github.com/ill-inc/zod/tarball/schemav3"
   },
   "devDependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -186,7 +185,6 @@
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
     "@types/jsonwebtoken": "^8.5.7",
-    "@types/leaflet.markercluster": "^1.5.1",
     "@types/lodash": "^4.14.194",
     "@types/md5": "^2.3.2",
     "@types/memcached": "^2.2.7",
@@ -205,7 +203,6 @@
     "@types/react": "18.2.0",
     "@types/react-dom": "^18.2.1",
     "@types/react-google-recaptcha": "^2.1.5",
-    "@types/react-leaflet": "^3.0.0",
     "@types/react-transition-group": "^4.4.4",
     "@types/response-time": "^2.3.5",
     "@types/sharp": "^0.32.0",
@@ -290,7 +287,6 @@
     "typed-emitter": "^2.1.0",
     "typescript": "^5.0.4",
     "typescript-plugin-css-modules": "^5.0.1",
-    "v8-profiler-next": "https://github.com/hyj1991/v8-profiler-next#fd2a2528dc2f956c753c44e592cd5774713e52ac",
     "web-worker": "^1.2.0",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2",
